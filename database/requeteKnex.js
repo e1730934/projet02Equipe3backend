@@ -1,13 +1,11 @@
 const knex = require("knex")({
-    client: "mysql",
+    client: "mssql",
     connection: {
         host: 'sv55.cmaisonneuve.qc.ca',
-        port : 3306,
         user: '4D1EQUIPE03',
         password: 'bue522',
         database: '4D1Equipe03'
     },
-
     useNullAsDefault: false
 })
 
@@ -31,12 +29,14 @@ async function getIBVA() {
     return await knex("IBVA");
 }
 
-async function getIPPE() {
+async function getIPPE(id) {
     return await knex("IPPE");
 }
 
-async function getPersonnes() {
-    return await knex("Personnes");
+async function getIdPersonnes(NomFamille, Prenom1, Masculin, DateNaissance, NoPermis) {
+    return await knex("Personnes")
+    .select("id")
+    .where("NomFamille", NomFamille, "Prenom1", Prenom1, "Masculin", Masculin, "DateNaissance", DateNaissance, "NoPermis", NoPermis)
 }
 
 async function getUtilisateurs() {
@@ -54,7 +54,7 @@ module.exports = {
     getIBOB,
     getIBVA,
     getIPPE,
-    getPersonnes,
+    getIdPersonnes,
     getUtilisateurs,
     // adduser
 }

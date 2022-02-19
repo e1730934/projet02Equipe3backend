@@ -45,6 +45,19 @@ app.post("/login", async(req, rep) => {
   }
 });
 
+app.get("/IPPE/:id", async (req, res) => {
+    try {
+        let produit = await requeteKnex.getIdPersonnes(req.params.NomFamille, req.params.Prenom1, req.params.Masculin, req.params.DateNaissance, req.params.NoPermis);
+         res.status(200).json(produit);
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+})
+
 app.get("/conditions", async (req, res) => {
   try {
       let conditions = await requeteKnex.getConditions();
