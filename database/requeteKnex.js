@@ -29,14 +29,40 @@ async function getIBVA() {
     return await knex("IBVA");
 }
 
-async function getIPPE(id) {
-    return await knex("IPPE");
+
+
+
+async function getIPPE(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
+    let data = await knex("Personnes")
+    .select("id")
+    .where("NomFamille", NomFamille)
+    .andWhere("Prenom1", Prenom1)
+    .andWhere("Prenom2", Prenom2)
+    .andWhere("Masculin", Masculin)
+    .andWhere("DateNaissance", DateNaissance)
+    console.log(data)
+    return getIPPEbyid(data[0].id)
 }
 
-async function getIdPersonnes(NomFamille, Prenom1, Masculin, DateNaissance, NoPermis) {
+async function getIPPEbyid(id) {
+    return await knex("IPPE")
+    .select("*")
+    .where("IdPersonne", id)
+}
+
+async function getInfosPersonnes(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
     return await knex("Personnes")
-    .select("id")
-    .where("NomFamille", NomFamille, "Prenom1", Prenom1, "Masculin", Masculin, "DateNaissance", DateNaissance, "NoPermis", NoPermis)
+    .select("*")
+    .where("NomFamille", NomFamille)
+    .andWhere("Prenom1", Prenom1)
+    .andWhere("Prenom2", Prenom2)
+    .andWhere("Masculin", Masculin)
+    .andWhere("DateNaissance", DateNaissance)
+
+}
+
+async function getPersonnes() {
+    return await knex("Personnes");
 }
 
 async function getUtilisateurs() {
@@ -54,7 +80,9 @@ module.exports = {
     getIBOB,
     getIBVA,
     getIPPE,
-    getIdPersonnes,
     getUtilisateurs,
+    getIPPEbyid,
+    getPersonnes,
+    getInfosPersonnes
     // adduser
 }
