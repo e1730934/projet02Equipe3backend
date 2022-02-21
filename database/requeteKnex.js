@@ -40,14 +40,30 @@ async function getIPPE(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
     .andWhere("Prenom2", Prenom2)
     .andWhere("Masculin", Masculin)
     .andWhere("DateNaissance", DateNaissance)
-    console.log(data)
-    return getIPPEbyid(data[0].id)
+    // console.log(data)
+    return getIPPEbyid(3)
 }
 
 async function getIPPEbyid(id) {
-    return await knex("IPPE")
-    .select("*")
-    .where("IdPersonne", id)
+    let condition = await conditionofid(id)
+    if (condition[0].ligne > 0){
+        console.log("conditions")
+        return await knex("IPPE")
+        .join('Conditions', 'IPPE.Id', 'Conditions.IdIPPE')
+        .select("*")
+        .where("Conditions.IdIPPE", id)
+    }
+    else {
+        return await knex("IPPE")
+        .select("*")
+        .where("IPPE.IdPersonne", id)
+    }
+}
+
+async function conditionofid(id){
+    return await knex("Conditions")
+    .count("* as ligne")
+    .where("IdIPPE", id)
 }
 
 async function getInfosPersonnes(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {

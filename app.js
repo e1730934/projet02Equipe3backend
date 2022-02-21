@@ -44,7 +44,7 @@ app.post("/login", async (req, rep) => {
     }
 });
 
-app.get("/rechercher/id/personnes", async (req, res) => {
+app.get("/rechercher/IPPE", async (req, res) => {
     try {
         // let id = await requeteKnex.getIdPersonnes(req.params.NomFamille, req.params.Prenom1, req.params.Prenom2, req.params.Masculin, req.params.DateNaissance);
         let IdPersonnes = await requeteKnex.getIPPE("Ducharme", "Benoit", null, true, "1975-08-31");
