@@ -51,6 +51,12 @@ async function getIPPEbyid(id) {
         .where("IdPersonne", id);
 }
 
+async function conditionofid(id){
+    return await knex("Conditions")
+    .count("* as ligne")
+    .where("IdIPPE", id)
+}
+
 async function getInfosPersonnes(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
     return knex("Personnes")
         .select("*")
