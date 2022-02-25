@@ -1,30 +1,35 @@
 const express = require("express");
 const app = express();
 const cors = require('cors');
-const request = require('./requestKnex')
-app.use(cors());
-
+const request = require('./requestKnex');
+const { json } = require("express");
 const PORT = process.env.PORT || 3000;
 
-app.use(express.urlencoded({extended: false}))
-app.use(express.static("appweb"));
+app.use(cors());
+//app.use(express.urlencoded({extended: false}))
+app.use(express.json())
 
-app.post("/login", async (req, res) => {
+app.post("/login", async (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     
     let loginInfo = {
         "username": req.body.username,
         "password": req.body.password
     }
-
+    console.log(loginInfo)
     let data = await request.connectionCheck(loginInfo);
     
     if(data.length!=0){
-        return res.status(200).json({'success': true})
+        console.log(data)
+        return res.status(200).json({'success': true});
     } else {
         return res.status(500).json({'succes' : false})
     }
     
+})
+
+app.get("/login", async (req, res) =>{
+
 })
 /*
 app.get("/ippeInfo", async (req, res) => {
