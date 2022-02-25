@@ -5,44 +5,34 @@ const request = require('./requestKnex');
 const { json } = require("express");
 const PORT = process.env.PORT || 3000;
 
-<<<<<<< Updated upstream
 app.use(cors());
-//app.use(express.urlencoded({extended: false}))
 app.use(express.json())
-=======
-app.use(express.json());
->>>>>>> Stashed changes
 
-app.post("/login", async (req, res, next) => {
+app.post("/login", async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     
     let loginInfo = {
         "username": req.body.username,
         "password": req.body.password
     }
-    console.log(loginInfo)
+    console.log(req.body)
     let data = await request.connectionCheck(loginInfo);
     
     if(data.length!=0){
-<<<<<<< Updated upstream
-        console.log(data)
-        return res.status(200).json({'success': true});
-=======
-        return res.send.json(
+    
+        let info =            
             {'success': true,
-            'Etudiant': data.Etudiant,
-            'Matricule': data.Identifiant,
-            'Nom': data.NomDeFamille
-    })
->>>>>>> Stashed changes
+            'Etudiant': data[0].Etudiant,
+            'Matricule': data[0].Identifiant,
+            'Nom': data[0].NomFamille};
+        
+            console.log(data)
+        return res.status(200).json(info)
+
     } else {
         return res.status(500).json({'succes' : false})
     }
     
-})
-
-app.get("/login", async (req, res) =>{
-
 })
 /*
 app.get("/ippeInfo", async (req, res) => {
