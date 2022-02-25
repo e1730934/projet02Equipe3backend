@@ -18,8 +18,21 @@ function connectionCheck(loginInfo){
     .andWhere('MotDePasse', loginInfo.password)
 }
 
+function ippeData(nom,ddn, prenomUn, prenomDeux, sexe){
+	return knex('Personnes')
+	.where('NomFamille', nom)
+	.andWhere('DateNaissance', ddn)
+	.andWhere('Prenom1', prenomUn)
+	.andWhere('Prenom2', prenomDeux)
+	.andWhere('Masculin', sexe)
+	.join('IPPE', 'Personnes.id', 'IPPE.IdPersonne')
+	.join('FPS', 'Personnes.id', 'FPS.IdPersonne')
+	//.join('Conditions')
+	.select('*')
+}
 
 
 module.exports = {
-    connectionCheck
+    connectionCheck,
+	ippeData
 }
