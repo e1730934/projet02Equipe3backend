@@ -5,9 +5,13 @@ const request = require('./requestKnex');
 const { json } = require("express");
 const PORT = process.env.PORT || 3000;
 
+<<<<<<< Updated upstream
 app.use(cors());
 //app.use(express.urlencoded({extended: false}))
 app.use(express.json())
+=======
+app.use(express.json());
+>>>>>>> Stashed changes
 
 app.post("/login", async (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -20,8 +24,17 @@ app.post("/login", async (req, res, next) => {
     let data = await request.connectionCheck(loginInfo);
     
     if(data.length!=0){
+<<<<<<< Updated upstream
         console.log(data)
         return res.status(200).json({'success': true});
+=======
+        return res.send.json(
+            {'success': true,
+            'Etudiant': data.Etudiant,
+            'Matricule': data.Identifiant,
+            'Nom': data.NomDeFamille
+    })
+>>>>>>> Stashed changes
     } else {
         return res.status(500).json({'succes' : false})
     }
