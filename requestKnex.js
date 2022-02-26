@@ -25,14 +25,20 @@ function ippeData(nom,ddn, prenomUn, prenomDeux, sexe){
 	.andWhere('Prenom1', prenomUn)
 	.andWhere('Prenom2', prenomDeux)
 	.andWhere('Masculin', sexe)
-	.join('IPPE', 'Personnes.id', 'IPPE.IdPersonne')
-	.join('FPS', 'Personnes.id', 'FPS.IdPersonne')
-	//.join('Conditions')
+	.leftJoin('IPPE', 'Personnes.id', 'IPPE.IdPersonne')
+	.leftJoin('Conditions', 'Conditions.IdIPPE', 'IPPE.Id')
 	.select('*')
 }
 
+function dataFPS(DataIdPersonne){
+    return knex('FPS')
+    .where('FPS.IdPersonne', DataIdPersonne)
+    .join('Personnes', 'FPS.Id', 'Personnes.Id')
+    .select('*')
+}
 
 module.exports = {
     connectionCheck,
-	ippeData
+	ippeData,
+	dataFPS
 }
