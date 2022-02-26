@@ -34,7 +34,7 @@ app.post("/login", async (req, res) => {
     }
     
 })
-/*
+
 app.get("/ippeInfo", async (req, res) => {
 
     let prenomDeux = (req.query.prenomDeux === '') ? null : req.query.prenomDeux;
@@ -42,24 +42,33 @@ app.get("/ippeInfo", async (req, res) => {
     let prenomUn = req.query.prenomUn 
     let sexe = req.query.sexe
     let ddn = req.query.ddn
+    let idList =  new Array();
+    let dataToSend =  new Array();
 
-    let data = await request.ippeData(nom, ddn, prenomUn, prenomDeux, sexe);
+    let dataIPPE = await request.ippeData(nom,ddn, prenomUn, prenomDeux, sexe);
+
+    let dataFPS = request.fpsData(dataIPPE.IdPersonne);
     
     console.log(data)
-    if(data.length!=0){
-        data.TypeEvenement.foreach((evenement)=>{
-            switch(evenement){
+
+    if(dataIPPE.length!=0)
+    {
+        dataIPPE.foreach((evenement)=>{
+            idList.push(data.Id)
+            switch(evenement.TypeEvenement){
                 case 'Recherché':
-                    res.Recherche = {
+                    dataToSend.push(
+                    {
                         titre:'Recherché',
                         mandat: data.Raison,
                         cour: data.Cour,
                         numMandat: data.NoCour,
                         natureCrime: data.NatureCrime,
                         noEvenement: data.NoEvenement
-                    }
+                    })
                 case 'Sous-observation':
-                    res.Sousobservation = {
+                    dataToSend.push(
+                    {
                         titre:'Sous-Observation',
                         msgDebut: 'Ne pas révéler au sujet l\'intrérêt qu\'on lui porte',
                         motif: data.Raison,
@@ -69,18 +78,20 @@ app.get("/ippeInfo", async (req, res) => {
                         dossierEnq: data.DossierEnquete,
                         msgFin:'Compléter le ficher d\'interpellation\n Acheminer à l\'unité des Renseignements criminels'
 
-                    }
+                    })
                 case 'Accusé':
-                    res.Accuse = {
+                    dataToSend.push(
+                    {
                         titre:'Accusé',
                         cour: data.Cour,
                         numCause: data.NoCour,
                         natureCrime: data.NatureCrime,
                         noEvenement: data.NoEvenement,
                         condition: data.libelle
-                    }
+                    })
                 case 'Probation':
-                    res.Probation = {
+                    dataToSend.push(
+                    {
                         titre:'Probation',
                         cour: data.Cour,
                         numCause: data.NoCour,
@@ -90,9 +101,10 @@ app.get("/ippeInfo", async (req, res) => {
                         condition: data.libelle,
                         agent: data.Agent,
                         telephone: data.telephone + ' ' + data.Poste
-                    }
+                    })
                 case 'Liberation conditionnelle':
-                    res.libCond = {
+                    dataToSend.push(
+                    {
                         titre:'Libération Conditionnelle',
                         cour: data.Cour,
                         numCause: data.NoCour,
@@ -104,9 +116,10 @@ app.get("/ippeInfo", async (req, res) => {
                         condition: data.libelle,
                         agent: data.Agent,
                         telephone: data.telephone + ' ' + data.Poste
-                    }
+                    })
                 case 'Disparu':
-                    res.Disparu = {
+                    dataToSend.push(
+                    {
                         titre:'Disparu',
                         noEvenement: data.NoEvenement,
                         motif: data.Raison,
@@ -128,9 +141,10 @@ app.get("/ippeInfo", async (req, res) => {
                             depressif: data.Depressif,
                             suicidaire: data.Suicidaire,
                             violent: data.Violent}
-                    }
+                    })
                 case 'interdit':
-                    res.interdit = {
+                    dataToSend.push(
+                    {
                         titre:'Interdit',
                         nature: data.Raison,
                         cour: data.Cour,
@@ -138,17 +152,13 @@ app.get("/ippeInfo", async (req, res) => {
                         natureCrime: data.NatureCrime,
                         noEvenement: data.NoEvenement,
                         expiration: data.FinSentence
-                    }
+                    })
             }   
         })
-       /* res.status(200).json({'success': true})
-        console.log(res)*/
-        
-  //  } else {
-  //      return res.status(500).json({'succes' : false})
-  //  }
-
-//});
+        console.log(data)
+        res.status(200).json(data)   
+    }
+})
 
 app.listen(PORT, () => {
     console.log(`Mon application roule sur http://localhost:${PORT}`);
