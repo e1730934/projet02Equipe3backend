@@ -21,7 +21,7 @@ app.post("/login", async (req, rep) => {
         const donnees = await requeteKnex.getUtilisateurs();
 
         for (i = 0; i < donnees.length; i++) {
-            if ((userConnect.Identifiant == donnees[i].Identifiant) && (userConnect.MotDePasse == donnees[i].MotDePasse)) {
+            if ((userConnect.Identifiant === donnees[i].Identifiant) && (userConnect.MotDePasse === donnees[i].MotDePasse)) {
                 rep.status(200).json({
                     success: true,
                     nom_utilisateur: donnees[i].Identifiant
@@ -44,12 +44,12 @@ app.post("/login", async (req, rep) => {
     }
 });
 
-app.get("/rechercher/id/personnes", async (req, res) => {
+app.get("/rechercher/IPPE", async (req, res) => {
     try {
-        // let id = await requeteKnex.getIdPersonnes(req.params.NomFamille, req.params.Prenom1, req.params.Prenom2, req.params.Masculin, req.params.DateNaissance);
-        let IdPersonnes = await requeteKnex.getIPPE("Ducharme", "Benoit", null, true, "1975-08-31");
-        res.status(200).json(IdPersonnes);
-        // console.log(IdPersonnes)
+        let IdPersonnes = await requeteKnex.getIdPersonnes(req.params.NomFamille, req.params.Prenom1, req.params.Prenom2, req.params.Masculin, req.params.DateNaissance);
+        // let IdPersonnes = await requeteKnex.getIPPE("Ducharme", "Benoit", null, true, "1975-08-31");
+        console.log(IdPersonnes)
+        return res.status(200).json(IdPersonnes);
 
     } catch (error) {
         res.status(500).json({

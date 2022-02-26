@@ -34,30 +34,37 @@ async function getIBVA() {
 
 async function getIPPE(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
     let data = await knex("Personnes")
-    .select("id")
+    .select("*")
     .where("NomFamille", NomFamille)
     .andWhere("Prenom1", Prenom1)
     .andWhere("Prenom2", Prenom2)
     .andWhere("Masculin", Masculin)
     .andWhere("DateNaissance", DateNaissance)
-    console.log(data)
-    return getIPPEbyid(data[0].id)
+        .leftJoin('IPPE','Personnes.ID','IPPE.IdPersonne')
+        .leftJoin('Conditions','IPPE.Id','Conditions.IdIPPE')
+    return (data)
 }
 
 async function getIPPEbyid(id) {
-    return await knex("IPPE")
-    .select("*")
-    .where("IdPersonne", id)
+    return knex("IPPE")
+        .select("*")
+        .where("IdPersonne", id);
+}
+
+async function conditionofid(id){
+    return await knex("Conditions")
+    .count("* as ligne")
+    .where("IdIPPE", id)
 }
 
 async function getInfosPersonnes(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
-    return await knex("Personnes")
-    .select("*")
-    .where("NomFamille", NomFamille)
-    .andWhere("Prenom1", Prenom1)
-    .andWhere("Prenom2", Prenom2)
-    .andWhere("Masculin", Masculin)
-    .andWhere("DateNaissance", DateNaissance)
+    return knex("Personnes")
+        .select("*")
+        .where("NomFamille", NomFamille)
+        .andWhere("Prenom1", Prenom1)
+        .andWhere("Prenom2", Prenom2)
+        .andWhere("Masculin", Masculin)
+        .andWhere("DateNaissance", DateNaissance);
 
 }
 
