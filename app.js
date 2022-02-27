@@ -65,11 +65,10 @@ app.post("/rechercher/infos/personnes", async (req, res) => {
         let NomFamille = req.body.NomFamille
         let Prenom1 = req.body.Prenom1
         let Prenom2 = req.body.Prenom2
-        let Masculin =  Boolean(req.body.Masculin)
+        let Masculin =  Boolean(req.body.Sexe)
         let DateNaissance =req.body.DateNaissance
 
         if(Prenom2 ===''){Prenom2=null}
-
         let InfosPersonnes = await requeteKnex.getIPPE(NomFamille, Prenom1,Prenom2 ,Masculin, DateNaissance );
         // let InfosPersonnes = await requeteKnex.getInfosPersonnes("Ducharme", "Benoit", null, true, "1975-08-31");
         console.log(InfosPersonnes)
