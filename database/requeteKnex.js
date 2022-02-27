@@ -9,14 +9,6 @@ const knex = require("knex")({
     useNullAsDefault: false
 })
 
-async function getConditions() {
-    return await knex("Conditions");
-}
-
-async function getFPS() {
-    return await knex("FPS");
-}
-
 async function getIBAF() {
     return await knex("IBAF");
 }
@@ -30,31 +22,17 @@ async function getIBVA() {
 }
 
 
-
-
 async function getIPPE(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
-    let data = await knex("Personnes")
+    return knex("Personnes")
     .select("*")
     .where("NomFamille", NomFamille)
     .andWhere("Prenom1", Prenom1)
     .andWhere("Prenom2", Prenom2)
     .andWhere("Masculin", Masculin)
     .andWhere("DateNaissance", DateNaissance)
+        .leftJoin('FPS','Personnes.ID','FPS.IdPersonne')
         .leftJoin('IPPE','Personnes.ID','IPPE.IdPersonne')
-        .leftJoin('Conditions','IPPE.Id','Conditions.IdIPPE')
-    return (data)
-}
-
-async function getIPPEbyid(id) {
-    return knex("IPPE")
-        .select("*")
-        .where("IdPersonne", id);
-}
-
-async function conditionofid(id){
-    return await knex("Conditions")
-    .count("* as ligne")
-    .where("IdIPPE", id)
+        // .leftJoin('Conditions','IPPE.Id','Conditions.IdIPPE')
 }
 
 async function getInfosPersonnes(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
@@ -68,10 +46,6 @@ async function getInfosPersonnes(NomFamille, Prenom1, Prenom2, Masculin, DateNai
 
 }
 
-async function getPersonnes() {
-    return await knex("Personnes");
-}
-
 async function getUtilisateurs() {
     return await knex("Utilisateurs");
 }
@@ -81,15 +55,11 @@ async function getUtilisateurs() {
 // }
 
 module.exports = {
-    getConditions,
-    getFPS,
     getIBAF,
     getIBOB,
     getIBVA,
     getIPPE,
     getUtilisateurs,
-    getIPPEbyid,
-    getPersonnes,
     getInfosPersonnes
     // adduser
 }
