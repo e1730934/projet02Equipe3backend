@@ -33,8 +33,8 @@ function ippeData(nom,ddn, prenomUn, prenomDeux, sexe){
 function dataFPS(DataIdPersonne){
     return knex('FPS')
     .where('FPS.IdPersonne', DataIdPersonne)
-    .join('Personnes', 'FPS.Id', 'Personnes.Id')
-    .select('*')
+    .rightJoin('Personnes', 'FPS.IdPersonne', 'Personnes.Id')
+    .select('FPS.*')
 }
 
 module.exports = {
