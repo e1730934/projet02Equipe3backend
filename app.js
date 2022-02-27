@@ -66,9 +66,19 @@ app.get('/ippeInfo', async (req, res) => {
 				Echappe: dataFPS[0].Echappe,
 				Suicidaire: dataFPS[0].Suicidaire,
 				Desequilibre:dataFPS[0].Desequilibre,
-				Contagieux: dataFPS[0].Contagieux,});
+				Contagieux: dataFPS[0].Contagieux,
+			    Race: dataFPS[0].Race,
+				Taille: dataFPS[0].Taille,
+				Poids: dataFPS[0].Poids,
+				Yeux: dataFPS[0].Yeux,
+				Cheveux: dataFPS[0].Cheveux,
+				Marques: dataFPS[0].Marques,
+				Toxicomanie: dataFPS[0].Toxicomanie,
+				Desorganise: dataFPS[0].Desorganise,
+				Depressif: dataFPS[0].Depressif});
 			noFps = dataFPS[0].NoFPS; 
 		}
+		console.log(dataFPS)
 
 		dataIPPE.forEach((data)=>{
 			//Verifie si l'information IPPE se trouve deja dans les datas a envoyer
