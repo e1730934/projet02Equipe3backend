@@ -32,7 +32,7 @@ async function getIPPE(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
     .andWhere("DateNaissance", DateNaissance)
         .leftJoin('FPS','Personnes.ID','FPS.IdPersonne')
         .leftJoin('IPPE','Personnes.ID','IPPE.IdPersonne')
-        .leftJoin('Conditions','IPPE.Id','Conditions.IdIPPE')
+        // .leftJoin('Conditions','IPPE.Id','Conditions.IdIPPE')
 }
 
 async function getInfosPersonnes(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {

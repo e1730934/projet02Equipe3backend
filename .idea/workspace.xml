@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9de694d1-941b-4756-aa3c-dac74423814a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-02-23_8_43_p_m___Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-02-23_8_43_p_m___Changes_.xml" afterDir="false" />
+    <list default="true" id="9de694d1-941b-4756-aa3c-dac74423814a" name="Changes" comment="Cleanup du code.&#10;IPPE: Récupération des informations de la table FPS.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/requeteKnex.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/requeteKnex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +28,10 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/app.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/database/requeteKnex.js" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -47,10 +49,10 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.ChangelistConflict" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected="Node.js.app.js">
+  <component name="RunManager" selected="npm.start">
     <configuration name="app.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/app.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
@@ -75,9 +77,12 @@
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\Bilal\AppData\Roaming\Subversion</configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="cb11683f-f3ab-44e0-bd21-63f88275656d" name="Changes" comment="" />
+      <changelist id="9de694d1-941b-4756-aa3c-dac74423814a" name="Changes" comment="Cleanup du code.&#10;IPPE: Récupération des informations de la table FPS." />
       <created>1645310875245</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -86,6 +91,8 @@
       <workItem from="1645667012145" duration="1766000" />
       <workItem from="1645906326232" duration="15000" />
       <workItem from="1645906350246" duration="321000" />
+      <workItem from="1645985667617" duration="99000" />
+      <workItem from="1645985804329" duration="7577000" />
     </task>
     <task id="LOCAL-00001" summary="Knex rechercher/IPPE fix">
       <created>1645668779961</created>
@@ -108,7 +115,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645906596295</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Cleanup du code.&#10;IPPE: Récupération des informations de la table FPS.">
+      <created>1645909386313</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1645909386313</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -128,6 +142,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Knex rechercher/IPPE fix" />
     <MESSAGE value="fichier pour webstorm." />
-    <option name="LAST_COMMIT_MESSAGE" value="fichier pour webstorm." />
+    <MESSAGE value="Cleanup du code.&#10;IPPE: Récupération des informations de la table FPS." />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleanup du code.&#10;IPPE: Récupération des informations de la table FPS." />
   </component>
 </project>

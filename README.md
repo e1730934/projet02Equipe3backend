@@ -16,12 +16,12 @@ Phung, Truong Sang Mario - E2066576
 2. `npm run start`
 
 ### Accueil
-Notre backend roule sur *http://localhost:3000*
+Notre backend roule sur *http://localhost:5000*
 
 <br/>
 <hr/>
 Travail présenté à Levasseur, Marc <br/>
-Dans le cardre du cours 420-4D1, Groupe 03 <br/>
+Dans le cadre du cours 420-4D1, Groupe 03 <br/>
 Projet 2 - Développement d'applications
 
 </div>

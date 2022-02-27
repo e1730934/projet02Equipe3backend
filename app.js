@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('admin'));
-app.set("json spaces", 2)
+// app.set("json spaces", 2)
 
 app.post("/login", async (req, rep) => {
 
@@ -46,26 +46,37 @@ app.post("/login", async (req, rep) => {
 
 app.get("/rechercher/IPPE", async (req, res) => {
     try {
-        // let IdPersonnes = await requeteKnex.getIdPersonnes(req.params.NomFamille, req.params.Prenom1, req.params.Prenom2, req.params.Masculin, req.params.DateNaissance);
-        let IdPersonnes = await requeteKnex.getIPPE("Ducharme", "Benoit", null, true, "1975-08-31");
+        let IdPersonnes = await requeteKnex.getIdPersonnes(req.params.NomFamille, req.params.Prenom1, req.params.Prenom2, req.params.Masculin, req.params.DateNaissance);
+        // let IdPersonnes = await requeteKnex.getIPPE("Ducharme", "Benoit", null, true, "1975-08-31");
         console.log(IdPersonnes)
         return res.status(200).json(IdPersonnes);
 
     } catch (error) {
         res.status(500).json({
             success: false,
-            erreur: error
+            erreur: error.message
         });
     }
 })
 
-app.get("/rechercher/infos/personnes", async (req, res) => {
+app.post("/rechercher/infos/personnes", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     try {
-        // let id = await requeteKnex.getIdPersonnes(req.params.NomFamille, req.params.Prenom1, req.params.Prenom2, req.params.Masculin, req.params.DateNaissance);
-        let InfosPersonnes = await requeteKnex.getInfosPersonnes("Ducharme", "Benoit", null, true, "1975-08-31");
-        res.status(200).json(InfosPersonnes);
-        console.log(InfosPersonnes)
+        let NomFamille = req.body.NomFamille
+        let Prenom1 = req.body.Prenom1
+        let Prenom2 = req.body.Prenom2
+        let Masculin =  Boolean(req.body.Masculin)
+        let DateNaissance =req.body.DateNaissance
 
+        if(Prenom2 ===''){Prenom2=null}
+
+        let InfosPersonnes = await requeteKnex.getIPPE(NomFamille, Prenom1,Prenom2 ,Masculin, DateNaissance );
+        // let InfosPersonnes = await requeteKnex.getInfosPersonnes("Ducharme", "Benoit", null, true, "1975-08-31");
+        console.log(InfosPersonnes)
+        res.status(200).json({
+            "success": true,
+            "data": InfosPersonnes
+        });
     } catch (error) {
         res.status(500).json({
             success: false,
