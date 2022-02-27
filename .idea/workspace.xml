@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9de694d1-941b-4756-aa3c-dac74423814a" name="Changes" comment="Cleanup du code.&#10;IPPE: Récupération des informations de la table FPS.">
+    <list default="true" id="9de694d1-941b-4756-aa3c-dac74423814a" name="Changes" comment="IPPE: /rechercher/infos/personnes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/requeteKnex.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/requeteKnex.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +90,7 @@
       <workItem from="1645906326232" duration="15000" />
       <workItem from="1645906350246" duration="321000" />
       <workItem from="1645985667617" duration="99000" />
-      <workItem from="1645985804329" duration="7577000" />
+      <workItem from="1645985804329" duration="8472000" />
     </task>
     <task id="LOCAL-00001" summary="Knex rechercher/IPPE fix">
       <created>1645668779961</created>
@@ -122,7 +120,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645909386313</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="IPPE: /rechercher/infos/personnes">
+      <created>1645993724551</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1645993724551</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -143,6 +148,7 @@
     <MESSAGE value="Knex rechercher/IPPE fix" />
     <MESSAGE value="fichier pour webstorm." />
     <MESSAGE value="Cleanup du code.&#10;IPPE: Récupération des informations de la table FPS." />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleanup du code.&#10;IPPE: Récupération des informations de la table FPS." />
+    <MESSAGE value="IPPE: /rechercher/infos/personnes" />
+    <option name="LAST_COMMIT_MESSAGE" value="IPPE: /rechercher/infos/personnes" />
   </component>
 </project>
