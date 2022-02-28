@@ -13,37 +13,37 @@ const knex = require('knex')({
 });
 //Requete knex qui retourne 
 function connectionCheck(loginInfo){
-    return knex('Utilisateurs')
-    .where('Identifiant', loginInfo.username)
-    .andWhere('MotDePasse', loginInfo.password)
+	return knex('Utilisateurs')
+		.where('Identifiant', loginInfo.username)
+		.andWhere('MotDePasse', loginInfo.password);
 }
 
 function ippeData(nom,ddn, prenomUn, prenomDeux, sexe){
 	return knex('Personnes')
-	.where('NomFamille', nom)
-	.andWhere('DateNaissance', ddn)
-	.andWhere('Prenom1', prenomUn)
-	.andWhere('Prenom2', prenomDeux)
-	.andWhere('Masculin', sexe)
-	.leftJoin('IPPE', 'Personnes.id', 'IPPE.IdPersonne')
-	.leftJoin('Conditions', 'Conditions.IdIPPE', 'IPPE.Id')
-	.select('*')
+		.where('NomFamille', nom)
+		.andWhere('DateNaissance', ddn)
+		.andWhere('Prenom1', prenomUn)
+		.andWhere('Prenom2', prenomDeux)
+		.andWhere('Masculin', sexe)
+		.leftJoin('IPPE', 'Personnes.id', 'IPPE.IdPersonne')
+		.leftJoin('Conditions', 'Conditions.IdIPPE', 'IPPE.Id')
+		.select('*');
 }
 
 function dataFPS(DataIdPersonne){
-    return knex('FPS')
-    .where('FPS.IdPersonne', DataIdPersonne)
-    .join('Personnes', 'FPS.IdPersonne', 'Personnes.Id')
-    .select('FPS.*', 
-	'Personnes.Race',
-	'Personnes.Taille',
-	'Personnes.Poids',
-	'Personnes.Yeux',
-	'Personnes.Cheveux',
-	'Personnes.Marques',
-	'Personnes.Toxicomanie',
-	'Personnes.Desorganise',
-	'Personnes.Depressif')
+	return knex('FPS')
+		.where('FPS.IdPersonne', DataIdPersonne)
+		.join('Personnes', 'FPS.IdPersonne', 'Personnes.Id')
+		.select('FPS.*', 
+			'Personnes.Race',
+			'Personnes.Taille',
+			'Personnes.Poids',
+			'Personnes.Yeux',
+			'Personnes.Cheveux',
+			'Personnes.Marques',
+			'Personnes.Toxicomanie',
+			'Personnes.Desorganise',
+			'Personnes.Depressif');
 }
 
 
@@ -62,8 +62,8 @@ function IPPEDisp(dataIPPE, dataFps){
 		} else {
 			//si aucunes conditions n'est presente rien est envoyer dans le tableau de conditions
 			libelleList.push(data.Libelle ? data.Libelle:null);
-			//console.log(dataToSend)
-			//trie les elements a envoyer pour ne pas envoyer d'information inutile
+
+			//le switch trie les elements a envoyer pour ne pas envoyer d'information inutile
 			switch(data.TypeEvenement){
 			case 'Recherché':
 				dataToSend.push(
@@ -76,10 +76,10 @@ function IPPEDisp(dataIPPE, dataFps){
 						noEvenement: data.NoEvenement
 					});
 				break;
-			case 'Sous-observation':
+			case 'Sous observation':
 				dataToSend.push(
 					{
-						titre:'Sous-Observation',
+						titre:'Sous Observation',
 						motif: data.Raison,
 						cour: data.Cour,
 						natureCrime: data.NatureCrime,
@@ -122,7 +122,7 @@ function IPPEDisp(dataIPPE, dataFps){
 						numCause: data.NoCour,
 						natureCrime: data.NatureCrime,
 						noEvenement: data.NoEvenement,
-						fps: dataFps.NoFPS,
+						fps: dataFps[0].NoFPS,
 						lieuDetention: data.LieuDetention,
 						finSentence: data.FinSentence,
 						condition: libelleList,
@@ -206,13 +206,13 @@ function FPSDisp(dataFPS){
 		Desorganise: dataFPS[0].Desorganise,
 		Depressif: dataFPS[0].Depressif}); 
 
-		return dataToSend;
-	}
+	return dataToSend;
+}
 
 module.exports = {
-    connectionCheck,
+	connectionCheck,
 	ippeData,
 	dataFPS,
 	IPPEDisp,
 	FPSDisp
-}
+};
