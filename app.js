@@ -14,9 +14,9 @@ app.post('/login', async (req, res) => {
 		'username': req.body.username,
 		'password': req.body.password
 	};
-	console.log(req.body);
+
 	let data = await request.connectionCheck(loginInfo);
-	console.log(data);
+
 	if(data.length!=0){
 		//envoi du message contenant les information pour le login
 		/**** TEMPORAIRE JUSQU'A TEMPS QUE L'ON VOIT LES NOTION DE TOKEN*****/
@@ -26,9 +26,9 @@ app.post('/login', async (req, res) => {
 			'Matricule': data[0].Identifiant,
 			'Nom': data[0].NomFamille });
 
-	} else 
+	} else {
 		return res.status(500).json({'succes' : false});
-	
+	}
     
 });
 
@@ -42,12 +42,9 @@ app.get('/ippeInfo', async (req, res) => {
 	const result= new Array()
 	const dataIPPE = await request.ippeData(nom,ddn, prenomUn, prenomDeux, sexe);
     
-	//creation du constante qui sert a stocker les Num de fps 
-	//console.log(dataFPS)
-	console.log(dataIPPE);
-
 	if(dataIPPE.length!=0)
 	{   
+
 		//Recherche si la personne possede un dossier FPS et le push a la reponse
 		const dataFPS = await request.dataFPS(dataIPPE[0].IdPersonne);
 		let IPPEresult = request.IPPEDisp(dataIPPE, dataFPS)
@@ -60,10 +57,11 @@ app.get('/ippeInfo', async (req, res) => {
 				result.push(element)	
 			});
 		}
-		//result.push(IPPEresult)
-		//retroune que les valeurs au client; necessaire a la recherche IPPE
+		console.log('testFPS' + dataFPS.length)
+		//retourne que les valeurs au client; necessaire a la recherche IPPE
 		res.send(result);
 	} else {
+		//retourne la valeur negative si la personne na pas de fichier IPPE
 		res.send({result : 'Negatif'});
 	}
 	});

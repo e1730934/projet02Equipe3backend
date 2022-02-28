@@ -62,8 +62,8 @@ function IPPEDisp(dataIPPE, dataFps){
 		} else {
 			//si aucunes conditions n'est presente rien est envoyer dans le tableau de conditions
 			libelleList.push(data.Libelle ? data.Libelle:null);
-			//console.log(dataToSend)
-			//trie les elements a envoyer pour ne pas envoyer d'information inutile
+
+			//le switch trie les elements a envoyer pour ne pas envoyer d'information inutile
 			switch(data.TypeEvenement){
 			case 'Recherché':
 				dataToSend.push(
@@ -76,10 +76,10 @@ function IPPEDisp(dataIPPE, dataFps){
 						noEvenement: data.NoEvenement
 					});
 				break;
-			case 'Sous-observation':
+			case 'Sous observation':
 				dataToSend.push(
 					{
-						titre:'Sous-Observation',
+						titre:'Sous Observation',
 						motif: data.Raison,
 						cour: data.Cour,
 						natureCrime: data.NatureCrime,
@@ -122,7 +122,7 @@ function IPPEDisp(dataIPPE, dataFps){
 						numCause: data.NoCour,
 						natureCrime: data.NatureCrime,
 						noEvenement: data.NoEvenement,
-						fps: dataFps.NoFPS,
+						fps: dataFps[0].NoFPS,
 						lieuDetention: data.LieuDetention,
 						finSentence: data.FinSentence,
 						condition: libelleList,
