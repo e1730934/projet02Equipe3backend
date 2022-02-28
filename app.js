@@ -51,11 +51,16 @@ app.get('/ippeInfo', async (req, res) => {
 		//Recherche si la personne possede un dossier FPS et le push a la reponse
 		const dataFPS = await request.dataFPS(dataIPPE[0].IdPersonne);
 		let IPPEresult = request.IPPEDisp(dataIPPE, dataFPS)
-		result.push(IPPEresult)
+		IPPEresult.forEach(element => {
+			result.push(element)	
+		});
 		if(dataFPS.length !=0 ){
-			let FPSresult =  request.FPSDisp(dataFPS)
-			result.push(FPSresult) 
+			const FPSresult =  request.FPSDisp(dataFPS)
+			FPSresult.forEach(element => {
+				result.push(element)	
+			});
 		}
+		//result.push(IPPEresult)
 		//retroune que les valeurs au client; necessaire a la recherche IPPE
 		res.send(result);
 	} else {

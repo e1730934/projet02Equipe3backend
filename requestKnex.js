@@ -11,7 +11,7 @@ const knex = require('knex')({
 	},
 	pool: {min: 0, max: 7}
 });
-
+//Requete knex qui retourne 
 function connectionCheck(loginInfo){
     return knex('Utilisateurs')
     .where('Identifiant', loginInfo.username)
@@ -182,6 +182,7 @@ function IPPEDisp(dataIPPE, dataFps){
 
 	return result;
 }
+//Fonction qui prend en charge l'affichage des FPS
 function FPSDisp(dataFPS){
 	let dataToSend =  new Array();
 	dataToSend.push({
