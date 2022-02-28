@@ -1,9 +1,10 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "jest": true
     },
-    "extends": ["eslint:recommended", "airbnb-base"],
+    "extends": ["eslint:recommended", "airbnb-base","plugin:jest/recommended"],
     "parserOptions": {
         "ecmaVersion": 12
     },
