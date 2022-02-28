@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9de694d1-941b-4756-aa3c-dac74423814a" name="Changes" comment="IPPE: /rechercher/infos/personnes terminer">
-      <change afterPath="$PROJECT_DIR$/database/requeteKnex.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.json" afterDir="false" />
+    <list default="true" id="9de694d1-941b-4756-aa3c-dac74423814a" name="Changes" comment="Jest">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/requeteKnex.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/requeteKnex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
@@ -124,7 +122,7 @@
       <workItem from="1645985667617" duration="99000" />
       <workItem from="1645985804329" duration="9158000" />
       <workItem from="1645995589059" duration="5000" />
-      <workItem from="1646004587116" duration="2703000" />
+      <workItem from="1646004587116" duration="3645000" />
     </task>
     <task id="LOCAL-00001" summary="Knex rechercher/IPPE fix">
       <created>1645668779961</created>
@@ -175,7 +173,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645994829534</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Jest">
+      <created>1646007612181</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1646007612181</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,6 +203,7 @@
     <MESSAGE value="Cleanup du code.&#10;IPPE: Récupération des informations de la table FPS." />
     <MESSAGE value="IPPE: /rechercher/infos/personnes" />
     <MESSAGE value="IPPE: /rechercher/infos/personnes terminer" />
-    <option name="LAST_COMMIT_MESSAGE" value="IPPE: /rechercher/infos/personnes terminer" />
+    <MESSAGE value="Jest" />
+    <option name="LAST_COMMIT_MESSAGE" value="Jest" />
   </component>
 </project>
