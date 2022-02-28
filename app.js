@@ -57,7 +57,7 @@ app.get('/ippeInfo', async (req, res) => {
 				result.push(element);	
 			});
 		}
-		console.log('testFPS' + dataFPS.length);
+	
 		//retourne que les valeurs au client; necessaire a la recherche IPPE
 		res.send(result);
 	} else {
