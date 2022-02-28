@@ -26,9 +26,9 @@ app.post('/login', async (req, res) => {
 			'Matricule': data[0].Identifiant,
 			'Nom': data[0].NomFamille });
 
-	} else {
+	} else 
 		return res.status(500).json({'succes' : false});
-	}
+	
     
 });
 
@@ -39,7 +39,7 @@ app.get('/ippeInfo', async (req, res) => {
 	const prenomUn = req.query.prenomUn; 
 	const sexe = req.query.sexe;
 	const ddn = req.query.ddn;
-	const result= new Array()
+	const result= new Array();
 	const dataIPPE = await request.ippeData(nom,ddn, prenomUn, prenomDeux, sexe);
     
 	if(dataIPPE.length!=0)
@@ -47,24 +47,24 @@ app.get('/ippeInfo', async (req, res) => {
 
 		//Recherche si la personne possede un dossier FPS et le push a la reponse
 		const dataFPS = await request.dataFPS(dataIPPE[0].IdPersonne);
-		let IPPEresult = request.IPPEDisp(dataIPPE, dataFPS)
+		let IPPEresult = request.IPPEDisp(dataIPPE, dataFPS);
 		IPPEresult.forEach(element => {
-			result.push(element)	
+			result.push(element);	
 		});
 		if(dataFPS.length !=0 ){
-			const FPSresult =  request.FPSDisp(dataFPS)
+			const FPSresult =  request.FPSDisp(dataFPS);
 			FPSresult.forEach(element => {
-				result.push(element)	
+				result.push(element);	
 			});
 		}
-		console.log('testFPS' + dataFPS.length)
+		console.log('testFPS' + dataFPS.length);
 		//retourne que les valeurs au client; necessaire a la recherche IPPE
 		res.send(result);
 	} else {
 		//retourne la valeur negative si la personne na pas de fichier IPPE
 		res.send({result : 'Negatif'});
 	}
-	});
+});
 
 app.listen(PORT, () => {
 	console.log(`Mon application roule sur http://localhost:${PORT}`);
