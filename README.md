@@ -23,5 +23,11 @@ Notre backend roule sur *http://localhost:5000*
 Travail présenté à Levasseur, Marc <br/>
 Dans le cadre du cours 420-4D1, Groupe 03 <br/>
 Projet 2 - Développement d'applications
+## Tests
+Afin de completer les tests unitaires il faut lancer la commande : npm test
+Le port utiliser pour lancer le serveur est le 3000 et la commande script est : ***npm run serve
+Afin d'utiliser le linter sur tout les fichiers la commande a taper est : ***npm run lint
+Afin d'utiliser le linter sur tout les fichiers et corriger les erreurs la commande a taper est : ***npm run fix
+Afin d'utiliser l'API Veuillez installer toutes les dependances avec la commande : ***npm i
 
 </div>

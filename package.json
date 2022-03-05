@@ -1,43 +1,19 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "To make it easy for you to get started with GitLab, here's a list of recommended next steps.",
-  "main": "app.js",
-  "scripts": {
-    "start": "nodemon app.js",
-    "test": "jest  --detectOpenHandles",
-    "lint": "npx eslint *.js",
-    "fix": "npx eslint *.js --fix"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://gitlab.com/4d1-equipe-3/backend.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://gitlab.com/4d1-equipe-3/backend/issues"
-  },
-  "homepage": "https://gitlab.com/4d1-equipe-3/backend#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "eslint": "^8.9.0",
-    "express": "^4.17.2",
-    "jest": "^27.5.1",
-    "knex": "^1.0.3",
+    "express": "^4.17.3",
     "mssql": "^8.0.2",
-    "nodemon": "^2.0.15",
-    "path": "^0.12.7",
-    "save-dev": "^0.0.1-security"
-  },
-  "nodemonConfig": {
-    "ext": "js,html,json,css"
+    "nodemon": "^2.0.15"
   },
   "devDependencies": {
-    "eslint": "^8.6.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jest": "^26.1.1"
+    "eslint": "^8.10.0",
+    "eslint-plugin-jest": "^26.1.1",
+    "jest": "^27.5.1"
+  },
+  "scripts": {
+    "test": "jest",
+    "serve": "nodemon app.js ",
+    "lint": "npx eslint *.js",
+    "fix": "npx eslint *.js --fix"
   }
 }
