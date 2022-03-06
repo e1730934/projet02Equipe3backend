@@ -32,19 +32,19 @@ async function getIPPE(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
     .andWhere("DateNaissance", DateNaissance)
         .leftJoin('FPS','Personnes.ID','FPS.IdPersonne')
         .leftJoin('IPPE','Personnes.ID','IPPE.IdPersonne')
-        // .leftJoin('Conditions','IPPE.Id','Conditions.IdIPPE')
+        .leftJoin('Conditions','IPPE.Id','Conditions.IdIPPE')
 }
-
-async function getInfosPersonnes(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
-    return knex("Personnes")
-        .select("*")
-        .where("NomFamille", NomFamille)
-        .andWhere("Prenom1", Prenom1)
-        .andWhere("Prenom2", Prenom2)
-        .andWhere("Masculin", Masculin)
-        .andWhere("DateNaissance", DateNaissance);
-
-}
+//
+// async function getInfosPersonnes(NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
+//     return knex("Personnes")
+//         .select("*")
+//         .where("NomFamille", NomFamille)
+//         .andWhere("Prenom1", Prenom1)
+//         .andWhere("Prenom2", Prenom2)
+//         .andWhere("Masculin", Masculin)
+//         .andWhere("DateNaissance", DateNaissance);
+//
+// }
 
 async function getUtilisateurs() {
     return await knex("Utilisateurs");
@@ -60,6 +60,6 @@ module.exports = {
     getIBVA,
     getIPPE,
     getUtilisateurs,
-    getInfosPersonnes
+    // getInfosPersonnes
     // adduser
 }
