@@ -2,9 +2,9 @@ const knex = require('knex')({
 	client: 'mssql',
 	connection: {
 		host: 'sv55.cmaisonneuve.qc.ca',
-		user: 'xxx',
-		password: 'xxx',
-		database: 'xxx',
+		user: '4D1EQUIPE03',
+		password: 'bue522',
+		database: '4D1Equipe03',
 		options: {
 			enableArithAbort: false
 		},
@@ -20,7 +20,7 @@ function connexion(identifiant, motDePasse){
 }
 
 async function getIPPE(nom,ddn, prenomUn, prenomDeux, sexe){
-	const resultat = new Array();
+	const resultat = [];
 	const reponseIPPe = await knex('Personnes')
 		.where('NomFamille', nom)
 		.andWhere('DateNaissance', ddn)
@@ -35,13 +35,13 @@ async function getIPPE(nom,ddn, prenomUn, prenomDeux, sexe){
 	const reponseFPS = await getFPS(reponseIPPe[0].IdPersonne);
 	let IPPEresult = formatterIPPE(reponseIPPe, reponseFPS);
 	IPPEresult.forEach(element => {
-		resultat.push(element);	
+		resultat.push(element);
 	});
-	if(reponseFPS.length !=0 ){
+	if(reponseFPS.length !==0 ){
 		const FPSresult =  formatterFPS(reponseFPS);
 
 		FPSresult.forEach(element => {
-			resultat.push(element);	
+			resultat.push(element);
 		});
 	}
 	return resultat;
@@ -51,7 +51,7 @@ function getFPS(DataIdPersonne){
 	return knex('FPS')
 		.where('FPS.IdPersonne', DataIdPersonne)
 		.join('Personnes', 'FPS.IdPersonne', 'Personnes.Id')
-		.select('FPS.*', 
+		.select('FPS.*',
 			'Personnes.Race',
 			'Personnes.Taille',
 			'Personnes.Poids',
@@ -67,15 +67,15 @@ function getFPS(DataIdPersonne){
 
 //Fonction qui manie l'affichage de la reponse IPPE
 function formatterIPPE(dataIPPE, dataFps){
-	let dataToSend =  new Array();
-	let libelleList =  new Array();
+	let dataToSend =  [];
+	let libelleList =  [];
 
 	dataIPPE.forEach((data)=>{
 		//Verifie si l'information IPPE se trouve deja dans les datas a envoyer
 		const dupCheck = dataToSend.some(element => {element.IdIPPE === data.IdIPPE;} );
 		if(dupCheck){
 			//ajoute les conditions aux tableau afin de les afficher plus tard
-			libelleList.push(data.Libelle); 
+			libelleList.push(data.Libelle);
 		} else {
 			//si aucunes conditions n'est presente rien est envoyer dans le tableau de conditions
 			libelleList.push(data.Libelle ? data.Libelle:null);
@@ -155,9 +155,9 @@ function formatterIPPE(dataIPPE, dataFps){
 						noEvenement: data.NoEvenement,
 						motif: data.Raison,
 						derniereVu: data.VuDerniereFois,
-						descrPhys:{ 
-							race: data.Race, 
-							taille: data.Taille, 
+						descrPhys:{
+							race: data.Race,
+							taille: data.Taille,
 							poids: data.Poids,
 							yeux: data.Yeux,
 							cheveux: data.Cheveux,
@@ -190,19 +190,17 @@ function formatterIPPE(dataIPPE, dataFps){
 		}
 	});
 	//gere les doublons en les supprimants
-	let result = dataToSend.reduce((unique, o) => {
-		if(!unique.some(obj => obj.noEvenement === o.noEvenement && obj.value === o.value)) 
+	return dataToSend.reduce((unique, o) => {
+		if (!unique.some(obj => obj.noEvenement === o.noEvenement && obj.value === o.value))
 			unique.push(o);
-		
-		return unique;
-	},[]);
 
-	return result;
+		return unique;
+	}, []);
 }
 
 //Fonction qui prend en charge l'affichage des FPS
 function formatterFPS(dataFPS){
-	let dataToSend =  new Array();
+	let dataToSend =  [];
 	dataToSend.push({
 		titre: 'FPS',
 		NoFPS: dataFPS[0].NoFPS,
@@ -222,7 +220,7 @@ function formatterFPS(dataFPS){
 		Marques: dataFPS[0].Marques,
 		Toxicomanie: dataFPS[0].Toxicomanie,
 		Desorganise: dataFPS[0].Desorganise,
-		Depressif: dataFPS[0].Depressif}); 
+		Depressif: dataFPS[0].Depressif});
 
 	return dataToSend;
 }
