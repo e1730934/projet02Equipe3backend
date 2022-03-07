@@ -54,6 +54,113 @@ app.get('/ippeInfo', async (req, res) => {
 	}
 });
 
+app.post('/IBAF', async (req, res) => {
+    try {
+        let IBAF = await requeteKnex.postIBAF(req.body.Id, req.body.Noserie, req.body.NoEvenement, req.body.Description);
+         res.status(200).json(IBAF);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+});
+
+app.put('/IBAF', async (req, res) => {
+    try {
+        let IBAF = await requeteKnex.putIBAF(req.body.Id, req.body.Noserie, req.body.NoEvenement, req.body.Description);
+         res.status(200).json(IBAF);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+});
+
+app.delete('/IBAF', async (req, res) => {
+    try {
+        let IBAF = await requeteKnex.deleteIBAF(req.body.Id, req.body.Noserie, req.body.NoEvenement, req.body.Description);
+         res.status(200).json(IBAF);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+});
+
+app.post('/IBOB', async (req, res) => {
+    try {
+        let IBOB = await requeteKnex.postIBOB(req.body.Id, req.body.Noserie, req.body.NoEvenement, req.body.Description);
+         res.status(200).json(IBOB);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+});
+
+app.put('/IBOB', async (req, res) => {
+    try {
+        let IBOB = await requeteKnex.putIBOB(req.body.Id, req.body.Noserie, req.body.NoEvenement, req.body.Description);
+         res.status(200).json(IBOB);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+});
+
+app.delete('/IBOB', async (req, res) => {
+    try {
+        let IBOB = await requeteKnex.deleteIBOB(req.body.Id, req.body.Noserie, req.body.NoEvenement, req.body.Description);
+         res.status(200).json(IBOB);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+});
+
+app.post('/IBVA', async (req, res) => {
+    try {
+        let IBVA = await requeteKnex.postIBVA(req.body.Id, req.body.NoSerie, req.body.Titre, req.body.Auteur, req.body.Inscription, req.body.NoEvenement, req.body.Description);
+         res.status(200).json(IBVA);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+});
+
+app.put('/IBVA', async (req, res) => {
+    try {
+        let IBVA = await requeteKnex.putIBVA(req.body.Id, req.body.NoSerie, req.body.Titre, req.body.Auteur, req.body.Inscription, req.body.NoEvenement, req.body.Description);
+         res.status(200).json(IBVA);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+});
+
+app.delete('/IBVA', async (req, res) => {
+    try {
+        let IBVA = await requeteKnex.deleteIBVA(req.body.Id, req.body.NoSerie, req.body.Titre, req.body.Auteur, req.body.Inscription, req.body.NoEvenement, req.body.Description);
+         res.status(200).json(IBVA);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+});
 app.listen(PORT, () => {
 	console.log(`Mon application roule sur http://localhost:${PORT}`);
 });
