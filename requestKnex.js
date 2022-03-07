@@ -2,24 +2,26 @@ const knex = require('knex')({
 	client: 'mssql',
 	connection: {
 		host: 'sv55.cmaisonneuve.qc.ca',
-		user: '4D1EQUIPE04',
-		password: 'otn984',
-		database: '4D1Equipe04',
+		user: 'xxx',
+		password: 'xxx',
+		database: 'xxx',
 		options: {
 			enableArithAbort: false
 		},
 	},
 	pool: {min: 0, max: 7}
 });
-//Requete knex qui retourne 
-function connectionCheck(loginInfo){
+
+//Requete knex qui retourne les informations de connexion
+function connexion(identifiant, motDePasse){
 	return knex('Utilisateurs')
-		.where('Identifiant', loginInfo.username)
-		.andWhere('MotDePasse', loginInfo.password);
+		.where('Identifiant', identifiant)
+		.andWhere('MotDePasse', motDePasse);
 }
 
-function ippeData(nom,ddn, prenomUn, prenomDeux, sexe){
-	return knex('Personnes')
+async function getIPPE(nom,ddn, prenomUn, prenomDeux, sexe){
+	const resultat = new Array();
+	const reponseIPPe = await knex('Personnes')
 		.where('NomFamille', nom)
 		.andWhere('DateNaissance', ddn)
 		.andWhere('Prenom1', prenomUn)
@@ -28,9 +30,24 @@ function ippeData(nom,ddn, prenomUn, prenomDeux, sexe){
 		.leftJoin('IPPE', 'Personnes.id', 'IPPE.IdPersonne')
 		.leftJoin('Conditions', 'Conditions.IdIPPE', 'IPPE.Id')
 		.select('*');
+
+	//Recherche si la personne possede un dossier FPS et le push a la reponse
+	const reponseFPS = await getFPS(reponseIPPe[0].IdPersonne);
+	let IPPEresult = formatterIPPE(reponseIPPe, reponseFPS);
+	IPPEresult.forEach(element => {
+		resultat.push(element);	
+	});
+	if(reponseFPS.length !=0 ){
+		const FPSresult =  formatterFPS(reponseFPS);
+
+		FPSresult.forEach(element => {
+			resultat.push(element);	
+		});
+	}
+	return resultat;
 }
 
-function dataFPS(DataIdPersonne){
+function getFPS(DataIdPersonne){
 	return knex('FPS')
 		.where('FPS.IdPersonne', DataIdPersonne)
 		.join('Personnes', 'FPS.IdPersonne', 'Personnes.Id')
@@ -49,7 +66,7 @@ function dataFPS(DataIdPersonne){
 
 
 //Fonction qui manie l'affichage de la reponse IPPE
-function IPPEDisp(dataIPPE, dataFps){
+function formatterIPPE(dataIPPE, dataFps){
 	let dataToSend =  new Array();
 	let libelleList =  new Array();
 
@@ -182,8 +199,9 @@ function IPPEDisp(dataIPPE, dataFps){
 
 	return result;
 }
+
 //Fonction qui prend en charge l'affichage des FPS
-function FPSDisp(dataFPS){
+function formatterFPS(dataFPS){
 	let dataToSend =  new Array();
 	dataToSend.push({
 		titre: 'FPS',
@@ -210,9 +228,7 @@ function FPSDisp(dataFPS){
 }
 
 module.exports = {
-	connectionCheck,
-	ippeData,
-	dataFPS,
-	IPPEDisp,
-	FPSDisp
+	connexion,
+	getIPPE,
+	getFPS
 };

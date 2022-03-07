@@ -24,7 +24,7 @@ test('RequêteKnex FPS', async () => {
 		Toxicomanie: null,
 		Depressif: null
 	}];
-	const fps = await reqKnex.dataFPS(resultat[0].IdPersonne);
+	const fps = await reqKnex.getFPS(resultat[0].IdPersonne);
 	// Assert
 	expect(fps).toEqual(resultat);
     
@@ -45,7 +45,7 @@ test('RequêteKnex, verification connection coconcluante', async () => {
 		NomFamille: 'etudiant'
 	}];
 
-	const conn = await reqKnex.connectionCheck(loginInfo);
+	const conn = await reqKnex.connexion(loginInfo);
 
 	// Assert
 	expect(conn).toEqual(resultat);
@@ -61,7 +61,7 @@ test('RequêteKnex, verification connection sans mot de passe valide', async () 
 
 	let resultatError = [];
 
-	const connErrorPwd = await reqKnex.connectionCheck(loginErrorPwd);
+	const connErrorPwd = await reqKnex.connexion(loginErrorPwd);
 
 	// Assert
 	expect(connErrorPwd).toEqual(resultatError);
@@ -77,7 +77,7 @@ test('RequêteKnex, verification connection sans User et Password valide', async
 
 	let resultatError = [];
 
-	const connEmpty = await reqKnex.connectionCheck(loginEmpty); 
+	const connEmpty = await reqKnex.connexion(loginEmpty); 
 
 	// Assert
 	expect(connEmpty).toEqual(resultatError);
@@ -93,7 +93,7 @@ test('RequêteKnex, verification connection sans utilisateur valide', async () =
 
 	let resultatError = [];
 
-	const connErrorUser = await reqKnex.connectionCheck(loginErrorUser);
+	const connErrorUser = await reqKnex.connexion(loginErrorUser);
 
 	// Assert
 	expect(connErrorUser).toEqual(resultatError);
