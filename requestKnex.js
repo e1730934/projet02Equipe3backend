@@ -1,15 +1,15 @@
 const knex = require('knex')({
-	client: 'mssql',
-	connection: {
-		host: 'sv55.cmaisonneuve.qc.ca',
-		user: '4D1EQUIPE03',
-		password: 'bue522',
-		database: '4D1Equipe03',
-		options: {
-			enableArithAbort: false
-		},
-	},
-	pool: {min: 0, max: 7}
+    client: 'mssql',
+    connection: {
+        host: 'sv55.cmaisonneuve.qc.ca',
+        user: '4D1EQUIPE03',
+        password: 'bue522',
+        database: '4D1Equipe03',
+        options: {
+            enableArithAbort: false
+        },
+    },
+    pool: {min: 0, max: 7}
 });
 
 // Requete knex qui retourne les informations de connexion
@@ -54,120 +54,120 @@ function formatterIPPE(dataIPPE, dataFps) {
 
             // le switch trie les elements a envoyer pour ne pas envoyer d'information inutile
             switch (data.TypeEvenement) {
-            case 'Recherché':
-                dataToSend.push(
-                    {
-                        titre: 'Recherché',
-                        mandat: data.Mandat,
-                        cour: data.Cour,
-                        noMandat: data.NoMandat,
-                        natureCrime: data.NatureCrime,
-                        noEvenement: data.NoEvenement,
-                    },
-                );
-                break;
-            case 'Sous observation':
-                dataToSend.push(
-                    {
-                        titre: 'Sous Observation',
-                        motif: data.Motif,
-                        natureCrime: data.NatureCrime,
-                        noEvenement: data.NoEvenement,
-                        DossierEnquete: data.DossierEnquete,
+                case 'Recherché':
+                    dataToSend.push(
+                        {
+                            titre: 'Recherché',
+                            mandat: data.Mandat,
+                            cour: data.Cour,
+                            noMandat: data.NoMandat,
+                            natureCrime: data.NatureCrime,
+                            noEvenement: data.NoEvenement,
+                        },
+                    );
+                    break;
+                case 'Sous observation':
+                    dataToSend.push(
+                        {
+                            titre: 'Sous Observation',
+                            motif: data.Motif,
+                            natureCrime: data.NatureCrime,
+                            noEvenement: data.NoEvenement,
+                            DossierEnquete: data.DossierEnquete,
 
-                    },
-                );
-                break;
-            case 'Accusé':
-                dataToSend.push(
-                    {
-                        titre: 'Accusé',
-                        cour: data.Cour,
-                        noCause: data.NoCause,
-                        natureCrime: data.NatureCrime,
-                        noEvenement: data.NoEvenement,
-                        conditions: libelleList,
-                    },
-                );
-                break;
-            case 'Probation':
-                dataToSend.push(
-                    {
-                        titre: 'Probation',
-                        cour: data.Cour,
-                        noCause: data.NoCause,
-                        natureCrime: data.NatureCrime,
-                        noEvenement: data.NoEvenement,
-                        finSentence: data.FinSentence,
-                        conditions: libelleList,
-                        agentProbation: data.AgentProbation,
-                        telephone: data.Telephone,
-                        poste: data.Poste,
-                    },
-                );
-                break;
-            case 'Libération Conditionnelle':
-                dataToSend.push(
-                    {
-                        titre: 'Libération Conditionnelle',
-                        cour: data.Cour,
-                        noCause: data.NoCause,
-                        natureCrime: data.NatureCrime,
-                        noEvenement: data.NoEvenement,
-                        fps: dataFps[0].NoFPS,
-                        lieuDetention: data.LieuDetention,
-                        finSentence: data.FinSentence,
-                        conditions: libelleList,
-                        agentLiberation: data.AgentLiberation,
-                        telephone: data.Telephone,
-                        poste: data.Poste,
-                    },
-                );
-                break;
-            case 'Disparu':
-                dataToSend.push(
-                    {
-                        titre: 'Disparu',
-                        noEvenement: data.NoEvenement,
-                        nature: data.Nature,
-                        VuDerniereFois: data.VuDerniereFois,
-                        descrPhysique: {
-                            race: data.Race,
-                            taille: data.Taille,
-                            poids: data.Poids,
-                            yeux: data.Yeux,
-                            cheveux: data.Cheveux,
-                            marques: data.Marques,
                         },
-                        descrVestimentaire: {
-                            gilet: data.Gilet,
-                            pantalon: data.Pantalon,
-                            autreVetements: data.AutreVetement,
+                    );
+                    break;
+                case 'Accusé':
+                    dataToSend.push(
+                        {
+                            titre: 'Accusé',
+                            cour: data.Cour,
+                            noCause: data.NoCause,
+                            natureCrime: data.NatureCrime,
+                            noEvenement: data.NoEvenement,
+                            conditions: libelleList,
                         },
-                        problemesSante: {
-                            toxicomanie: data.Toxicomanie,
-                            desorganise: data.Desorganise,
-                            depressif: data.Depressif,
-                            suicidaire: data.Suicidaire,
-                            violent: data.Violent,
+                    );
+                    break;
+                case 'Probation':
+                    dataToSend.push(
+                        {
+                            titre: 'Probation',
+                            cour: data.Cour,
+                            noCause: data.NoCause,
+                            natureCrime: data.NatureCrime,
+                            noEvenement: data.NoEvenement,
+                            finSentence: data.FinSentence,
+                            conditions: libelleList,
+                            agentProbation: data.AgentProbation,
+                            telephone: data.Telephone,
+                            poste: data.Poste,
                         },
-                    },
-                );
-                break;
-            case 'Interdit':
-                dataToSend.push(
-                    {
-                        titre: 'Interdit',
-                        nature: data.Nature,
-                        cour: data.Cour,
-                        noCause: data.NoCause,
-                        natureCrime: data.NatureCrime,
-                        noEvenement: data.NoEvenement,
-                        expiration: data.FinSentence,
-                    },
-                );
-                break;
-            default:
+                    );
+                    break;
+                case 'Libération Conditionnelle':
+                    dataToSend.push(
+                        {
+                            titre: 'Libération Conditionnelle',
+                            cour: data.Cour,
+                            noCause: data.NoCause,
+                            natureCrime: data.NatureCrime,
+                            noEvenement: data.NoEvenement,
+                            fps: dataFps[0].NoFPS,
+                            lieuDetention: data.LieuDetention,
+                            finSentence: data.FinSentence,
+                            conditions: libelleList,
+                            agentLiberation: data.AgentLiberation,
+                            telephone: data.Telephone,
+                            poste: data.Poste,
+                        },
+                    );
+                    break;
+                case 'Disparu':
+                    dataToSend.push(
+                        {
+                            titre: 'Disparu',
+                            noEvenement: data.NoEvenement,
+                            nature: data.Nature,
+                            VuDerniereFois: data.VuDerniereFois,
+                            descrPhysique: {
+                                race: data.Race,
+                                taille: data.Taille,
+                                poids: data.Poids,
+                                yeux: data.Yeux,
+                                cheveux: data.Cheveux,
+                                marques: data.Marques,
+                            },
+                            descrVestimentaire: {
+                                gilet: data.Gilet,
+                                pantalon: data.Pantalon,
+                                autreVetements: data.AutreVetement,
+                            },
+                            problemesSante: {
+                                toxicomanie: data.Toxicomanie,
+                                desorganise: data.Desorganise,
+                                depressif: data.Depressif,
+                                suicidaire: data.Suicidaire,
+                                violent: data.Violent,
+                            },
+                        },
+                    );
+                    break;
+                case 'Interdit':
+                    dataToSend.push(
+                        {
+                            titre: 'Interdit',
+                            nature: data.Nature,
+                            cour: data.Cour,
+                            noCause: data.NoCause,
+                            natureCrime: data.NatureCrime,
+                            noEvenement: data.NoEvenement,
+                            expiration: data.FinSentence,
+                        },
+                    );
+                    break;
+                default:
             }
         }
     });
@@ -240,8 +240,124 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
+
+async function getIBOBbyId(idBOB) {
+    return knex('IBOB')
+        .where('IdBOB', idBOB)
+        .select('*');
+}
+
+async function getIBOBbyNoSerie(noSerie) {
+    return knex('IBOB')
+        .where('NoSerie', noSerie)
+        .select('*');
+}
+
+async function ajoutIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEvenement) {
+    if (await getIBOBbyNoSerie(noSerie) === '') {
+        const reponse = await knex('IBOB')
+            .insert(
+                {
+                    NoSerie: noSerie,
+                    Marque: marque,
+                    Modele: modele,
+                    TypeObjet: typeObjet,
+                    TypeEvenement: typeEvenement,
+                    NoEvenement: noEvenement
+                }
+            )
+    } else {
+        console.log("NoSerie existe deja dans table IBOB") //TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
+    }
+}
+
+async function modificationIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEvenement) {
+    if (await getIBOBbyNoSerie(noSerie) !== '') {
+        const reponse = await knex('IBOB')
+            .update(
+                {
+                    NoSerie: noSerie,
+                    Marque: marque,
+                    Modele: modele,
+                    TypeObjet: typeObjet,
+                    TypeEvenement: typeEvenement,
+                    NoEvenement: noEvenement
+                }
+            )
+            .where('NoSerie', noSerie)
+    } else {
+        //TODO: IMPLEMENTER SI EXISTE PAS DNS DB
+    }
+}
+
+async function suppresionIBOB(idBOB) {
+    return knex('IBOB')
+        .where('IdBOB', idBOB)
+        .del()
+}
+
+
+async function getIBAFbyId(idIBAF) {
+    return knex('IBAF')
+        .where('IdIBAF', idIBAF)
+        .select('*');
+}
+
+async function getIBAFbyNoSerie(noSerie) {
+    return knex('IBAF')
+        .where('NoSerie', noSerie)
+        .select('*');
+}
+
+async function ajoutIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement) {
+    if (await getIBAFbyNoSerie(noSerie) === '') {
+        const reponse = await knex('IBAF')
+            .insert(
+                {
+                    NoSerie: noSerie,
+                    Marque: marque,
+                    Calibre: calibre,
+                    TypeArme: typeArme,
+                    TypeEvenement: typeEvenement,
+                    NoEvenement: noEvenement
+                }
+            )
+    } else {
+        console.log("NoSerie existe deja dans table IBAF") //TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
+    }
+}
+
+async function modificationIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement) {
+    console.log(noSerie)
+     knex('IBAF')
+        .update(
+            {
+                Marque: marque,
+                Calibre: calibre,
+                TypeArme: typeArme,
+                TypeEvenement: typeEvenement,
+                NoEvenement: noEvenement
+            }
+        )
+        .where('NoSerie', noSerie)
+}
+
+async function suppresionIBAF(idIBAF) {
+    return knex('IBAF')
+        .where('IdIBAF', idIBAF)
+        .del()
+}
+
 module.exports = {
     connexion,
     getIPPE,
     getFPS,
+    getIBOBbyId,
+    ajoutIBOB,
+    modificationIBOB,
+    suppresionIBOB,
+    getIBAFbyId,
+    ajoutIBAF,
+    modificationIBAF,
+    suppresionIBAF
 };
