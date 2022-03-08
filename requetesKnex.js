@@ -254,8 +254,40 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
+async function getIBOB() {
+    return await knex('IBOB')
+        .select('NoSerie', 'Marque', 'Modele', 'TypeObjet', 'TypeEvenement', 'NoEvenement');
+}
+
+async function getIBAF() {
+    return await knex('getIBAF')
+        .select('NoSerie', 'Marque', 'Calibre', 'TypeArme', 'TypeEvenement', 'NoEvenement');
+}
+
+async function getIBVA() {
+    return await knex('IBVA')
+        .select('Identifiant', 'Auteur', 'TypeValeur', 'TypeEvenement', 'NoEvenement');
+}
+
+async function putIBVA(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement){
+    return await knex("IBVA")
+    .where("NoSerie", NoSerie, "Marque", Marque, "Modele", Modele, "TypeObjet", TypeObjet, "TypeEvenement", TypeEvenement, "NoEvenement", NoEvenement)
+    .update(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement)
+}
+
+async function putIBVA(idIBVA, donnes){
+    return await knex("IBVA")
+    .where("idIBVA", idIBVA)
+    .update(donnes)
+}
+
+
 module.exports = {
     connexion,
     getIPPE,
     getFPS,
+    getIBOB,
+    getIBAF,
+    getIBVA,
+    putIBVA
 };

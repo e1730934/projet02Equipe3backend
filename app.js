@@ -55,6 +55,18 @@ app.get('/ippeInfo', async (req, res) => {
     }
 });
 
+app.get('/IBOB', async (req, res) => {
+    try {
+        let IBOB = await requeteKnex.getIBOB();
+         res.status(200).json(IBOB);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+});
+
 app.post('/IBOB', async (req, res) => {
     try {
         const NoSerie = req.body.NoSerie;
@@ -101,6 +113,18 @@ app.delete('/IBOB', async (req, res) => {
         const NoEvenement = req.body.NoEvenement;
         let IBOB = await requeteKnex.deleteIBOB(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement);
          res.status(200).json(IBOB);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+});
+
+app.get('/IBAF', async (req, res) => {
+    try {
+        let IBAF = await requeteKnex.getIBAF();
+         res.status(200).json(IBAF);
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -162,7 +186,17 @@ app.delete('/IBAF', async (req, res) => {
     }
 });
 
-
+app.get('/IBVA', async (req, res) => {
+    try {
+        let IBVA = await requeteKnex.getIBVA();
+         res.status(200).json(IBVA);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+});
 
 app.post('/IBVA', async (req, res) => {
     try {
@@ -189,6 +223,18 @@ app.put('/IBVA', async (req, res) => {
         const TypeEvenement = req.body.TypeEvenement;
         const NoEvenement = req.body.NoEvenement;
         let IBVA = await requeteKnex.putIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement);
+         res.status(200).json(IBVA);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            erreur: error
+        });
+    }
+});
+
+app.put('/IBVA/:id', async (req, res) => {
+    try {
+        let IBVA = await requeteKnex.putIBVA(req.params.id, req.body);
          res.status(200).json(IBVA);
     } catch (error) {
         res.status(500).json({
