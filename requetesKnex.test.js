@@ -1,4 +1,4 @@
-const reqKnex = require('./requestKnex.js');
+const reqKnex = require('./requetesKnex.js');
 
 test('RequêteKnex FPS', async () => {
 	// Arrange les resultat qui sortirons avant d'etre trier

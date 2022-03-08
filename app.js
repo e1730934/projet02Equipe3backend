@@ -2,7 +2,7 @@ const express = require('express');
 
 const app = express();
 const cors = require('cors');
-const request = require('./requestKnex');
+const request = require('./requetesKnex');
 
 const PORT = process.env.PORT || 3000;
 

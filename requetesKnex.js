@@ -1,15 +1,15 @@
 const knex = require('knex')({
-	client: 'mssql',
-	connection: {
-		host: 'sv55.cmaisonneuve.qc.ca',
-		user: '4D1EQUIPE03',
-		password: 'bue522',
-		database: '4D1Equipe03',
-		options: {
-			enableArithAbort: false
-		},
-	},
-	pool: {min: 0, max: 7}
+    client: 'mssql',
+    connection: {
+        host: 'sv55.cmaisonneuve.qc.ca',
+        user: '4D1EQUIPE03',
+        password: 'bue522',
+        database: '4D1Equipe03',
+        options: {
+            enableArithAbort: false
+        },
+    },
+    pool: {min: 0, max: 7}
 });
 
 // Requete knex qui retourne les informations de connexion
@@ -22,7 +22,7 @@ function connexion(identifiant, motDePasse) {
 function getFPS(DataIdPersonne) {
     return knex('FPS')
         .where('FPS.IdPersonne', DataIdPersonne)
-        .join('Personnes', 'FPS.IdPersonne', 'Personnes.Id')
+        .join('Personnes', 'FPS.IdPersonne', 'Personnes.IdPersonne')
         .select(
             'FPS.*',
             'Personnes.Race',
@@ -57,6 +57,8 @@ function formatterIPPE(dataIPPE, dataFps) {
             case 'Recherché':
                 dataToSend.push(
                     {
+                        idPersonne: data.IdPersonne[0],
+                        idIPPE: data.IdIPPE[0],
                         titre: 'Recherché',
                         mandat: data.Mandat,
                         cour: data.Cour,
@@ -69,6 +71,8 @@ function formatterIPPE(dataIPPE, dataFps) {
             case 'Sous observation':
                 dataToSend.push(
                     {
+                        idPersonne: data.IdPersonne[0],
+                        idIPPE: data.IdIPPE[0],
                         titre: 'Sous Observation',
                         motif: data.Motif,
                         natureCrime: data.NatureCrime,
@@ -81,6 +85,8 @@ function formatterIPPE(dataIPPE, dataFps) {
             case 'Accusé':
                 dataToSend.push(
                     {
+                        idPersonne: data.IdPersonne[0],
+                        idIPPE: data.IdIPPE[0],
                         titre: 'Accusé',
                         cour: data.Cour,
                         noCause: data.NoCause,
@@ -93,6 +99,8 @@ function formatterIPPE(dataIPPE, dataFps) {
             case 'Probation':
                 dataToSend.push(
                     {
+                        idPersonne: data.IdPersonne[0],
+                        idIPPE: data.IdIPPE[0],
                         titre: 'Probation',
                         cour: data.Cour,
                         noCause: data.NoCause,
@@ -109,6 +117,8 @@ function formatterIPPE(dataIPPE, dataFps) {
             case 'Libération Conditionnelle':
                 dataToSend.push(
                     {
+                        idPersonne: data.IdPersonne[0],
+                        idIPPE: data.IdIPPE[0],
                         titre: 'Libération Conditionnelle',
                         cour: data.Cour,
                         noCause: data.NoCause,
@@ -127,6 +137,8 @@ function formatterIPPE(dataIPPE, dataFps) {
             case 'Disparu':
                 dataToSend.push(
                     {
+                        idPersonne: data.IdPersonne[0],
+                        idIPPE: data.IdIPPE[0],
                         titre: 'Disparu',
                         noEvenement: data.NoEvenement,
                         nature: data.Nature,
@@ -157,6 +169,8 @@ function formatterIPPE(dataIPPE, dataFps) {
             case 'Interdit':
                 dataToSend.push(
                     {
+                        idPersonne: data.IdPersonne[0],
+                        idIPPE: data.IdIPPE[0],
                         titre: 'Interdit',
                         nature: data.Nature,
                         cour: data.Cour,
@@ -219,13 +233,13 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
         // .andWhere('Prenom2', prenom2)
         // .andWhere('Masculin', masculin)
         // .andWhere('DateNaissance', dateNaissance)
-        .leftJoin('PersonnesIPPE', 'Personnes.Id', 'PersonnesIPPE.IdPersonne')
-        .leftJoin('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.Id')
-        .leftJoin('Conditions', 'Conditions.IdIPPE', 'IPPE.Id')
+        .leftJoin('PersonnesIPPE', 'Personnes.IdPersonne', 'PersonnesIPPE.IdPersonne')
+        .leftJoin('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.IdIPPE')
+        .leftJoin('Conditions', 'Conditions.IdIPPE', 'IPPE.IdIPPE')
         .select('*');
 
     // Recherche si la personne possede un dossier FPS et le push a la reponse
-    const reponseFPS = await getFPS(reponseIPPE[0].IdPersonne);
+    const reponseFPS = await getFPS(reponseIPPE[0].IdPersonne[0]);
     const IPPEresult = formatterIPPE(reponseIPPE, reponseFPS);
     IPPEresult.forEach((element) => {
         resultat.push(element);
