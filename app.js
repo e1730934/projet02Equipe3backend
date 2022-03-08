@@ -57,13 +57,13 @@ app.get('/ippeInfo', async (req, res) => {
 
 app.post('/IBOB', async (req, res) => {
     try {
-        const Noserie = req.body.noserie;
-        const Marque = req.body.marque;
-        const Modele = req.body.modele;
-        const Typeobjet = req.body.typeobjet;
-        const ReponseIBOB = req.body.reponseIBOB;
-        const Noevenement = req.body.Noevenement;
-        let IBOB = await requeteKnex.postIBOB(Noserie, Marque, Modele, Typeobjet, ReponseIBOB, Noevenement);
+        const NoSerie = req.body.NoSerie;
+        const Marque = req.body.Marque;
+        const Modele = req.body.Modele;
+        const TypeObjet = req.body.TypeObjet;
+        const TypeEvenement = req.body.TypeEvenement;
+        const NoEvenement = req.body.NoEvenement;
+        let IBOB = await requeteKnex.postIBOB(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement);
          res.status(200).json(IBOB);
     } catch (error) {
         res.status(500).json({
@@ -75,13 +75,13 @@ app.post('/IBOB', async (req, res) => {
 
 app.put('/IBOB', async (req, res) => {
     try {
-        const Noserie = req.body.noserie;
-        const Marque = req.body.marque;
-        const Modele = req.body.modele;
-        const Typeobjet = req.body.typeobjet;
-        const ReponseIBOB = req.body.reponseIBOB;
-        const Noevenement = req.body.Noevenement;
-        let IBOB = await requeteKnex.putIBOB(Noserie, Marque, Modele, Typeobjet, ReponseIBOB, Noevenement);
+        const NoSerie = req.body.NoSerie;
+        const Marque = req.body.Marque;
+        const Modele = req.body.Modele;
+        const TypeObjet = req.body.TypeObjet;
+        const TypeEvenement = req.body.TypeEvenement;
+        const NoEvenement = req.body.NoEvenement;
+        let IBOB = await requeteKnex.putIBOB(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement);
          res.status(200).json(IBOB);
     } catch (error) {
         res.status(500).json({
@@ -93,13 +93,13 @@ app.put('/IBOB', async (req, res) => {
 
 app.delete('/IBOB', async (req, res) => {
     try {
-        const Noserie = req.body.noserie;
-        const Marque = req.body.marque;
-        const Modele = req.body.modele;
-        const Typeobjet = req.body.typeobjet;
-        const ReponseIBOB = req.body.reponseIBOB;
-        const Noevenement = req.body.Noevenement;
-        let IBOB = await requeteKnex.deleteIBOB(Noserie, Marque, Modele, Typeobjet, ReponseIBOB, Noevenement);
+        const NoSerie = req.body.NoSerie;
+        const Marque = req.body.Marque;
+        const Modele = req.body.Modele;
+        const TypeObjet = req.body.TypeObjet;
+        const TypeEvenement = req.body.TypeEvenement;
+        const NoEvenement = req.body.NoEvenement;
+        let IBOB = await requeteKnex.deleteIBOB(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement);
          res.status(200).json(IBOB);
     } catch (error) {
         res.status(500).json({
@@ -111,13 +111,13 @@ app.delete('/IBOB', async (req, res) => {
 
 app.post('/IBAF', async (req, res) => {
     try {
-        const Noserie = req.body.noserie;
-        const Marque = req.body.marque;
-        const Calibre = req.body.modele;
-        const Typearme = req.body.typeobjet;
-        const ReponseIBAF = req.body.reponseIBAF;
-        const Noevenement = req.body.Noevenement;
-        let IBAF = await requeteKnex.postIBAF(Noserie, Marque, Calibre, Typearme, ReponseIBAF, Noevenement);         res.status(200).json(IBAF);
+        const NoSerie = req.body.NoSerie;
+        const Marque = req.body.Marque;
+        const Calibre = req.body.Calibre;
+        const TypeArme = req.body.TypeArme;
+        const TypeEvenement = req.body.TypeEvenement;
+        const NoEvenement = req.body.NoEvenement;
+        let IBAF = await requeteKnex.postIBAF(NoSerie, Marque, Calibre, TypeArme, TypeEvenement, NoEvenement);
          res.status(200).json(IBAF);
     } catch (error) {
         res.status(500).json({
@@ -129,13 +129,13 @@ app.post('/IBAF', async (req, res) => {
 
 app.put('/IBAF', async (req, res) => {
     try {
-        const Noserie = req.body.noserie;
-        const Marque = req.body.marque;
-        const Calibre = req.body.modele;
-        const Typearme = req.body.typeobjet;
-        const ReponseIBAF = req.body.reponseIBAF;
-        const Noevenement = req.body.Noevenement;
-        let IBAF = await requeteKnex.putIBAF(Noserie, Marque, Calibre, Typearme, ReponseIBAF, Noevenement);         res.status(200).json(IBAF);
+        const NoSerie = req.body.NoSerie;
+        const Marque = req.body.Marque;
+        const Calibre = req.body.Calibre;
+        const TypeArme = req.body.TypeArme;
+        const TypeEvenement = req.body.TypeEvenement;
+        const NoEvenement = req.body.NoEvenement;
+        let IBAF = await requeteKnex.putIBAF(NoSerie, Marque, Calibre, TypeArme, TypeEvenement, NoEvenement);
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -146,13 +146,13 @@ app.put('/IBAF', async (req, res) => {
 
 app.delete('/IBAF', async (req, res) => {
     try {
-        const Noserie = req.body.noserie;
-        const Marque = req.body.marque;
-        const Calibre = req.body.modele;
-        const Typearme = req.body.typeobjet;
-        const ReponseIBAF = req.body.reponseIBAF;
-        const Noevenement = req.body.Noevenement;
-        let IBAF = await requeteKnex.deleteIBAF(Noserie, Marque, Calibre, Typearme, ReponseIBAF, Noevenement);         res.status(200).json(IBAF);
+        const NoSerie = req.body.NoSerie;
+        const Marque = req.body.Marque;
+        const Calibre = req.body.Calibre;
+        const TypeArme = req.body.TypeArme;
+        const TypeEvenement = req.body.TypeEvenement;
+        const NoEvenement = req.body.NoEvenement;
+        let IBAF = await requeteKnex.deleteIBAF(NoSerie, Marque, Calibre, TypeArme, TypeEvenement, NoEvenement);
          res.status(200).json(IBAF);
     } catch (error) {
         res.status(500).json({
@@ -166,13 +166,12 @@ app.delete('/IBAF', async (req, res) => {
 
 app.post('/IBVA', async (req, res) => {
     try {
-        const Noserie = req.body.noserie;
-        const Auteur = req.body.marque;
-        const Typevaleur = req.body.modele;
-        const ReponseIBVA = req.body.typeobjet;
-        const ReponseIBAF = req.body.typeevenement;
-        const Noevenement = req.body.typeevenement;
-        let IBVA = await requeteKnex.postIBVA(Noserie, Auteur, Typevaleur, ReponseIBVA, ReponseIBAF, Noevenement);
+        const Identifiant = req.body.Identifiant;
+        const Auteur = req.body.Auteur;
+        const TypeValeur = req.body.TypeValeur;
+        const TypeEvenement = req.body.TypeEvenement;
+        const NoEvenement = req.body.NoEvenement;
+        let IBVA = await requeteKnex.postIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement);
          res.status(200).json(IBVA);
     } catch (error) {
         res.status(500).json({
@@ -184,13 +183,12 @@ app.post('/IBVA', async (req, res) => {
 
 app.put('/IBVA', async (req, res) => {
     try {
-        const Noserie = req.body.noserie;
-        const Auteur = req.body.marque;
-        const Typevaleur = req.body.modele;
-        const ReponseIBVA = req.body.typeobjet;
-        const ReponseIBAF = req.body.typeevenement;
-        const Noevenement = req.body.typeevenement;
-        let IBVA = await requeteKnex.putIBVA(Noserie, Auteur, Typevaleur, ReponseIBVA, ReponseIBAF, Noevenement);
+        const Identifiant = req.body.Identifiant;
+        const Auteur = req.body.Auteur;
+        const TypeValeur = req.body.TypeValeur;
+        const TypeEvenement = req.body.TypeEvenement;
+        const NoEvenement = req.body.NoEvenement;
+        let IBVA = await requeteKnex.putIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement);
          res.status(200).json(IBVA);
     } catch (error) {
         res.status(500).json({
@@ -202,13 +200,12 @@ app.put('/IBVA', async (req, res) => {
 
 app.delete('/IBVA', async (req, res) => {
     try {
-        const Noserie = req.body.noserie;
-        const Auteur = req.body.marque;
-        const Typevaleur = req.body.modele;
-        const ReponseIBVA = req.body.typeobjet;
-        const ReponseIBAF = req.body.typeevenement;
-        const Noevenement = req.body.typeevenement;
-        let IBVA = await requeteKnex.deleteIBVA(Noserie, Auteur, Typevaleur, ReponseIBVA, ReponseIBAF, Noevenement);
+        const Identifiant = req.body.Identifiant;
+        const Auteur = req.body.Auteur;
+        const TypeValeur = req.body.TypeValeur;
+        const TypeEvenement = req.body.TypeEvenement;
+        const NoEvenement = req.body.NoEvenement;
+        let IBVA = await requeteKnex.deleteIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement);
          res.status(200).json(IBVA);
     } catch (error) {
         res.status(500).json({
