@@ -2,9 +2,9 @@ const knex = require('knex')({
     client: 'mssql',
     connection: {
         host: 'sv55.cmaisonneuve.qc.ca',
-        user: 'xxx',
-        password: 'xxx',
-        database: 'xxx',
+        user: 'AppCRTP',
+        password: 'f4j;g85j!g85h',
+        database: 'CRTP',
         options: {
             enableArithAbort: false,
         },
@@ -17,34 +17,6 @@ function connexion(identifiant, motDePasse) {
     return knex('Utilisateurs')
         .where('Identifiant', identifiant)
         .andWhere('MotDePasse', motDePasse);
-}
-
-async function getIPPE(nom, ddn, prenomUn, prenomDeux, sexe) {
-    const resultat = new Array();
-    const reponseIPPe = await knex('Personnes')
-        .where('NomFamille', nom)
-        .andWhere('DateNaissance', ddn)
-        .andWhere('Prenom1', prenomUn)
-        .andWhere('Prenom2', prenomDeux)
-        .andWhere('Masculin', sexe)
-        .leftJoin('IPPE', 'Personnes.id', 'IPPE.IdPersonne')
-        .leftJoin('Conditions', 'Conditions.IdIPPE', 'IPPE.Id')
-        .select('*');
-
-    // Recherche si la personne possede un dossier FPS et le push a la reponse
-    const reponseFPS = await getFPS(reponseIPPe[0].IdPersonne);
-    const IPPEresult = formatterIPPE(reponseIPPe, reponseFPS);
-    IPPEresult.forEach((element) => {
-        resultat.push(element);
-    });
-    if (reponseFPS.length != 0) {
-        const FPSresult = formatterFPS(reponseFPS);
-
-        FPSresult.forEach((element) => {
-            resultat.push(element);
-        });
-    }
-    return resultat;
 }
 
 function getFPS(DataIdPersonne) {
@@ -67,12 +39,12 @@ function getFPS(DataIdPersonne) {
 
 // Fonction qui manie l'affichage de la reponse IPPE
 function formatterIPPE(dataIPPE, dataFps) {
-    const dataToSend = new Array();
-    const libelleList = new Array();
+    const dataToSend = [];
+    const libelleList = [];
 
     dataIPPE.forEach((data) => {
         // Verifie si l'information IPPE se trouve deja dans les datas a envoyer
-        const dupCheck = dataToSend.some((element) => { element.IdIPPE === data.IdIPPE; });
+        const dupCheck = dataToSend.some((element) => element.IdIPPE === data.IdIPPE);
         if (dupCheck) {
             // ajoute les conditions aux tableau afin de les afficher plus tard
             libelleList.push(data.Libelle);
@@ -86,9 +58,9 @@ function formatterIPPE(dataIPPE, dataFps) {
                 dataToSend.push(
                     {
                         titre: 'Recherché',
-                        mandat: data.Raison,
+                        mandat: data.Mandat,
                         cour: data.Cour,
-                        numMandat: data.NoCour,
+                        noMandat: data.NoMandat,
                         natureCrime: data.NatureCrime,
                         noEvenement: data.NoEvenement,
                     },
@@ -98,11 +70,10 @@ function formatterIPPE(dataIPPE, dataFps) {
                 dataToSend.push(
                     {
                         titre: 'Sous Observation',
-                        motif: data.Raison,
-                        cour: data.Cour,
+                        motif: data.Motif,
                         natureCrime: data.NatureCrime,
                         noEvenement: data.NoEvenement,
-                        dossierEnq: data.DossierEnquete,
+                        DossierEnquete: data.DossierEnquete,
 
                     },
                 );
@@ -112,10 +83,10 @@ function formatterIPPE(dataIPPE, dataFps) {
                     {
                         titre: 'Accusé',
                         cour: data.Cour,
-                        numCause: data.NoCour,
+                        noCause: data.NoCause,
                         natureCrime: data.NatureCrime,
                         noEvenement: data.NoEvenement,
-                        condition: libelleList,
+                        conditions: libelleList,
                     },
                 );
                 break;
@@ -124,12 +95,12 @@ function formatterIPPE(dataIPPE, dataFps) {
                     {
                         titre: 'Probation',
                         cour: data.Cour,
-                        numCause: data.NoCour,
+                        noCause: data.NoCause,
                         natureCrime: data.NatureCrime,
                         noEvenement: data.NoEvenement,
                         finSentence: data.FinSentence,
-                        condition: libelleList,
-                        agent: data.Agent,
+                        conditions: libelleList,
+                        agentProbation: data.AgentProbation,
                         telephone: data.Telephone,
                         poste: data.Poste,
                     },
@@ -140,14 +111,14 @@ function formatterIPPE(dataIPPE, dataFps) {
                     {
                         titre: 'Libération Conditionnelle',
                         cour: data.Cour,
-                        numCause: data.NoCour,
+                        noCause: data.NoCause,
                         natureCrime: data.NatureCrime,
                         noEvenement: data.NoEvenement,
                         fps: dataFps[0].NoFPS,
                         lieuDetention: data.LieuDetention,
                         finSentence: data.FinSentence,
-                        condition: libelleList,
-                        agent: data.Agent,
+                        conditions: libelleList,
+                        agentLiberation: data.AgentLiberation,
                         telephone: data.Telephone,
                         poste: data.Poste,
                     },
@@ -158,9 +129,9 @@ function formatterIPPE(dataIPPE, dataFps) {
                     {
                         titre: 'Disparu',
                         noEvenement: data.NoEvenement,
-                        motif: data.Raison,
-                        derniereVu: data.VuDerniereFois,
-                        descrPhys: {
+                        nature: data.Nature,
+                        VuDerniereFois: data.VuDerniereFois,
+                        descrPhysique: {
                             race: data.Race,
                             taille: data.Taille,
                             poids: data.Poids,
@@ -168,12 +139,12 @@ function formatterIPPE(dataIPPE, dataFps) {
                             cheveux: data.Cheveux,
                             marques: data.Marques,
                         },
-                        descrVest: {
+                        descrVestimentaire: {
                             gilet: data.Gilet,
                             pantalon: data.Pantalon,
                             autreVetements: data.AutreVetement,
                         },
-                        problemeSante: {
+                        problemesSante: {
                             toxicomanie: data.Toxicomanie,
                             desorganise: data.Desorganise,
                             depressif: data.Depressif,
@@ -187,22 +158,25 @@ function formatterIPPE(dataIPPE, dataFps) {
                 dataToSend.push(
                     {
                         titre: 'Interdit',
-                        nature: data.Raison,
+                        nature: data.Nature,
                         cour: data.Cour,
-                        numCour: data.NoCour,
+                        noCause: data.NoCause,
                         natureCrime: data.NatureCrime,
                         noEvenement: data.NoEvenement,
                         expiration: data.FinSentence,
                     },
                 );
                 break;
+            default:
             }
         }
     });
+
     // gere les doublons en les supprimants
     const result = dataToSend.reduce((unique, o) => {
-        if (!unique.some((obj) => obj.noEvenement === o.noEvenement && obj.value === o.value)) { unique.push(o); }
-
+        if (!unique.some((obj) => obj.noEvenement === o.noEvenement && obj.value === o.value)) {
+            unique.push(o);
+        }
         return unique;
     }, []);
 
@@ -211,7 +185,7 @@ function formatterIPPE(dataIPPE, dataFps) {
 
 // Fonction qui prend en charge l'affichage des FPS
 function formatterFPS(dataFPS) {
-    const dataToSend = new Array();
+    const dataToSend = [];
     dataToSend.push({
         titre: 'FPS',
         NoFPS: dataFPS[0].NoFPS,
@@ -235,6 +209,35 @@ function formatterFPS(dataFPS) {
     });
 
     return dataToSend;
+}
+
+async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
+    const resultat = [];
+    const reponseIPPE = await knex('Personnes')
+        .where('NomFamille', nomFamille)
+        .andWhere('Prenom1', prenom1)
+        // .andWhere('Prenom2', prenom2)
+        // .andWhere('Masculin', masculin)
+        // .andWhere('DateNaissance', dateNaissance)
+        .leftJoin('PersonnesIPPE', 'Personnes.Id', 'PersonnesIPPE.IdPersonne')
+        .leftJoin('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.Id')
+        .leftJoin('Conditions', 'Conditions.IdIPPE', 'IPPE.Id')
+        .select('*');
+
+    // Recherche si la personne possede un dossier FPS et le push a la reponse
+    const reponseFPS = await getFPS(reponseIPPE[0].IdPersonne);
+    const IPPEresult = formatterIPPE(reponseIPPE, reponseFPS);
+    IPPEresult.forEach((element) => {
+        resultat.push(element);
+    });
+    if (reponseFPS.length !== 0) {
+        const FPSresult = formatterFPS(reponseFPS);
+
+        FPSresult.forEach((element) => {
+            resultat.push(element);
+        });
+    }
+    return resultat;
 }
 
 module.exports = {
