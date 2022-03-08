@@ -2,9 +2,9 @@ const knex = require('knex')({
 	client: 'mssql',
 	connection: {
 		host: 'sv55.cmaisonneuve.qc.ca',
-		user: 'xxx',
-		password: 'xxx',
-		database: 'xxx',
+		user: '4D1EQUIPE04',
+		password: 'otn984',
+		database: '4D1EQUIPE04',
 		options: {
 			enableArithAbort: false
 		},
