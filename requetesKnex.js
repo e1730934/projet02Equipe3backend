@@ -2,9 +2,9 @@ const knex = require('knex')({
     client: 'mssql',
     connection: {
         host: 'sv55.cmaisonneuve.qc.ca',
-        user: 'AppCRTP',
-        password: '8j;gf4j!g855h',
-        database: 'CRTP',
+        user: '4D1EQUIPE04',
+        password: 'otn984',
+        database: '4D1Equipe04',
         options: {
             enableArithAbort: false,
         },
@@ -230,9 +230,9 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     const reponseIPPE = await knex('Personnes')
         .where('NomFamille', nomFamille)
         .andWhere('Prenom1', prenom1)
-        // .andWhere('Prenom2', prenom2)
-        // .andWhere('Masculin', masculin)
-        // .andWhere('DateNaissance', dateNaissance)
+        .andWhere('Prenom2', prenom2)
+        .andWhere('Masculin', masculin)
+        .andWhere('DateNaissance', dateNaissance)
         .leftJoin('PersonnesIPPE', 'Personnes.IdPersonne', 'PersonnesIPPE.IdPersonne')
         .leftJoin('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.IdIPPE')
         .leftJoin('Conditions', 'Conditions.IdIPPE', 'IPPE.IdIPPE')
@@ -254,8 +254,14 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
+function personneAjoutOuModification(IdPersonne) {
+    return knex('Personnes')
+        .where('IdPersonne', IdPersonne)
+}
+
 module.exports = {
     connexion,
     getIPPE,
     getFPS,
+    personneAjoutOuModification
 };

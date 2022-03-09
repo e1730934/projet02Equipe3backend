@@ -20,4 +20,3 @@
     "fix": "npx eslint *.js --fix"
   }
 }
-
