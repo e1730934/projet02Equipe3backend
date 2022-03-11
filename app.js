@@ -42,7 +42,7 @@ app.get('/ippeInfo', async (req, res) => {
         const { nomFamille, prenom1 } = req.query;
         const prenom2 = (req.query.prenom2 === '') ? null : req.query.prenom2;
         const masculin = (req.query.masculin === 'true');
-        const dateNaissance = new Date(req.query.dateNaissance);
+        const { dateNaissance } = req.query;
         resultat = await request.getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance);
     } catch (error) {
         res.status(500).json(error.message);
