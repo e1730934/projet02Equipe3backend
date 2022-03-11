@@ -2,9 +2,9 @@ const knex = require('knex')({
     client: 'mssql',
     connection: {
         host: 'sv55.cmaisonneuve.qc.ca',
-        user: 'AppCRTP',
-        password: 'fgjj30g5;$e5',
-        database: 'CRTP',
+        user: '4D1EQUIPE04',
+        password: 'otn984',
+        database: '4D1Equipe04',
         options: {
             enableArithAbort: false,
         },
@@ -254,8 +254,14 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
+function personneAjoutOuModification(IdPersonne) {
+    return knex('Personnes')
+        .where('IdPersonne', IdPersonne)
+}
+
 module.exports = {
     connexion,
     getIPPE,
     getFPS,
+    personneAjoutOuModification
 };
