@@ -53,16 +53,6 @@ app.get('/ippeInfo', async (req, res) => {
 		res.status(500).json(error.message);
 	}
 });
-
-    try {
-        const { nomFamille, prenom1 } = req.query;
-        const prenom2 = (req.query.prenom2 === '') ? null : req.query.prenom2;
-        const masculin = (req.query.masculin === 'true');
-        const { dateNaissance } = req.query;
-        resultat = await request.getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance);
-    } catch (error) {
-        res.status(500).json(error.message);
-    }
 //Post de personne (sprint2) Ryma
 app.post('/creerPersonne', async (req, res) => {
 	res.header('Access-Control-Allow-Origin', '*');
