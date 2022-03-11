@@ -12,6 +12,7 @@ const knex = require('knex')({
         },
     },
     pool: { min: 0, max: 7 },
+    useNullAsDefault: true
 });
 
 // Requete knex qui retourne les informations de connexion
@@ -256,10 +257,17 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
-/*function ajoutPersonne() {
+function ajoutPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance) {
     return knex('Personnes')
-        .insert({Type: req.body.})
-}*/
+        .insert([{'TypePersonne':TypePersonne}, 
+                {'NomFamille': NomFamille}, 
+                {'Prenom1':Prenom1}, 
+                {'Prenom1':Prenom2}, 
+                {'Masculin':Masculin}, 
+                {'DateNaissance':new Date(DateNaissance)}]) 
+        
+
+}
 
 async function getPersonne(IdPersonne) {
     const resultat = [];
@@ -301,6 +309,6 @@ module.exports = {
     connexion,
     getIPPE,
     getFPS,
-    //ajoutPersonne,
+    ajoutPersonne,
     getPersonne
 };

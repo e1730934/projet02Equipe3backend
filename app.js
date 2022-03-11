@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const request = require('./requetesKnex');
+const { default: knex } = require('knex');
 
 const PORT = process.env.PORT || 3000;
 
@@ -75,35 +76,30 @@ app.get('/voirPersonne', async(req,res) => {
     }
 })
 
-/*app.post('/creerPersonne', async (req, res) => {
-	res.header('Access-Control-Allow-Origin', '*');
+app.post('/creerPersonne', async (req, res) => {
 
-	try {
-		const { IdPersonne } = req.body;
-		const resultat = await request.ajoutPersonne(IdPersonne);
+    const TypePersonne = req.body.TypePersonne;
+    const NomFamille = req.body.NomFamille;
+    const Prenom1 = req.body.Prenom1;
+    const Prenom2 = req.body.Prenom2;
+    const Masculin = req.body.Masculin;
+    const DateNaissance = new Date(req.query.DateNaissance);
 
-		if(resultat.length!=0){
-			//envoi du message contenant les information pour le post de personne dans base de donnee
+    if (!TypePersonne, !NomFamille, !Prenom1, !Prenom2, !Masculin, !DateNaissance) {
+        await res.json({success: false, message: 'Name is required'});
+    }
 
-			return res.status(200).json({
-				'succes' : true,
-				'Nom': resultat[0].NomFamille,
-				'Prenom1': resultat[0].Prenom1,
-				'Prenom2': resultat[0].Prenom2,
-				'Sexe': resultat[0].Masculin,
-				'DateNaissance': resultat[0].DateNaissance,
-				'Sexe': resultat[0].Masculin,
-				'Catégorie': resultat[0].TypePersonne			
-				
-			 });
-	
-		} else 
-			return res.status(404).json({'succes' : false});
-	} catch (error) {
-		res.status(500).json(error.message);
-	}
+    try{
+        
+        await request.ajoutPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance);
+    
+     } catch(error){
+        res.status(500).json(error.message);
+    }
+    
+    
    
-});*/
+});
 
 
 
