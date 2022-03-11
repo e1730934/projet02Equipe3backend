@@ -1,10 +1,12 @@
+const { request } = require('express');
+
 const knex = require('knex')({
     client: 'mssql',
     connection: {
         host: 'sv55.cmaisonneuve.qc.ca',
-        user: 'AppCRTP',
-        password: '8j;gf4j!g855h',
-        database: 'CRTP',
+        user: '4D1EQUIPE04',
+        password: 'otn984',
+        database: '4D1Equipe04',
         options: {
             enableArithAbort: false,
         },
@@ -254,8 +256,51 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
+/*function ajoutPersonne() {
+    return knex('Personnes')
+        .insert({Type: req.body.})
+}*/
+
+async function getPersonne(IdPersonne) {
+    const resultat = [];
+    const reponseKnexPersonne =  await knex('Personnes')
+        .where('Personnes.IdPersonne', IdPersonne)
+        .select(
+            'Personnes.TypePersonne',
+            'Personnes.NomFamille',
+            'Personnes.Prenom1',
+            'Personnes.Prenom2',
+            'Personnes.Masculin',
+            'Personnes.DateNaissance'
+            
+         );
+
+         //Push même si la personne a pas de IPPE
+        const responseKnexIPPE =  await knex('Personnes')
+        .where('Personnes.IdPersonne', IdPersonne)
+        .join('PersonnesIPPE', 'Personnes.IdPersonne', 'PersonnesIPPE.IdPersonne')
+        .join('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.IdIPPE')
+        .select(
+            'IPPE.NoEvenement',
+            'IPPE.TypeEvenement',
+         );
+
+         if(responseKnexIPPE.length === 0 ){
+             resultat.push(reponseKnexPersonne)
+         }else {
+             resultat.push(reponseKnexPersonne)
+             resultat.push(responseKnexIPPE)
+         }
+    return resultat
+
+}
+
+
+
 module.exports = {
     connexion,
     getIPPE,
     getFPS,
+    //ajoutPersonne,
+    getPersonne
 };

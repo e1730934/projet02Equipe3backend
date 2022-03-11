@@ -55,6 +55,58 @@ app.get('/ippeInfo', async (req, res) => {
     }
 });
 
+
+app.get('/voirPersonne', async(req,res) => {
+    let resultat;
+
+    try{
+        const {IdPersonne} = req.query;
+        
+        resultat = await request.getPersonne(IdPersonne);
+    
+     } catch(error){
+        res.status(500).json(error.message);
+    }
+
+     if (resultat.length === 0) {
+        res.send({ result: 'Personne inexistate' });
+    } else {
+        res.send(resultat);
+    }
+})
+
+/*app.post('/creerPersonne', async (req, res) => {
+	res.header('Access-Control-Allow-Origin', '*');
+
+	try {
+		const { IdPersonne } = req.body;
+		const resultat = await request.ajoutPersonne(IdPersonne);
+
+		if(resultat.length!=0){
+			//envoi du message contenant les information pour le post de personne dans base de donnee
+
+			return res.status(200).json({
+				'succes' : true,
+				'Nom': resultat[0].NomFamille,
+				'Prenom1': resultat[0].Prenom1,
+				'Prenom2': resultat[0].Prenom2,
+				'Sexe': resultat[0].Masculin,
+				'DateNaissance': resultat[0].DateNaissance,
+				'Sexe': resultat[0].Masculin,
+				'Catégorie': resultat[0].TypePersonne			
+				
+			 });
+	
+		} else 
+			return res.status(404).json({'succes' : false});
+	} catch (error) {
+		res.status(500).json(error.message);
+	}
+   
+});*/
+
+
+
 app.listen(PORT, () => {
     console.log(`Mon application roule sur http://localhost:${PORT}`);
 });
