@@ -86,12 +86,12 @@ app.post('/creerPersonne', async (req, res) => {
     const DateNaissance = new Date(req.query.DateNaissance);
 
     if (!TypePersonne, !NomFamille, !Prenom1, !Prenom2, !Masculin, !DateNaissance) {
-        await res.json({success: false, message: 'Name is required'});
+        await res.json({success: false, message: 'ce champs ne peut etre vide'});
     }
 
     try{
         
-        await request.ajoutPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance);
+        await request.postPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance);
     
      } catch(error){
         res.status(500).json(error.message);
@@ -100,6 +100,28 @@ app.post('/creerPersonne', async (req, res) => {
     
    
 });
+
+app.put('/updatePersonne', async(req,res)=>{
+    const {IdPersonne} = req.query;
+    const TypePersonne = req.body.TypePersonne;
+    const NomFamille = req.body.NomFamille;
+    const Prenom1 = req.body.Prenom1;
+    const Prenom2 = req.body.Prenom2;
+    const Masculin = req.body.Masculin;
+    //const DateNaissance = new Date(req.query.DateNaissance);
+    console.log(IdPersonne)
+    console.log(TypePersonne)
+    console.log(Prenom2)
+
+    try{
+        
+        await request.putPersonne(IdPersonne,TypePersonne,NomFamille,Prenom1,Prenom2,Masculin);
+        
+    
+     } catch(error){
+        res.status(500).json(error.message);
+    }
+})
 
 
 

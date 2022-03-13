@@ -257,7 +257,8 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
-function ajoutPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance) {
+//Permet d'ajouter une personne à la base de donnée
+function postPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance) {
     return knex('Personnes')
         .insert([{'TypePersonne':TypePersonne}, 
                 {'NomFamille': NomFamille}, 
@@ -269,6 +270,7 @@ function ajoutPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNais
 
 }
 
+//Permet d'aller chercher une personne dans personne ainsi que son ippe pour l'afficher
 async function getPersonne(IdPersonne) {
     const resultat = [];
     const reponseKnexPersonne =  await knex('Personnes')
@@ -303,12 +305,25 @@ async function getPersonne(IdPersonne) {
 
 }
 
+//Permet de modifer une personne
+async function putPersonne(IdPersonne,TypePersonne,NomFamille,Prenom1,Prenom2,Masculin){
+    await knex('Personnes')
+    .where('Personnes.IdPersonne', IdPersonne)
+    .update({'TypePersonne':TypePersonne}, 
+            {'NomFamille': NomFamille}, 
+            {'Prenom1':Prenom1}, 
+            {'Prenom1':Prenom2}, 
+            {'Masculin':Masculin}
+            )
+}
+
 
 
 module.exports = {
     connexion,
     getIPPE,
     getFPS,
-    ajoutPersonne,
-    getPersonne
+    postPersonne,
+    getPersonne,
+    putPersonne
 };
