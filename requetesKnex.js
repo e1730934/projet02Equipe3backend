@@ -254,40 +254,185 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
-async function getIBOB() {
-    return await knex('IBOB')
-        .select('NoSerie', 'Marque', 'Modele', 'TypeObjet', 'TypeEvenement', 'NoEvenement');
+
+
+
+async function getIBVAbyId(idIBVA) {
+    return knex('IBOB')
+    .where('IdIBVA', idIBVA)
+    .select('*');
 }
 
-async function getIBAF() {
-    return await knex('getIBAF')
-        .select('NoSerie', 'Marque', 'Calibre', 'TypeArme', 'TypeEvenement', 'NoEvenement');
+async function getIBVAbyNoSerie(NoSerie) {
+    return knex('IBOB')
+        .where('NoSerie', NoSerie)
+        .select('*');
 }
 
-async function getIBVA() {
-    return await knex('IBVA')
-        .select('Identifiant', 'Auteur', 'TypeValeur', 'TypeEvenement', 'NoEvenement');
+async function ajoutIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement){
+    if (await getIBOBbyNoSerie(NoSerie) === '') {
+        const reponse = await knex('IBOB')
+            .insert(
+                {
+                    Identifiant: Identifiant,
+                    Auteur: Auteur,
+                    TypeValeur: TypeValeur,
+                    TypeEvenement: TypeEvenement,
+                    NoEvenement: NoEvenement
+                }
+            )
+    } else {
+        console.log("NoSerie existe deja dans table IBOB") //TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
+    }
 }
 
-async function putIBVA(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement){
-    return await knex("IBVA")
-    .where("NoSerie", NoSerie, "Marque", Marque, "Modele", Modele, "TypeObjet", TypeObjet, "TypeEvenement", TypeEvenement, "NoEvenement", NoEvenement)
-    .update(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement)
+async function modificationIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement) {
+    if (await getIBOBbyNoSerie(noSerie) !== '') {
+        const reponse = await knex('IBOB')
+            .update(
+                {
+                    Identifiant: Identifiant,
+                    Auteur: Auteur,
+                    TypeValeur: TypeValeur,
+                    TypeEvenement: TypeEvenement,
+                    NoEvenement: NoEvenement
+                }
+            )
+            .where('NoSerie', NoSerie)
+    } else {
+        //TODO: IMPLEMENTER SI EXISTE PAS DNS DB
+    }
 }
 
-async function putIBVA(idIBVA, donnes){
-    return await knex("IBVA")
-    .where("idIBVA", idIBVA)
-    .update(donnes)
+async function suppresionIBVA(IdBVA) {
+    return knex('IBVA')
+        .where('IdBVA', IdBVA)
+        .del()
 }
 
+
+async function getIBOBbyId(idBOB) {
+    return knex('IBOB')
+        .where('IdBOB', idBOB)
+        .select('*');
+}
+
+async function getIBOBbyNoSerie(noSerie) {
+    return knex('IBOB')
+        .where('NoSerie', noSerie)
+        .select('*');
+}
+
+async function ajoutIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEvenement) {
+    if (await getIBOBbyNoSerie(noSerie) === '') {
+        const reponse = await knex('IBOB')
+            .insert(
+                {
+                    NoSerie: noSerie,
+                    Marque: marque,
+                    Modele: modele,
+                    TypeObjet: typeObjet,
+                    TypeEvenement: typeEvenement,
+                    NoEvenement: noEvenement
+                }
+            )
+    } else {
+        console.log("NoSerie existe deja dans table IBOB") //TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
+    }
+}
+
+async function modificationIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEvenement) {
+    if (await getIBOBbyNoSerie(noSerie) !== '') {
+        const reponse = await knex('IBOB')
+            .update(
+                {
+                    NoSerie: noSerie,
+                    Marque: marque,
+                    Modele: modele,
+                    TypeObjet: typeObjet,
+                    TypeEvenement: typeEvenement,
+                    NoEvenement: noEvenement
+                }
+            )
+            .where('NoSerie', noSerie)
+    } else {
+        //TODO: IMPLEMENTER SI EXISTE PAS DNS DB
+    }
+}
+
+async function suppresionIBOB(idBOB) {
+    return knex('IBOB')
+        .where('IdBOB', idBOB)
+        .del()
+}
+
+
+async function getIBAFbyId(idIBAF) {
+    return knex('IBAF')
+        .where('IdIBAF', idIBAF)
+        .select('*');
+}
+
+async function getIBAFbyNoSerie(noSerie) {
+    return knex('IBAF')
+        .where('NoSerie', noSerie)
+        .select('*');
+}
+
+async function ajoutIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement) {
+    if (await getIBAFbyNoSerie(noSerie) === '') {
+        const reponse = await knex('IBAF')
+            .insert(
+                {
+                    NoSerie: noSerie,
+                    Marque: marque,
+                    Calibre: calibre,
+                    TypeArme: typeArme,
+                    TypeEvenement: typeEvenement,
+                    NoEvenement: noEvenement
+                }
+            )
+    } else {
+        console.log("NoSerie existe deja dans table IBAF") //TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
+    }
+}
+
+async function modificationIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement) {
+    console.log(noSerie)
+     knex('IBAF')
+        .update(
+            {
+                Marque: marque,
+                Calibre: calibre,
+                TypeArme: typeArme,
+                TypeEvenement: typeEvenement,
+                NoEvenement: noEvenement
+            }
+        )
+        .where('NoSerie', noSerie)
+}
+
+async function suppresionIBAF(idIBAF) {
+    return knex('IBAF')
+        .where('IdIBAF', idIBAF)
+        .del()
+}
 
 module.exports = {
     connexion,
     getIPPE,
     getFPS,
-    getIBOB,
-    getIBAF,
-    getIBVA,
-    putIBVA
+    getIBOBbyId,
+    ajoutIBOB,
+    modificationIBOB,
+    suppresionIBOB,
+    getIBAFbyId,
+    ajoutIBAF,
+    modificationIBAF,
+    suppresionIBAF,
+    getIBVAbyId,
+    getIBVAbyNoSerie,
+    ajoutIBVA,
+    modificationIBVA,
+    suppresionIBVA
 };

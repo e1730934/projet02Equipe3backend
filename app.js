@@ -55,9 +55,9 @@ app.get('/ippeInfo', async (req, res) => {
     }
 });
 
-app.get('/IBOB', async (req, res) => {
+app.get('/IBOB/:id', async (req, res) => {
     try {
-        let IBOB = await requeteKnex.getIBOB();
+        let IBOB = await requeteKnex.getIBOBbyId(req.params.id);
          res.status(200).json(IBOB);
     } catch (error) {
         res.status(500).json({
@@ -75,7 +75,7 @@ app.post('/IBOB', async (req, res) => {
         const TypeObjet = req.body.TypeObjet;
         const TypeEvenement = req.body.TypeEvenement;
         const NoEvenement = req.body.NoEvenement;
-        let IBOB = await requeteKnex.postIBOB(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement);
+        let IBOB = await requeteKnex.ajoutIBOB(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement);
          res.status(200).json(IBOB);
     } catch (error) {
         res.status(500).json({
@@ -93,7 +93,7 @@ app.put('/IBOB', async (req, res) => {
         const TypeObjet = req.body.TypeObjet;
         const TypeEvenement = req.body.TypeEvenement;
         const NoEvenement = req.body.NoEvenement;
-        let IBOB = await requeteKnex.putIBOB(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement);
+        let IBOB = await requeteKnex.modificationIBOB(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement);
          res.status(200).json(IBOB);
     } catch (error) {
         res.status(500).json({
@@ -103,15 +103,9 @@ app.put('/IBOB', async (req, res) => {
     }
 });
 
-app.delete('/IBOB', async (req, res) => {
+app.delete('/IBOB/:id', async (req, res) => {
     try {
-        const NoSerie = req.body.NoSerie;
-        const Marque = req.body.Marque;
-        const Modele = req.body.Modele;
-        const TypeObjet = req.body.TypeObjet;
-        const TypeEvenement = req.body.TypeEvenement;
-        const NoEvenement = req.body.NoEvenement;
-        let IBOB = await requeteKnex.deleteIBOB(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement);
+        let IBOB = await requeteKnex.suppresionIBOB(req.params.id);
          res.status(200).json(IBOB);
     } catch (error) {
         res.status(500).json({
@@ -121,9 +115,9 @@ app.delete('/IBOB', async (req, res) => {
     }
 });
 
-app.get('/IBAF', async (req, res) => {
+app.get('/IBAF/:id', async (req, res) => {
     try {
-        let IBAF = await requeteKnex.getIBAF();
+        let IBAF = await requeteKnex.getIBAFbyId(req.params.id);
          res.status(200).json(IBAF);
     } catch (error) {
         res.status(500).json({
@@ -141,7 +135,7 @@ app.post('/IBAF', async (req, res) => {
         const TypeArme = req.body.TypeArme;
         const TypeEvenement = req.body.TypeEvenement;
         const NoEvenement = req.body.NoEvenement;
-        let IBAF = await requeteKnex.postIBAF(NoSerie, Marque, Calibre, TypeArme, TypeEvenement, NoEvenement);
+        let IBAF = await requeteKnex.ajoutIBAF(NoSerie, Marque, Calibre, TypeArme, TypeEvenement, NoEvenement);
          res.status(200).json(IBAF);
     } catch (error) {
         res.status(500).json({
@@ -159,7 +153,7 @@ app.put('/IBAF', async (req, res) => {
         const TypeArme = req.body.TypeArme;
         const TypeEvenement = req.body.TypeEvenement;
         const NoEvenement = req.body.NoEvenement;
-        let IBAF = await requeteKnex.putIBAF(NoSerie, Marque, Calibre, TypeArme, TypeEvenement, NoEvenement);
+        let IBAF = await requeteKnex.modificationIBAF(NoSerie, Marque, Calibre, TypeArme, TypeEvenement, NoEvenement);
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -168,15 +162,9 @@ app.put('/IBAF', async (req, res) => {
     }
 });
 
-app.delete('/IBAF', async (req, res) => {
+app.delete('/IBAF/:id', async (req, res) => {
     try {
-        const NoSerie = req.body.NoSerie;
-        const Marque = req.body.Marque;
-        const Calibre = req.body.Calibre;
-        const TypeArme = req.body.TypeArme;
-        const TypeEvenement = req.body.TypeEvenement;
-        const NoEvenement = req.body.NoEvenement;
-        let IBAF = await requeteKnex.deleteIBAF(NoSerie, Marque, Calibre, TypeArme, TypeEvenement, NoEvenement);
+        let IBAF = await requeteKnex.suppresionIBAF(req.params.id);
          res.status(200).json(IBAF);
     } catch (error) {
         res.status(500).json({
@@ -186,9 +174,9 @@ app.delete('/IBAF', async (req, res) => {
     }
 });
 
-app.get('/IBVA', async (req, res) => {
+app.get('/IBVA/:id', async (req, res) => {
     try {
-        let IBVA = await requeteKnex.getIBVA();
+        let IBVA = await requeteKnex.getIBVAbyId(req.params.id);
          res.status(200).json(IBVA);
     } catch (error) {
         res.status(500).json({
@@ -205,7 +193,7 @@ app.post('/IBVA', async (req, res) => {
         const TypeValeur = req.body.TypeValeur;
         const TypeEvenement = req.body.TypeEvenement;
         const NoEvenement = req.body.NoEvenement;
-        let IBVA = await requeteKnex.postIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement);
+        let IBVA = await requeteKnex.ajoutIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement);
          res.status(200).json(IBVA);
     } catch (error) {
         res.status(500).json({
@@ -222,7 +210,7 @@ app.put('/IBVA', async (req, res) => {
         const TypeValeur = req.body.TypeValeur;
         const TypeEvenement = req.body.TypeEvenement;
         const NoEvenement = req.body.NoEvenement;
-        let IBVA = await requeteKnex.putIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement);
+        let IBVA = await requeteKnex.modificationIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement);
          res.status(200).json(IBVA);
     } catch (error) {
         res.status(500).json({
@@ -232,26 +220,9 @@ app.put('/IBVA', async (req, res) => {
     }
 });
 
-app.put('/IBVA/:id', async (req, res) => {
+app.delete('/IBVA/:id', async (req, res) => {
     try {
-        let IBVA = await requeteKnex.putIBVA(req.params.id, req.body);
-         res.status(200).json(IBVA);
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            erreur: error
-        });
-    }
-});
-
-app.delete('/IBVA', async (req, res) => {
-    try {
-        const Identifiant = req.body.Identifiant;
-        const Auteur = req.body.Auteur;
-        const TypeValeur = req.body.TypeValeur;
-        const TypeEvenement = req.body.TypeEvenement;
-        const NoEvenement = req.body.NoEvenement;
-        let IBVA = await requeteKnex.deleteIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement);
+        let IBVA = await requeteKnex.suppresionIBVA(req.params.id);
          res.status(200).json(IBVA);
     } catch (error) {
         res.status(500).json({
