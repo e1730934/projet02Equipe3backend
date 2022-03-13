@@ -83,7 +83,8 @@ app.post('/creerPersonne', async (req, res) => {
     const Prenom1 = req.body.Prenom1;
     const Prenom2 = req.body.Prenom2;
     const Masculin = req.body.Masculin;
-    const DateNaissance = new Date(req.query.DateNaissance);
+    const DateNaissance = req.query.DateNaissance;
+    console.log(DateNaissance)
 
     if (!TypePersonne, !NomFamille, !Prenom1, !Prenom2, !Masculin, !DateNaissance) {
         await res.json({success: false, message: 'ce champs ne peut etre vide'});
@@ -97,7 +98,14 @@ app.post('/creerPersonne', async (req, res) => {
         res.status(500).json(error.message);
     }
     
-    
+    /*{
+        "TypePersonne": "Test",
+        "NomFamille":"Test",
+        "Prenom1":"test",
+        "Prenom2":"test",
+        "Masculin":1,
+        "DateNaissance":"114445"
+    }   */
    
 });
 

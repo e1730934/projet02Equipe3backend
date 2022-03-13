@@ -265,7 +265,7 @@ function postPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaiss
                 {'Prenom1':Prenom1}, 
                 {'Prenom1':Prenom2}, 
                 {'Masculin':Masculin}, 
-                {'DateNaissance':new Date(DateNaissance)}]) 
+                {'DateNaissance':DateNaissance}]) 
         
 
 }
@@ -317,6 +317,13 @@ async function putPersonne(IdPersonne,TypePersonne,NomFamille,Prenom1,Prenom2,Ma
             )
 }
 
+/*{
+    "TypePersonne": "Test",
+    "NomFamille":"Test",
+    "Prenom1":"test",
+    "Prenom2":"test",
+    "Masculin":1
+}*/
 
 
 module.exports = {
