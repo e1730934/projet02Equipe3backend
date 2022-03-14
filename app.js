@@ -84,17 +84,20 @@ app.post('/creerPersonne', async (req, res) => {
     const Prenom2 = req.body.Prenom2;
     const Masculin = req.body.Masculin;
     const DateNaissance = req.body.DateNaissance;
-    console.log(DateNaissance)
+
 
     if (!TypePersonne, !NomFamille, !Prenom1, !Prenom2, !Masculin, !DateNaissance) {
-        await res.json({success: false, message: 'ce champs ne peut etre vide'});
+        console.log({success: false, message: 'ce champs ne peut etre vide'});
     }
 
     try{
         
         await request.postPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance);
-    
+        res.status(200).json("Personne ajoutée :)");
+
      } catch(error){
+        res.status(400).json(error.message);
+        res.status(401).json(error.message);
         res.status(500).json(error.message);
     }
     
@@ -123,7 +126,7 @@ app.put('/updatePersonne', async(req,res)=>{
     try{
         
         await request.putPersonne(IdPersonne,TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance);
-        res.status(200).json("Personne modifié :)");
+        res.status(200).json("Personne modifiée :)");
         
     
      } catch(error){
