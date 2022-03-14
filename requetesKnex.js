@@ -233,9 +233,9 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     const reponseIPPE = await knex('Personnes')
         .where('NomFamille', nomFamille)
         .andWhere('Prenom1', prenom1)
-        // .andWhere('Prenom2', prenom2)
-        // .andWhere('Masculin', masculin)
-        // .andWhere('DateNaissance', dateNaissance)
+        .andWhere('Prenom2', prenom2)
+        .andWhere('Masculin', masculin)
+        .andWhere('DateNaissance', dateNaissance)
         .leftJoin('PersonnesIPPE', 'Personnes.IdPersonne', 'PersonnesIPPE.IdPersonne')
         .leftJoin('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.IdIPPE')
         .leftJoin('Conditions', 'Conditions.IdIPPE', 'IPPE.IdIPPE')
@@ -263,7 +263,7 @@ function postPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaiss
         .insert([{'TypePersonne':TypePersonne}, 
                 {'NomFamille': NomFamille}, 
                 {'Prenom1':Prenom1}, 
-                {'Prenom1':Prenom2}, 
+                {'Prenom2':Prenom2}, 
                 {'Masculin':Masculin}, 
                 {'DateNaissance':DateNaissance}]) 
         
@@ -306,15 +306,16 @@ async function getPersonne(IdPersonne) {
 }
 
 //Permet de modifer une personne
-async function putPersonne(IdPersonne,TypePersonne,NomFamille,Prenom1,Prenom2,Masculin){
+async function putPersonne(IdPersonne,TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance){
     await knex('Personnes')
-    .where('Personnes.IdPersonne', IdPersonne)
-    .update({'TypePersonne':TypePersonne}, 
-            {'NomFamille': NomFamille}, 
-            {'Prenom1':Prenom1}, 
-            {'Prenom1':Prenom2}, 
-            {'Masculin':Masculin}
-            )
+    .where('IdPersonne', IdPersonne)
+    .update({'TypePersonne':TypePersonne, 
+            'NomFamille': NomFamille, 
+            'Prenom1':Prenom1, 
+            'Prenom2':Prenom2, 
+            'Masculin':Masculin,
+            'DateNaissance':DateNaissance
+})
 }
 
 /*{

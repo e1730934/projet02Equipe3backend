@@ -83,7 +83,7 @@ app.post('/creerPersonne', async (req, res) => {
     const Prenom1 = req.body.Prenom1;
     const Prenom2 = req.body.Prenom2;
     const Masculin = req.body.Masculin;
-    const DateNaissance = req.query.DateNaissance;
+    const DateNaissance = req.body.DateNaissance;
     console.log(DateNaissance)
 
     if (!TypePersonne, !NomFamille, !Prenom1, !Prenom2, !Masculin, !DateNaissance) {
@@ -109,6 +109,8 @@ app.post('/creerPersonne', async (req, res) => {
    
 });
 
+
+//updatePersonne FANCTIONNE
 app.put('/updatePersonne', async(req,res)=>{
     const {IdPersonne} = req.query;
     const TypePersonne = req.body.TypePersonne;
@@ -116,19 +118,29 @@ app.put('/updatePersonne', async(req,res)=>{
     const Prenom1 = req.body.Prenom1;
     const Prenom2 = req.body.Prenom2;
     const Masculin = req.body.Masculin;
-    //const DateNaissance = new Date(req.query.DateNaissance);
-    console.log(IdPersonne)
-    console.log(TypePersonne)
-    console.log(Prenom2)
+    const DateNaissance = req.body.DateNaissance ;
 
     try{
         
-        await request.putPersonne(IdPersonne,TypePersonne,NomFamille,Prenom1,Prenom2,Masculin);
+        await request.putPersonne(IdPersonne,TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance);
+        res.status(200).json("Personne modifié :)");
         
     
      } catch(error){
+        
+        res.status(400).json(error.message);
+        res.status(401).json(error.message);
         res.status(500).json(error.message);
     }
+    /*{
+        "TypePersonne": "Enseignant",
+        "NomFamille":"Test1",
+        "Prenom1":"test1",
+        "Prenom2":"test1",
+        "Masculin":1,
+        "DateNaissance": "2014-01-01"
+        
+    }*/
 })
 
 
