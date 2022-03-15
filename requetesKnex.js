@@ -77,7 +77,7 @@ function formatterIPPE(dataIPPE, dataFps) {
                         motif: data.Motif,
                         natureCrime: data.NatureCrime,
                         noEvenement: data.NoEvenement,
-                        DossierEnquete: data.DossierEnquete,
+                        dossierEnquete: data.DossierEnquete,
 
                     },
                 );
@@ -142,7 +142,7 @@ function formatterIPPE(dataIPPE, dataFps) {
                         titre: 'Disparu',
                         noEvenement: data.NoEvenement,
                         nature: data.Nature,
-                        VuDerniereFois: data.VuDerniereFois,
+                        vuDerniereFois: data.VuDerniereFois,
                         descrPhysique: {
                             race: data.Race,
                             taille: data.Taille,
@@ -228,9 +228,9 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     const reponseIPPE = await knex('Personnes')
         .where('NomFamille', nomFamille)
         .andWhere('Prenom1', prenom1)
-        // .andWhere('Prenom2', prenom2)
-        // .andWhere('Masculin', masculin)
-        // .andWhere('DateNaissance', dateNaissance)
+        .andWhere('Prenom2', prenom2)
+        .andWhere('Masculin', masculin)
+        .andWhere('DateNaissance', dateNaissance)
         .leftJoin('PersonnesIPPE', 'Personnes.IdPersonne', 'PersonnesIPPE.IdPersonne')
         .leftJoin('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.IdIPPE')
         .leftJoin('Conditions', 'Conditions.IdIPPE', 'IPPE.IdIPPE')
@@ -252,74 +252,27 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
-async function getIBVAbyId(idIBVA) {
-    return knex('IBOB')
-        .where('IdIBVA', idIBVA)
-        .select('*');
-}
-
-async function getIBVAbyNoSerie(NoSerie) {
-    return knex('IBOB')
-        .where('NoSerie', NoSerie)
-        .select('*');
-}
-
-async function ajoutIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement) {
-    if (await getIBOBbyNoSerie(NoSerie) === '') {
-        const reponse = await knex('IBOB')
-            .insert(
-                {
-                    Identifiant,
-                    Auteur,
-                    TypeValeur,
-                    TypeEvenement,
-                    NoEvenement,
-                },
-            );
-    } else {
-        console.log('NoSerie existe deja dans table IBOB'); // TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
-    }
-}
-
-async function modificationIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement) {
-    if (await getIBOBbyNoSerie(noSerie) !== '') {
-        const reponse = await knex('IBOB')
-            .update(
-                {
-                    Identifiant,
-                    Auteur,
-                    TypeValeur,
-                    TypeEvenement,
-                    NoEvenement,
-                },
-            )
-            .where('NoSerie', NoSerie);
-    } else {
-        // TODO: IMPLEMENTER SI EXISTE PAS DNS DB
-    }
-}
-
-async function suppresionIBVA(IdBVA) {
-    return knex('IBVA')
-        .where('IdBVA', IdBVA)
-        .del();
-}
-
-async function getIBOBbyId(idBOB) {
-    return knex('IBOB')
-        .where('IdBOB', idBOB)
-        .select('*');
-}
-
 async function getIBOBbyNoSerie(noSerie) {
     return knex('IBOB')
         .where('NoSerie', noSerie)
-        .select('*');
+        .select(
+            'NoSerie',
+            'Marque',
+            'Modele',
+            'TypeObjet',
+            'TypeEvenement',
+            'NoEvenement',
+        );
 }
-
+async function getCountIBOB(noSerie) {
+    return knex('IBOB')
+        .where('NoSerie', noSerie)
+        .count('* as nbrLigne');
+}
 async function ajoutIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEvenement) {
-    if (await getIBOBbyNoSerie(noSerie) === '') {
-        const reponse = await knex('IBOB')
+    const count = await getCountIBOB(noSerie);
+    if (count[0].nbrLigne === 0) {
+        await knex('IBOB')
             .insert(
                 {
                     NoSerie: noSerie,
@@ -336,11 +289,11 @@ async function ajoutIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEv
 }
 
 async function modificationIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEvenement) {
-    if (await getIBOBbyNoSerie(noSerie) !== '') {
-        const reponse = await knex('IBOB')
+    const count = await getCountIBOB(noSerie);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBOB')
             .update(
                 {
-                    NoSerie: noSerie,
                     Marque: marque,
                     Modele: modele,
                     TypeObjet: typeObjet,
@@ -350,13 +303,14 @@ async function modificationIBOB(noSerie, marque, modele, typeObjet, typeEvenemen
             )
             .where('NoSerie', noSerie);
     } else {
+        console.log('N\'existe pas dans DB');
         // TODO: IMPLEMENTER SI EXISTE PAS DNS DB
     }
 }
 
-async function suppresionIBOB(idBOB) {
+async function suppresionIBOBByNoSerie(noSerie) {
     return knex('IBOB')
-        .where('IdBOB', idBOB)
+        .where('NoSerie', noSerie)
         .del();
 }
 
@@ -366,15 +320,28 @@ async function getIBAFbyId(idIBAF) {
         .select('*');
 }
 
-async function getIBAFbyNoSerie(noSerie) {
+async function getIBAFByNoSerie(noSerie) {
     return knex('IBAF')
         .where('NoSerie', noSerie)
-        .select('*');
+        .select(
+            'NoSerie',
+            'Marque',
+            'Calibre',
+            'TypeArme',
+            'TypeEvenement',
+            'NoEvenement',
+        );
+}
+async function getCountIBAF(noSerie) {
+    return knex('IBAF')
+        .where('NoSerie', noSerie)
+        .count('* as nbrLigne');
 }
 
 async function ajoutIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement) {
-    if (await getIBAFbyNoSerie(noSerie) === '') {
-        const reponse = await knex('IBAF')
+    const count = await getCountIBAF(noSerie);
+    if (count[0].nbrLigne === 0) {
+        await knex('IBAF')
             .insert(
                 {
                     NoSerie: noSerie,
@@ -391,23 +358,27 @@ async function ajoutIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEv
 }
 
 async function modificationIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement) {
-    console.log(noSerie);
-    knex('IBAF')
-        .update(
-            {
-                Marque: marque,
-                Calibre: calibre,
-                TypeArme: typeArme,
-                TypeEvenement: typeEvenement,
-                NoEvenement: noEvenement,
-            },
-        )
-        .where('NoSerie', noSerie);
+    const count = await getCountIBAF(noSerie);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBAF')
+            .update(
+                {
+                    Marque: marque,
+                    Calibre: calibre,
+                    TypeArme: typeArme,
+                    TypeEvenement: typeEvenement,
+                    NoEvenement: noEvenement,
+                },
+            )
+            .where('NoSerie', noSerie);
+    } else {
+        console.log('N\'existe pas dans DB'); // TODO: IMPLEMENTER SI EXISTE PAS DNS DB
+    }
 }
 
-async function suppresionIBAF(idIBAF) {
+async function suppresionIBAFByNoSerie(noSerie) {
     return knex('IBAF')
-        .where('IdIBAF', idIBAF)
+        .where('NoSerie', noSerie)
         .del();
 }
 
@@ -415,17 +386,13 @@ module.exports = {
     connexion,
     getIPPE,
     getFPS,
-    getIBOBbyId,
+    getIBOBbyNoSerie,
     ajoutIBOB,
     modificationIBOB,
-    suppresionIBOB,
+    suppresionIBOBByNoSerie,
     getIBAFbyId,
+    getIBAFByNoSerie,
     ajoutIBAF,
     modificationIBAF,
-    suppresionIBAF,
-    getIBVAbyId,
-    getIBVAbyNoSerie,
-    ajoutIBVA,
-    modificationIBVA,
-    suppresionIBVA,
+    suppresionIBAFByNoSerie,
 };

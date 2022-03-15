@@ -278,6 +278,7 @@ SET IDENTITY_INSERT [dbo].[Conditions] ON
 INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle])VALUES (14, 18, N'Aucune consommation d''alcool ou de drogue non prescrite
 ')
 SET IDENTITY_INSERT [dbo].[Conditions] OFF
+SET IDENTITY_INSERT [dbo].[Conditions] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Conditions] ON
 INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle])VALUES (15, 18, N'Doit garder la paix et avoir bonne conduite')
@@ -286,6 +287,7 @@ GO
 SET IDENTITY_INSERT [dbo].[Conditions] ON
 INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle])VALUES (16, 26, N'Avoir comme adresse le
 ')
+SET IDENTITY_INSERT [dbo].[Conditions] OFF
 SET IDENTITY_INSERT [dbo].[Conditions] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Conditions] ON
