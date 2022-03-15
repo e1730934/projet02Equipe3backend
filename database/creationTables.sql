@@ -8,7 +8,9 @@ ALTER TABLE [dbo].[PersonnesIPPE] DROP CONSTRAINT [FK_PersonnesIPPE_IPPE]
 GO
 ALTER TABLE [dbo].[FPS] DROP CONSTRAINT [FK_FPS_Personnes]
 GO
-ALTER TABLE [dbo].[Conditions] DROP CONSTRAINT [FK_Conditions_Conditions]
+ALTER TABLE [dbo].[Conditions] DROP CONSTRAINT [FK_Conditions_Personnes]
+GO
+ALTER TABLE [dbo].[Conditions] DROP CONSTRAINT [FK_Conditions_IPPE]
 GO
 /****** Object:  Index [UQ__Utilisat__DD380E4FCDE609CB]    Script Date: 2022-03-08 14:14:52 ******/
 ALTER TABLE [dbo].[Utilisateurs] DROP CONSTRAINT [UQ__Utilisat__DD380E4FCDE609CB]
@@ -57,7 +59,12 @@ GO
 CREATE TABLE [dbo].[Conditions](
 	[IdCondition] [int] IDENTITY(1,1) NOT NULL,
 	[IdIPPE] [int] NOT NULL,
+	[IdPersonne] [int] NULL,
 	[Libelle] [nvarchar](150) NOT NULL,
+	[HeureDebut] [time](7) NULL,
+	[HeureFin] [time](7) NULL,
+	[Victime] [nvarchar](100) NULL,
+	[Frequentation] [nvarchar](100) NULL,
  CONSTRAINT [PK_Conditions] PRIMARY KEY CLUSTERED 
 (
 	[IdCondition] ASC
@@ -247,38 +254,40 @@ CREATE TABLE [dbo].[Utilisateurs](
 GO
 SET IDENTITY_INSERT [dbo].[Conditions] ON 
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (2, 12, N'Avoir comme adresse le
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (2, 12, 5, N'Avoir comme adresse le
+ ', NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (3, 12, NULL, N'Ne pas entrer en contact avec ', NULL, NULL, N'Julie Lapierre', NULL)
+GO
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (4, 12, NULL, N'Doit garder la paix et avoir bonne conduite', NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (6, 19, 7, N'Avoir comme adresse le ', NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (7, 19, NULL, N'Ne pas fréquenter ', NULL, NULL, NULL, N'des gens ayant des dossiers criminels
 ')
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (3, 12, N'Ne pas entrer en contact avec Julie Lapierre')
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (8, 19, NULL, N'Aucune consommation d''alcool ou de drogue non prescrite
+', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (4, 12, N'Doit garder la paix et avoir bonne conduite')
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (10, 19, NULL, N'Doit garder la paix et avoir bonne conduite', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (6, 19, N'Avoir comme adresse le ')
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (12, 18, 6, N'Avoir comme adresse le', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (7, 19, N'Ne pas fréquenter des gens ayant des dossiers criminels
-')
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (13, 18, NULL, N'Ne pas entrer en contact avec ', NULL, NULL, N'Alain Coutu', NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (8, 19, N'Aucune consommation d''alcool ou de drogue non prescrite
-')
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (14, 18, NULL, N'Aucune consommation d''alcool ou de drogue non prescrite
+', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (10, 19, N'Doit garder la paix et avoir bonne conduite')
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (15, 18, NULL, N'Doit garder la paix et avoir bonne conduite', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (12, 18, N'Avoir comme adresse le')
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (16, 26, 10, N'Avoir comme adresse le
+', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (13, 18, N'Ne pas entrer en contact avec Alain Coutu')
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (17, 26, NULL, N'Ne pas entrer en contact avec ', NULL, NULL, N'Julie Lapierre', NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (14, 18, N'Aucune consommation d''alcool ou de drogue non prescrite
-')
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (18, 26, NULL, N'Doit garder la paix et avoir bonne conduite', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (15, 18, N'Doit garder la paix et avoir bonne conduite')
-GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (16, 26, N'Avoir comme adresse le
-')
-GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (17, 26, N'Ne pas entrer en contact avec Julie Lapierre')
-GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [Libelle]) VALUES (18, 26, N'Doit garder la paix et avoir bonne conduite')
+SET IDENTITY_INSERT [dbo].[Conditions] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Conditions] OFF
 GO
@@ -394,10 +403,15 @@ ALTER TABLE [dbo].[Utilisateurs] ADD  CONSTRAINT [UQ__Utilisat__DD380E4FCDE609CB
 	[Identifiant] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Conditions]  WITH CHECK ADD  CONSTRAINT [FK_Conditions_Conditions] FOREIGN KEY([IdIPPE])
+ALTER TABLE [dbo].[Conditions]  WITH CHECK ADD  CONSTRAINT [FK_Conditions_IPPE] FOREIGN KEY([IdIPPE])
 REFERENCES [dbo].[IPPE] ([IdIPPE])
 GO
-ALTER TABLE [dbo].[Conditions] CHECK CONSTRAINT [FK_Conditions_Conditions]
+ALTER TABLE [dbo].[Conditions] CHECK CONSTRAINT [FK_Conditions_IPPE]
+GO
+ALTER TABLE [dbo].[Conditions]  WITH CHECK ADD  CONSTRAINT [FK_Conditions_Personnes] FOREIGN KEY([IdPersonne])
+REFERENCES [dbo].[Personnes] ([IdPersonne])
+GO
+ALTER TABLE [dbo].[Conditions] CHECK CONSTRAINT [FK_Conditions_Personnes]
 GO
 ALTER TABLE [dbo].[FPS]  WITH CHECK ADD  CONSTRAINT [FK_FPS_Personnes] FOREIGN KEY([IdPersonne])
 REFERENCES [dbo].[Personnes] ([IdPersonne])
