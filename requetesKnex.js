@@ -6,10 +6,10 @@ const knex = require('knex')({
         password: 'bue522',
         database: '4D1Equipe03',
         options: {
-            enableArithAbort: false
+            enableArithAbort: false,
         },
     },
-    pool: {min: 0, max: 7}
+    pool: { min: 0, max: 7 },
 });
 
 // Requete knex qui retourne les informations de connexion
@@ -187,14 +187,12 @@ function formatterIPPE(dataIPPE, dataFps) {
     });
 
     // gere les doublons en les supprimants
-    const result = dataToSend.reduce((unique, o) => {
+    return dataToSend.reduce((unique, o) => {
         if (!unique.some((obj) => obj.noEvenement === o.noEvenement && obj.value === o.value)) {
             unique.push(o);
         }
         return unique;
     }, []);
-
-    return result;
 }
 
 // Fonction qui prend en charge l'affichage des FPS
@@ -254,13 +252,10 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
-
-
-
 async function getIBVAbyId(idIBVA) {
     return knex('IBOB')
-    .where('IdIBVA', idIBVA)
-    .select('*');
+        .where('IdIBVA', idIBVA)
+        .select('*');
 }
 
 async function getIBVAbyNoSerie(NoSerie) {
@@ -269,20 +264,20 @@ async function getIBVAbyNoSerie(NoSerie) {
         .select('*');
 }
 
-async function ajoutIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement){
+async function ajoutIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement) {
     if (await getIBOBbyNoSerie(NoSerie) === '') {
         const reponse = await knex('IBOB')
             .insert(
                 {
-                    Identifiant: Identifiant,
-                    Auteur: Auteur,
-                    TypeValeur: TypeValeur,
-                    TypeEvenement: TypeEvenement,
-                    NoEvenement: NoEvenement
-                }
-            )
+                    Identifiant,
+                    Auteur,
+                    TypeValeur,
+                    TypeEvenement,
+                    NoEvenement,
+                },
+            );
     } else {
-        console.log("NoSerie existe deja dans table IBOB") //TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
+        console.log('NoSerie existe deja dans table IBOB'); // TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
     }
 }
 
@@ -291,25 +286,24 @@ async function modificationIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, 
         const reponse = await knex('IBOB')
             .update(
                 {
-                    Identifiant: Identifiant,
-                    Auteur: Auteur,
-                    TypeValeur: TypeValeur,
-                    TypeEvenement: TypeEvenement,
-                    NoEvenement: NoEvenement
-                }
+                    Identifiant,
+                    Auteur,
+                    TypeValeur,
+                    TypeEvenement,
+                    NoEvenement,
+                },
             )
-            .where('NoSerie', NoSerie)
+            .where('NoSerie', NoSerie);
     } else {
-        //TODO: IMPLEMENTER SI EXISTE PAS DNS DB
+        // TODO: IMPLEMENTER SI EXISTE PAS DNS DB
     }
 }
 
 async function suppresionIBVA(IdBVA) {
     return knex('IBVA')
         .where('IdBVA', IdBVA)
-        .del()
+        .del();
 }
-
 
 async function getIBOBbyId(idBOB) {
     return knex('IBOB')
@@ -333,11 +327,11 @@ async function ajoutIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEv
                     Modele: modele,
                     TypeObjet: typeObjet,
                     TypeEvenement: typeEvenement,
-                    NoEvenement: noEvenement
-                }
-            )
+                    NoEvenement: noEvenement,
+                },
+            );
     } else {
-        console.log("NoSerie existe deja dans table IBOB") //TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
+        console.log('NoSerie existe deja dans table IBOB'); // TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
     }
 }
 
@@ -351,21 +345,20 @@ async function modificationIBOB(noSerie, marque, modele, typeObjet, typeEvenemen
                     Modele: modele,
                     TypeObjet: typeObjet,
                     TypeEvenement: typeEvenement,
-                    NoEvenement: noEvenement
-                }
+                    NoEvenement: noEvenement,
+                },
             )
-            .where('NoSerie', noSerie)
+            .where('NoSerie', noSerie);
     } else {
-        //TODO: IMPLEMENTER SI EXISTE PAS DNS DB
+        // TODO: IMPLEMENTER SI EXISTE PAS DNS DB
     }
 }
 
 async function suppresionIBOB(idBOB) {
     return knex('IBOB')
         .where('IdBOB', idBOB)
-        .del()
+        .del();
 }
-
 
 async function getIBAFbyId(idIBAF) {
     return knex('IBAF')
@@ -389,33 +382,33 @@ async function ajoutIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEv
                     Calibre: calibre,
                     TypeArme: typeArme,
                     TypeEvenement: typeEvenement,
-                    NoEvenement: noEvenement
-                }
-            )
+                    NoEvenement: noEvenement,
+                },
+            );
     } else {
-        console.log("NoSerie existe deja dans table IBAF") //TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
+        console.log('NoSerie existe deja dans table IBAF'); // TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
     }
 }
 
 async function modificationIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement) {
-    console.log(noSerie)
-     knex('IBAF')
+    console.log(noSerie);
+    knex('IBAF')
         .update(
             {
                 Marque: marque,
                 Calibre: calibre,
                 TypeArme: typeArme,
                 TypeEvenement: typeEvenement,
-                NoEvenement: noEvenement
-            }
+                NoEvenement: noEvenement,
+            },
         )
-        .where('NoSerie', noSerie)
+        .where('NoSerie', noSerie);
 }
 
 async function suppresionIBAF(idIBAF) {
     return knex('IBAF')
         .where('IdIBAF', idIBAF)
-        .del()
+        .del();
 }
 
 module.exports = {
@@ -434,5 +427,5 @@ module.exports = {
     getIBVAbyNoSerie,
     ajoutIBVA,
     modificationIBVA,
-    suppresionIBVA
+    suppresionIBVA,
 };
