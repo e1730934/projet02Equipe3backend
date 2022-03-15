@@ -55,12 +55,6 @@ app.get('/ippeInfo', async (req, res) => {
     }
 });
 
-app.get('/test', async (req,res)=>{ //TODO: DELETE CETTE ROUTE
-    await request.modificationIBAF('1234','2','3','4','5','6')
-    let x= await request.getIBAFbyId(1)
-    console.log(x)
-})
-
 app.listen(PORT, () => {
     console.log(`Mon application roule sur http://localhost:${PORT}`);
 });
