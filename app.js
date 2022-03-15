@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const request = require('./requestKnex');
+const reqKnex = require('./requestKnex');
 
 const PORT = process.env.PORT || 3000;
 
@@ -54,12 +55,6 @@ app.get('/ippeInfo', async (req, res) => {
         res.send(resultat);
     }
 });
-
-app.get('/test', async (req,res)=>{ //TODO: DELETE CETTE ROUTE
-    await request.modificationIBAF('1234','2','3','4','5','6')
-    let x= await request.getIBAFbyId(1)
-    console.log(x)
-})
 
 app.listen(PORT, () => {
     console.log(`Mon application roule sur http://localhost:${PORT}`);

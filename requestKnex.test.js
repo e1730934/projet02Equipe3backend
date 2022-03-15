@@ -1,37 +1,93 @@
-const reqKnex = require('./requestKnex.js');
+/* eslint-disable no-tabs */
+const reqKnex = require('./requestKnex');
 
-test('RequêteKnex FPS', async () => {
-	// Arrange les resultat qui sortirons avant d'etre trier
-	const resultat = [{
-		Id: 2,
-		IdPersonne: 43,
-		NoFPS: '438761F',
-		DateMesure: new Date('2020-02-25'),
-		CD: 'W08,W03,W08,W08,W07,W07,W01,W06,W03,U08',
-		Antecedents: 'Tentative de meurtre',
-		Violent: true,
-		Echappe: null,
-		Suicidaire: null,
-		Desequilibre: null,
-		Desorganise: null,
-		Contagieux: null,
-		Race: null,
-		Taille: null,
-		Poids: null,
-		Yeux: null,
-		Cheveux: null,
-		Marques: null,
-		Toxicomanie: null,
-		Depressif: null
-	}];
-	const fps = await reqKnex.getFPS(resultat[0].IdPersonne);
-	// Assert
-	expect(fps).toEqual(resultat);
-    
+test('suppresionIBOBByNoSerie dans database', async () => {
+    await reqKnex.ajoutIBOB('Test', 'Test', 'Test', 'Test', 'Test', '123456789123456');
+    await reqKnex.suppresionIBOBByNoSerie('Test');
+    const expectedResult = [];
+    const result = await reqKnex.getIBOBbyNoSerie('Test');
+    expect(expectedResult).toEqual(result);
 });
+
+test('ajoutIBOB dans database', async () => {
+    await reqKnex.ajoutIBOB('Test', 'Test', 'Test', 'Test', 'Test', '123456789123456');
+    const expectedResult = [{
+        NoSerie: 'Test',
+        Marque: 'Test',
+        Modele: 'Test',
+        TypeObjet: 'Test',
+        TypeEvenement: 'Test',
+        NoEvenement: '123456789123456',
+
+    }];
+    const result = await reqKnex.getIBOBbyNoSerie('Test');
+    await reqKnex.suppresionIBOBByNoSerie('Test');
+    expect(expectedResult).toEqual(result);
+});
+
+test('modificationIBOB dans database', async () => {
+    await reqKnex.ajoutIBOB('Test', 'Tes', 'Tes', 'Tes', 'Tes', '99999999999999');
+    await reqKnex.modificationIBOB('Test', 'Test', 'Test', 'Test', 'Test', '123456789123456');
+    const expectedResult = [{
+        NoSerie: 'Test',
+        Marque: 'Test',
+        Modele: 'Test',
+        TypeObjet: 'Test',
+        TypeEvenement: 'Test',
+        NoEvenement: '123456789123456',
+
+    }];
+    const result = await reqKnex.getIBOBbyNoSerie('Test');
+    await reqKnex.suppresionIBOBByNoSerie('Test');
+    expect(expectedResult).toEqual(result);
+});
+
+test('suppresionIBAFByNoSerie dans database', async () => {
+    await reqKnex.ajoutIBAF('Test', 'Test', 'Test', 'Test', 'Test', '123456789123456');
+    await reqKnex.suppresionIBAFByNoSerie('Test');
+    const expectedResult = [];
+    const result = await reqKnex.getIBAFByNoSerie('Test');
+    expect(expectedResult).toEqual(result);
+});
+
+test('ajoutIBAF dans database', async () => {
+    await reqKnex.ajoutIBAF('Test', 'Test', '9999999999', 'Test', 'Test', '123456789123456');
+    const expectedResult = [{
+        NoSerie: 'Test',
+        Marque: 'Test',
+        Calibre: '9999999999',
+        TypeArme: 'Test',
+        TypeEvenement: 'Test',
+        NoEvenement: '123456789123456',
+    }];
+    const result = await reqKnex.getIBAFByNoSerie('Test');
+    await reqKnex.suppresionIBAFByNoSerie('Test');
+    expect(expectedResult).toEqual(result);
+});
+
+test('modificationIBAF dans database', async () => {
+    await reqKnex.ajoutIBAF('Test', 'Tes', '9999999998', 'Tes', 'Tes', '99999999999999');
+    await reqKnex.modificationIBAF('Test', 'Test', '9999999999', 'Test', 'Test', '123456789123456');
+    const expectedResult = [{
+        NoSerie: 'Test',
+        Marque: 'Test',
+        Calibre: '9999999999',
+        TypeArme: 'Test',
+        TypeEvenement: 'Test',
+        NoEvenement: '123456789123456',
+    }];
+    const result = await reqKnex.getIBAFByNoSerie('Test');
+    await reqKnex.suppresionIBAFByNoSerie('Test');
+    expect(expectedResult).toEqual(result);
+});
+
+// eslint-disable-next-line jest/no-commented-out-tests
 // test('RequêteKnex FPS', async () => {
+// eslint-disable-next-line no-tabs
 // 	// Arrange les resultat qui sortirons avant d'etre trier
+// eslint-disable-next-line no-tabs
 // 	const resultat = [{
+// eslint-disable-next-line no-tabs
 // 		Id: 2,
 // 		IdPersonne: 43,
 // 		NoFPS: '438761F',
@@ -59,7 +115,7 @@ test('RequêteKnex FPS', async () => {
 
 // });
 
-	const conn = await reqKnex.connexion(loginInfo);
+// const conn = await reqKnex.connexion(loginInfo);
 
 // 	const conn = await reqKnex.connectionCheck(loginInfo);
 
@@ -68,7 +124,7 @@ test('RequêteKnex FPS', async () => {
 
 // });
 
-	const connErrorPwd = await reqKnex.connexion(loginErrorPwd);
+// const connErrorPwd = await reqKnex.connexion(loginErrorPwd);
 
 // 	let resultatError = [];
 
@@ -77,7 +133,7 @@ test('RequêteKnex FPS', async () => {
 // 	// Assert
 // 	expect(connErrorPwd).toEqual(resultatError);
 
-	const connEmpty = await reqKnex.connexion(loginEmpty); 
+// const connEmpty = await reqKnex.connexion(loginEmpty);
 
 // test('RequêteKnex, verification connection sans User et Password valide', async () => {
 // 	// Arrange les infos fournis par le client
@@ -90,7 +146,7 @@ test('RequêteKnex FPS', async () => {
 
 // 	const connEmpty = await reqKnex.connectionCheck(loginEmpty);
 
-	const connErrorUser = await reqKnex.connexion(loginErrorUser);
+// const connErrorUser = await reqKnex.connexion(loginErrorUser);
 
 // });
 
