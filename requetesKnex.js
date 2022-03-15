@@ -2,14 +2,14 @@ const knex = require('knex')({
     client: 'mssql',
     connection: {
         host: 'sv55.cmaisonneuve.qc.ca',
-        user: '4D1EQUIPE03',
-        password: 'bue522',
-        database: '4D1Equipe03',
+        user: 'AppCRTP',
+        password: 'fgjj30g5;$e5',
+        database: 'CRTP',
         options: {
-            enableArithAbort: false
+            enableArithAbort: false,
         },
     },
-    pool: {min: 0, max: 7}
+    pool: { min: 0, max: 7 },
 });
 
 // Requete knex qui retourne les informations de connexion
@@ -77,7 +77,7 @@ function formatterIPPE(dataIPPE, dataFps) {
                         motif: data.Motif,
                         natureCrime: data.NatureCrime,
                         noEvenement: data.NoEvenement,
-                        DossierEnquete: data.DossierEnquete,
+                        dossierEnquete: data.DossierEnquete,
 
                     },
                 );
@@ -142,7 +142,7 @@ function formatterIPPE(dataIPPE, dataFps) {
                         titre: 'Disparu',
                         noEvenement: data.NoEvenement,
                         nature: data.Nature,
-                        VuDerniereFois: data.VuDerniereFois,
+                        vuDerniereFois: data.VuDerniereFois,
                         descrPhysique: {
                             race: data.Race,
                             taille: data.Taille,
@@ -230,9 +230,9 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     const reponseIPPE = await knex('Personnes')
         .where('NomFamille', nomFamille)
         .andWhere('Prenom1', prenom1)
-        // .andWhere('Prenom2', prenom2)
-        // .andWhere('Masculin', masculin)
-        // .andWhere('DateNaissance', dateNaissance)
+        .andWhere('Prenom2', prenom2)
+        .andWhere('Masculin', masculin)
+        .andWhere('DateNaissance', dateNaissance)
         .leftJoin('PersonnesIPPE', 'Personnes.IdPersonne', 'PersonnesIPPE.IdPersonne')
         .leftJoin('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.IdIPPE')
         .leftJoin('Conditions', 'Conditions.IdIPPE', 'IPPE.IdIPPE')
