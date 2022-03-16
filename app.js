@@ -55,10 +55,14 @@ app.get('/ippeInfo', async (req, res) => {
     }
 });
 
-app.get('/IBOB/:id', async (req, res) => {
+app.get('/IBOB/:NoSerie', async (req, res) => {
     try {
-        const IBOB = await requeteKnex.getIBOBbyId(req.params.id);
-        res.status(200).json(IBOB);
+        const IBOB = await requeteKnex.getIBOBbyNoSerie(req.params.NoSerie);
+        if (IBOB !== null) {
+            res.status(200).json(IBOB);
+        } else {
+            res.status(404).send('Not found.');
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -69,15 +73,19 @@ app.get('/IBOB/:id', async (req, res) => {
 
 app.post('/IBOB', async (req, res) => {
     try {
-        const { NoSerie } = req.body;
-        const { Marque } = req.body;
-        const { Modele } = req.body;
-        const { TypeObjet } = req.body;
-        const { TypeEvenement } = req.body;
-        const { NoEvenement } = req.body;
+        const noSerie = req.body.NoSerie;
+        const marque = req.body.Marque;
+        const modele = req.body.Modele;
+        const typeObjet = req.body.TypeObjet;
+        const typeEvenement = req.body.TypeEvenement;
+        const noEvenement = req.body.NoEvenement;
         const IBOB = await requeteKnex
-            .ajoutIBOB(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement);
-        res.status(200).json(IBOB);
+            .ajoutIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEvenement);
+        if (IBOB !== null) {
+            res.status(200).json(IBOB);
+        } else {
+            res.status(404).send('Not found.');
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -88,15 +96,19 @@ app.post('/IBOB', async (req, res) => {
 
 app.put('/IBOB', async (req, res) => {
     try {
-        const { NoSerie } = req.body;
-        const { Marque } = req.body;
-        const { Modele } = req.body;
-        const { TypeObjet } = req.body;
-        const { TypeEvenement } = req.body;
-        const { NoEvenement } = req.body;
+        const noSerie = req.body.NoSerie;
+        const marque = req.body.Marque;
+        const modele = req.body.Modele;
+        const typeObjet = req.body.TypeObjet;
+        const typeEvenement = req.body.TypeEvenement;
+        const noEvenement = req.body.NoEvenement;
         const IBOB = await requeteKnex
-            .modificationIBOB(NoSerie, Marque, Modele, TypeObjet, TypeEvenement, NoEvenement);
-        res.status(200).json(IBOB);
+            .modificationIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEvenement);
+        if (IBOB !== null) {
+            res.status(200).json(IBOB);
+        } else {
+            res.status(404).send('Not found.');
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -105,10 +117,14 @@ app.put('/IBOB', async (req, res) => {
     }
 });
 
-app.delete('/IBOB/:id', async (req, res) => {
+app.delete('/IBOB/:NoSerie', async (req, res) => {
     try {
-        const IBOB = await requeteKnex.suppresionIBOB(req.params.id);
-        res.status(200).json(IBOB);
+        const IBOB = await requeteKnex.suppresionIBOBByNoSerie(req.params.NoSerie);
+        if (IBOB !== null) {
+            res.status(200).json(IBOB);
+        } else {
+            res.status(404).send('Not found.');
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -117,10 +133,14 @@ app.delete('/IBOB/:id', async (req, res) => {
     }
 });
 
-app.get('/IBAF/:id', async (req, res) => {
+app.get('/IBAF/:NoSerie', async (req, res) => {
     try {
-        const IBAF = await requeteKnex.getIBAFbyId(req.params.id);
-        res.status(200).json(IBAF);
+        const IBAF = await requeteKnex.getIBAFByNoSerie(req.params.NoSerie);
+        if (IBAF !== null) {
+            res.status(200).json(IBAF);
+        } else {
+            res.status(404).send('Not found.');
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -131,15 +151,19 @@ app.get('/IBAF/:id', async (req, res) => {
 
 app.post('/IBAF', async (req, res) => {
     try {
-        const { NoSerie } = req.body;
-        const { Marque } = req.body;
-        const { Calibre } = req.body;
-        const { TypeArme } = req.body;
-        const { TypeEvenement } = req.body;
-        const { NoEvenement } = req.body;
+        const noSerie = req.body.NoSerie;
+        const marque = req.body.Marque;
+        const calibre = req.body.Calibre;
+        const typeArme = req.body.TypeArme;
+        const typeEvenement = req.body.TypeEvenement;
+        const noEvenement = req.body.NoEvenement;
         const IBAF = await requeteKnex
-            .ajoutIBAF(NoSerie, Marque, Calibre, TypeArme, TypeEvenement, NoEvenement);
-        res.status(200).json(IBAF);
+            .ajoutIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement);
+        if (IBAF !== null) {
+            res.status(200).json(IBAF);
+        } else {
+            res.status(404).send('Not found.');
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -150,14 +174,19 @@ app.post('/IBAF', async (req, res) => {
 
 app.put('/IBAF', async (req, res) => {
     try {
-        const { NoSerie } = req.body;
-        const { Marque } = req.body;
-        const { Calibre } = req.body;
-        const { TypeArme } = req.body;
-        const { TypeEvenement } = req.body;
-        const { NoEvenement } = req.body;
+        const noSerie = req.body.NoSerie;
+        const marque = req.body.Marque;
+        const calibre = req.body.Calibre;
+        const typeArme = req.body.TypeArme;
+        const typeEvenement = req.body.TypeEvenement;
+        const noEvenement = req.body.NoEvenement;
         const IBAF = await requeteKnex
-            .modificationIBAF(NoSerie, Marque, Calibre, TypeArme, TypeEvenement, NoEvenement);
+            .modificationIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement);
+        if (IBAF !== null) {
+            res.status(200).json(IBAF);
+        } else {
+            res.status(404).send('Not found.');
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -166,10 +195,14 @@ app.put('/IBAF', async (req, res) => {
     }
 });
 
-app.delete('/IBAF/:id', async (req, res) => {
+app.delete('/IBAF/:NoSerie', async (req, res) => {
     try {
-        const IBAF = await requeteKnex.suppresionIBAF(req.params.id);
-        res.status(200).json(IBAF);
+        const IBAF = await requeteKnex.suppresionIBAFByNoSerie(req.params.NoSerie);
+        if (IBAF !== null) {
+            res.status(200).json(IBAF);
+        } else {
+            res.status(404).send('Not found.');
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -178,10 +211,14 @@ app.delete('/IBAF/:id', async (req, res) => {
     }
 });
 
-app.get('/IBVA/:id', async (req, res) => {
+app.get('/IBVA/:identifiant', async (req, res) => {
     try {
-        const IBVA = await requeteKnex.getIBVAbyId(req.params.id);
-        res.status(200).json(IBVA);
+        const IBVA = await requeteKnex.getIBVAbyIdentifiant(req.params.identifiant);
+        if (IBVA !== null) {
+            res.status(200).json(IBVA);
+        } else {
+            res.status(404).send('Not found.');
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -192,14 +229,18 @@ app.get('/IBVA/:id', async (req, res) => {
 
 app.post('/IBVA', async (req, res) => {
     try {
-        const { Identifiant } = req.body;
-        const { Auteur } = req.body;
-        const { TypeValeur } = req.body;
-        const { TypeEvenement } = req.body;
-        const { NoEvenement } = req.body;
+        const identifiant = req.body.Identifiant;
+        const auteur = req.body.Auteur;
+        const typeValeur = req.body.TypeValeur;
+        const typeEvenement = req.body.TypeEvenement;
+        const noEvenement = req.body.NoEvenement;
         const IBVA = await requeteKnex
-            .ajoutIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement);
-        res.status(200).json(IBVA);
+            .ajoutIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement);
+        if (IBVA !== null) {
+            res.status(200).json(IBVA);
+        } else {
+            res.status(404).send('Not found.');
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -210,14 +251,18 @@ app.post('/IBVA', async (req, res) => {
 
 app.put('/IBVA', async (req, res) => {
     try {
-        const { Identifiant } = req.body;
-        const { Auteur } = req.body;
-        const { TypeValeur } = req.body;
-        const { TypeEvenement } = req.body;
-        const { NoEvenement } = req.body;
+        const identifiant = req.body.Identifiant;
+        const auteur = req.body.Auteur;
+        const typeValeur = req.body.TypeValeur;
+        const typeEvenement = req.body.TypeEvenement;
+        const noEvenement = req.body.NoEvenement;
         const IBVA = await requeteKnex
-            .modificationIBVA(Identifiant, Auteur, TypeValeur, TypeEvenement, NoEvenement);
-        res.status(200).json(IBVA);
+            .modificationIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement);
+        if (IBVA !== null) {
+            res.status(200).json(IBVA);
+        } else {
+            res.status(404).send('Not found.');
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -226,10 +271,14 @@ app.put('/IBVA', async (req, res) => {
     }
 });
 
-app.delete('/IBVA/:id', async (req, res) => {
+app.delete('/IBVA/:identifiant', async (req, res) => {
     try {
-        const IBVA = await requeteKnex.suppresionIBVA(req.params.id);
-        res.status(200).json(IBVA);
+        const IBVA = await requeteKnex.suppresionIBVAByIdentifiant(req.params.identifiant);
+        if (IBVA !== null) {
+            res.status(200).json(IBVA);
+        } else {
+            res.status(404).send('Not found.');
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
