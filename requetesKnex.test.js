@@ -20,7 +20,7 @@ const reqKnex = require('./requetesKnex');
 //     expect(ippe).toEqual(resultat);
 // });
 test('suppresionIBOBByNoSerie dans database', async () => {
-    await reqKnex.ajoutIBOB('Test', 'Test', 'Test', 'Test', 'Test', '123456789123456');
+    await reqKnex.ajoutIBOB('Test', 'Test', 'Test', 'Test', '123456789123456');
     await reqKnex.suppresionIBOBByNoSerie('Test');
     const expectedResult = [];
     const result = await reqKnex.getIBOBbyNoSerie('Test');
@@ -28,13 +28,12 @@ test('suppresionIBOBByNoSerie dans database', async () => {
 });
 
 test('ajoutIBOB dans database', async () => {
-    await reqKnex.ajoutIBOB('Test', 'Test', 'Test', 'Test', 'Test', '123456789123456');
+    await reqKnex.ajoutIBOB('Test', 'Test', 'Test', 'Test', '123456789123456');
     const expectedResult = [{
         NoSerie: 'Test',
         Marque: 'Test',
         Modele: 'Test',
         TypeObjet: 'Test',
-        TypeEvenement: 'Test',
         NoEvenement: '123456789123456',
 
     }];
@@ -44,14 +43,13 @@ test('ajoutIBOB dans database', async () => {
 });
 
 test('modificationIBOB dans database', async () => {
-    await reqKnex.ajoutIBOB('Test', 'Tes', 'Tes', 'Tes', 'Tes', '99999999999999');
-    await reqKnex.modificationIBOB('Test', 'Test', 'Test', 'Test', 'Test', '123456789123456');
+    await reqKnex.ajoutIBOB('Test', 'Tes', 'Tes', 'Tes', '99999999999999');
+    await reqKnex.modificationIBOB('Test', 'Test', 'Test', 'Test', '123456789123456');
     const expectedResult = [{
         NoSerie: 'Test',
         Marque: 'Test',
         Modele: 'Test',
         TypeObjet: 'Test',
-        TypeEvenement: 'Test',
         NoEvenement: '123456789123456',
 
     }];
@@ -61,7 +59,7 @@ test('modificationIBOB dans database', async () => {
 });
 
 test('suppresionIBAFByNoSerie dans database', async () => {
-    await reqKnex.ajoutIBAF('Test', 'Test', 'Test', 'Test', 'Test', '123456789123456');
+    await reqKnex.ajoutIBAF('Test', 'Test', 'Test', 'Test', '123456789123456');
     await reqKnex.suppresionIBAFByNoSerie('Test');
     const expectedResult = [];
     const result = await reqKnex.getIBAFByNoSerie('Test');
@@ -69,13 +67,12 @@ test('suppresionIBAFByNoSerie dans database', async () => {
 });
 
 test('ajoutIBAF dans database', async () => {
-    await reqKnex.ajoutIBAF('Test', 'Test', '9999999999', 'Test', 'Test', '123456789123456');
+    await reqKnex.ajoutIBAF('Test', 'Test', '9999999999', 'Test', '123456789123456');
     const expectedResult = [{
         NoSerie: 'Test',
         Marque: 'Test',
         Calibre: '9999999999',
         TypeArme: 'Test',
-        TypeEvenement: 'Test',
         NoEvenement: '123456789123456',
     }];
     const result = await reqKnex.getIBAFByNoSerie('Test');
@@ -84,14 +81,13 @@ test('ajoutIBAF dans database', async () => {
 });
 
 test('modificationIBAF dans database', async () => {
-    await reqKnex.ajoutIBAF('Test', 'Tes', '9999999998', 'Tes', 'Tes', '99999999999999');
-    await reqKnex.modificationIBAF('Test', 'Test', '9999999999', 'Test', 'Test', '123456789123456');
+    await reqKnex.ajoutIBAF('Test', 'Tes', '9999999998', 'Tes', '99999999999999');
+    await reqKnex.modificationIBAF('Test', 'Test', '9999999999', 'Test', '123456789123456');
     const expectedResult = [{
         NoSerie: 'Test',
         Marque: 'Test',
         Calibre: '9999999999',
         TypeArme: 'Test',
-        TypeEvenement: 'Test',
         NoEvenement: '123456789123456',
     }];
     const result = await reqKnex.getIBAFByNoSerie('Test');
