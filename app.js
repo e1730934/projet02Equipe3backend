@@ -57,26 +57,28 @@ app.get('/ippeInfo', async (req, res) => {
 });
 
 
-app.get('/voirPersonne', async(req,res) => {
+app.get('/personnes', async (req, res) => {
+    const { IdPersonne } = req.query;
     let resultat;
 
-    try{
-        const {IdPersonne} = req.query;
-        
-        resultat = await request.getPersonne(IdPersonne);
-    
-     } catch(error){
-        res.status(500).json(error.message);
-    }
-
-     if (resultat.length === 0) {
-        res.send({ result: 'Personne inexistate' });
+    if (isNaN(IdPersonne)) {
+        res.status(400).send('la requête est mal formée ou les paramètres sont invalides.')
     } else {
-        res.send(resultat);
+        try {
+            resultat = await request.getPersonne(IdPersonne)
+        } catch (error) {
+            res.status(500).json({ succes: false });
+        }
+        if (resultat.length === 0) {
+            res.status(404).send('La personne n\'existe pas!');
+        } else {
+
+            res.status(200).send(resultat);
+        }
     }
 })
 
-app.post('/creerPersonne', async (req, res) => {
+app.post('/personnes', async (req, res) => {
 
     const TypePersonne = req.body.TypePersonne;
     const NomFamille = req.body.NomFamille;
@@ -87,20 +89,20 @@ app.post('/creerPersonne', async (req, res) => {
 
 
     if (!TypePersonne, !NomFamille, !Prenom1, !Prenom2, !Masculin, !DateNaissance) {
-        console.log({success: false, message: 'ce champs ne peut etre vide'});
+        console.log({ success: false, message: 'ce champs ne peut etre vide' });
     }
 
-    try{
-        
-        await request.postPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance);
+    try {
+
+        await request.postPersonne(TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, DateNaissance);
         res.status(200).json("Personne ajoutée :)");
 
-     } catch(error){
+    } catch (error) {
         res.status(400).json(error.message);
         res.status(401).json(error.message);
         res.status(500).json(error.message);
     }
-    
+
     /*{
         "TypePersonne": "Test",
         "NomFamille":"Test",
@@ -109,28 +111,28 @@ app.post('/creerPersonne', async (req, res) => {
         "Masculin":1,
         "DateNaissance":"114445"
     }   */
-   
+
 });
 
 
-//updatePersonne FANCTIONNE
-app.put('/updatePersonne', async(req,res)=>{
-    const {IdPersonne} = req.query;
+//updatePersonne FONCTIONNE
+app.put('/personnes', async (req, res) => {
+    const { IdPersonne } = req.query;
     const TypePersonne = req.body.TypePersonne;
     const NomFamille = req.body.NomFamille;
     const Prenom1 = req.body.Prenom1;
     const Prenom2 = req.body.Prenom2;
     const Masculin = req.body.Masculin;
-    const DateNaissance = req.body.DateNaissance ;
+    const DateNaissance = req.body.DateNaissance;
 
-    try{
-        
-        await request.putPersonne(IdPersonne,TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance);
+    try {
+
+        await request.putPersonne(IdPersonne, TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, DateNaissance);
         res.status(200).json("Personne modifiée :)");
-        
-    
-     } catch(error){
-        
+
+
+    } catch (error) {
+
         res.status(400).json(error.message);
         res.status(401).json(error.message);
         res.status(500).json(error.message);
@@ -146,6 +148,34 @@ app.put('/updatePersonne', async(req,res)=>{
     }*/
 })
 
+//non termine
+app.delete('/personnes', async (req, res) => {
+    const { IdPersonne } = req.query;
+    let resultat;
+
+    if (isNaN(IdPersonne)) {
+        res.status(400).send('la requête est mal formée ou les paramètres sont invalides.')
+    } else {
+        try {
+            resultat = await request.getPersonne(IdPersonne)
+        } catch (error) {
+            res.status(500).json({ succes: false });
+        }
+        if (resultat.length === 0) {
+            res.status(404).send('La personne que vous voulez supprimer n\'existe pas!');
+        } else {
+            try {
+
+                resultat = await request.deletePersonne(IdPersonne)
+                res.status(200).send("Personne suprime");
+            } catch (error) {
+                res.status(500).json({ succes: false });
+            }
+        }
+    }
+
+
+})
 
 
 app.listen(PORT, () => {

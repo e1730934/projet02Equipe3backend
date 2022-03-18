@@ -257,6 +257,42 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
+//Permet d'aller chercher les conditions d'un IPPE pour l'afficher
+function getCondition(IdIPPE) {
+    return knex('Conditions')
+        .where('Conditions.IdIPPE', IdIPPE)
+        .select('*');
+}
+
+//Permet d'aller chercher les IBOB pour l'afficher
+function getIBOB(IdIBOB) {
+    return knex('IBOB')
+        .where('IBOB.IdIBOB', IdIBOB)
+        .select('*');
+}
+
+//Permet d'aller chercher les IBAF pour l'afficher
+function getIBAF(IdIBAF) {
+    return knex('IBAF')
+        .where('IBAF.IdIBAF', IdIBAF)
+        .select('*');
+}
+
+//Permet d'aller chercher les conditions d'un IPPE pour l'afficher
+function getIBVA(IdIBVA) {
+    return knex('IBVA')
+        .where('IBAF.IdIBVA', IdIBVA)
+        .select('*');
+}
+
+//Permet d'aller chercher une personne dans personne ainsi que son ippe pour l'afficher
+function getPersonne(IdPersonne) {
+    return knex('Personnes')
+        .where('Personnes.IdPersonne', IdPersonne)
+        .select('*');
+
+}
+
 //Permet d'ajouter une personne à la base de donnée
 function postPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance) {
     return knex('Personnes')
@@ -265,43 +301,8 @@ function postPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaiss
                 {'Prenom1':Prenom1}, 
                 {'Prenom2':Prenom2}, 
                 {'Masculin':Masculin}, 
-                {'DateNaissance':DateNaissance}]) 
+                {'DateNaissance':DateNaissance}],['IdPersonne']) 
         
-
-}
-
-//Permet d'aller chercher une personne dans personne ainsi que son ippe pour l'afficher
-async function getPersonne(IdPersonne) {
-    const resultat = [];
-    const reponseKnexPersonne =  await knex('Personnes')
-        .where('Personnes.IdPersonne', IdPersonne)
-        .select(
-            'Personnes.TypePersonne',
-            'Personnes.NomFamille',
-            'Personnes.Prenom1',
-            'Personnes.Prenom2',
-            'Personnes.Masculin',
-            'Personnes.DateNaissance'
-            
-         );
-
-         //Push même si la personne a pas de IPPE
-        const responseKnexIPPE =  await knex('Personnes')
-        .where('Personnes.IdPersonne', IdPersonne)
-        .join('PersonnesIPPE', 'Personnes.IdPersonne', 'PersonnesIPPE.IdPersonne')
-        .join('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.IdIPPE')
-        .select(
-            'IPPE.NoEvenement',
-            'IPPE.TypeEvenement',
-         );
-
-         if(responseKnexIPPE.length === 0 ){
-             resultat.push(reponseKnexPersonne)
-         }else {
-             resultat.push(reponseKnexPersonne)
-             resultat.push(responseKnexIPPE)
-         }
-    return resultat
 
 }
 
@@ -327,11 +328,25 @@ async function putPersonne(IdPersonne,TypePersonne,NomFamille,Prenom1,Prenom2,Ma
 }*/
 
 
+async function deletePersonne(IdPersonne){
+    await knex('Personnes')
+    .where('IdPersonne', IdPersonne)
+    .join('PersonneIPPE', 'Personnes.IdPersonne','PersonneIPPE.IdPersonne')
+    .join('IPPE', 'PersonneIPPE.IdIPPE','IPPE.IdIPPE')
+    .join('Conditions', 'IPPE.IdIPPE', 'Conditions.IdCondition')
+    .del()
+}
+
 module.exports = {
     connexion,
     getIPPE,
     getFPS,
     postPersonne,
     getPersonne,
-    putPersonne
+    putPersonne,
+    getCondition,
+    deletePersonne,
+    getIBOB,
+    getIBAF,
+    getIBVA
 };
