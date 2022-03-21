@@ -260,7 +260,6 @@ async function getIBOBbyNoSerie(noSerie) {
             'Marque',
             'Modele',
             'TypeObjet',
-            'TypeEvenement',
             'NoEvenement',
         );
 }
@@ -269,7 +268,7 @@ async function getCountIBOB(noSerie) {
         .where('NoSerie', noSerie)
         .count('* as nbrLigne');
 }
-async function ajoutIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEvenement) {
+async function ajoutIBOB(noSerie, marque, modele, typeObjet, noEvenement) {
     const count = await getCountIBOB(noSerie);
     if (count[0].nbrLigne === 0) {
         await knex('IBOB')
@@ -279,7 +278,6 @@ async function ajoutIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEv
                     Marque: marque,
                     Modele: modele,
                     TypeObjet: typeObjet,
-                    TypeEvenement: typeEvenement,
                     NoEvenement: noEvenement,
                 },
             );
@@ -288,7 +286,7 @@ async function ajoutIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEv
     }
 }
 
-async function modificationIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEvenement) {
+async function modificationIBOB(noSerie, marque, modele, typeObjet, noEvenement) {
     const count = await getCountIBOB(noSerie);
     if (count[0].nbrLigne !== 0) {
         await knex('IBOB')
@@ -297,7 +295,6 @@ async function modificationIBOB(noSerie, marque, modele, typeObjet, typeEvenemen
                     Marque: marque,
                     Modele: modele,
                     TypeObjet: typeObjet,
-                    TypeEvenement: typeEvenement,
                     NoEvenement: noEvenement,
                 },
             )
