@@ -109,7 +109,6 @@ async function getIBOBbyNoSerie(noSerie) {
             'Marque',
             'Modele',
             'TypeObjet',
-            'TypeEvenement',
             'NoEvenement',
         );
 }
@@ -118,7 +117,7 @@ async function getCountIBOB(noSerie) {
         .where('NoSerie', noSerie)
         .count('* as nbrLigne');
 }
-async function ajoutIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEvenement) {
+async function ajoutIBOB(noSerie, marque, modele, typeObjet, noEvenement) {
     const count = await getCountIBOB(noSerie);
     if (count[0].nbrLigne === 0) {
         await knex('IBOB')
@@ -128,7 +127,6 @@ async function ajoutIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEv
                     Marque: marque,
                     Modele: modele,
                     TypeObjet: typeObjet,
-                    TypeEvenement: typeEvenement,
                     NoEvenement: noEvenement,
                 },
             );
@@ -137,7 +135,7 @@ async function ajoutIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEv
     }
 }
 
-async function modificationIBOB(noSerie, marque, modele, typeObjet, typeEvenement, noEvenement) {
+async function modificationIBOB(noSerie, marque, modele, typeObjet, noEvenement) {
     const count = await getCountIBOB(noSerie);
     if (count[0].nbrLigne !== 0) {
         await knex('IBOB')
@@ -146,7 +144,6 @@ async function modificationIBOB(noSerie, marque, modele, typeObjet, typeEvenemen
                     Marque: marque,
                     Modele: modele,
                     TypeObjet: typeObjet,
-                    TypeEvenement: typeEvenement,
                     NoEvenement: noEvenement,
                 },
             )
@@ -177,7 +174,6 @@ async function getIBAFByNoSerie(noSerie) {
             'Marque',
             'Calibre',
             'TypeArme',
-            'TypeEvenement',
             'NoEvenement',
         );
 }
@@ -187,7 +183,7 @@ async function getCountIBAF(noSerie) {
         .count('* as nbrLigne');
 }
 
-async function ajoutIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement) {
+async function ajoutIBAF(noSerie, marque, calibre, typeArme, noEvenement) {
     const count = await getCountIBAF(noSerie);
     if (count[0].nbrLigne === 0) {
         await knex('IBAF')
@@ -197,7 +193,6 @@ async function ajoutIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEv
                     Marque: marque,
                     Calibre: calibre,
                     TypeArme: typeArme,
-                    TypeEvenement: typeEvenement,
                     NoEvenement: noEvenement,
                 },
             );
@@ -206,7 +201,7 @@ async function ajoutIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEv
     }
 }
 
-async function modificationIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement) {
+async function modificationIBAF(noSerie, marque, calibre, typeArme, noEvenement) {
     const count = await getCountIBAF(noSerie);
     if (count[0].nbrLigne !== 0) {
         await knex('IBAF')
@@ -215,7 +210,6 @@ async function modificationIBAF(noSerie, marque, calibre, typeArme, typeEvenemen
                     Marque: marque,
                     Calibre: calibre,
                     TypeArme: typeArme,
-                    TypeEvenement: typeEvenement,
                     NoEvenement: noEvenement,
                 },
             )
