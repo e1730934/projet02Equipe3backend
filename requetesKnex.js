@@ -296,12 +296,12 @@ function getPersonne(IdPersonne) {
 //Permet d'ajouter une personne à la base de donnée
 function postPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance) {
     return knex('Personnes')
-        .insert([{'TypePersonne':TypePersonne}, 
-                {'NomFamille': NomFamille}, 
-                {'Prenom1':Prenom1}, 
-                {'Prenom2':Prenom2}, 
-                {'Masculin':Masculin}, 
-                {'DateNaissance':DateNaissance}],['IdPersonne']) 
+        .insert({'TypePersonne':TypePersonne, 
+                'NomFamille': NomFamille, 
+                'Prenom1':Prenom1, 
+                'Prenom2':Prenom2, 
+                'Masculin':Masculin, 
+                'DateNaissance':DateNaissance},['IdPersonne']) 
         
 
 }

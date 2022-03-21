@@ -115,7 +115,6 @@ app.post('/personnes', async (req, res) => {
 });
 
 
-//updatePersonne FONCTIONNE
 app.put('/personnes', async (req, res) => {
     const { IdPersonne } = req.query;
     const TypePersonne = req.body.TypePersonne;
