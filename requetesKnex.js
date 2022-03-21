@@ -1,5 +1,3 @@
-const { request } = require('express');
-
 const knex = require('knex')({
     client: 'mssql',
     connection: {
@@ -12,7 +10,7 @@ const knex = require('knex')({
         },
     },
     pool: { min: 0, max: 7 },
-    useNullAsDefault: true
+    useNullAsDefault: true,
 });
 
 // Requete knex qui retourne les informations de connexion
@@ -257,84 +255,88 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
-//Permet d'aller chercher les conditions d'un IPPE pour l'afficher
+// Permet d'aller chercher les conditions d'un IPPE pour l'afficher
 function getCondition(IdIPPE) {
     return knex('Conditions')
         .where('Conditions.IdIPPE', IdIPPE)
         .select('*');
 }
 
-//Permet d'aller chercher les IBOB pour l'afficher
+// Permet d'aller chercher les IBOB pour l'afficher
 function getIBOB(IdIBOB) {
     return knex('IBOB')
         .where('IBOB.IdIBOB', IdIBOB)
         .select('*');
 }
 
-//Permet d'aller chercher les IBAF pour l'afficher
+// Permet d'aller chercher les IBAF pour l'afficher
 function getIBAF(IdIBAF) {
     return knex('IBAF')
         .where('IBAF.IdIBAF', IdIBAF)
         .select('*');
 }
 
-//Permet d'aller chercher les conditions d'un IPPE pour l'afficher
+// Permet d'aller chercher les conditions d'un IPPE pour l'afficher
 function getIBVA(IdIBVA) {
     return knex('IBVA')
         .where('IBAF.IdIBVA', IdIBVA)
         .select('*');
 }
 
-//Permet d'aller chercher une personne dans personne ainsi que son ippe pour l'afficher
+// Permet d'aller chercher une personne dans personne ainsi que son ippe pour l'afficher
 function getPersonne(IdPersonne) {
     return knex('Personnes')
         .where('Personnes.IdPersonne', IdPersonne)
         .select('*');
-
 }
 
-//Permet d'ajouter une personne à la base de donnée
-function postPersonne(TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance) {
+// Permet d'ajouter une personne à la base de donnée
+function postPersonne(TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
     return knex('Personnes')
-        .insert({'TypePersonne':TypePersonne, 
-                'NomFamille': NomFamille, 
-                'Prenom1':Prenom1, 
-                'Prenom2':Prenom2, 
-                'Masculin':Masculin, 
-                'DateNaissance':DateNaissance},['IdPersonne']) 
-        
-
+        .insert({
+            TypePersonne,
+            NomFamille,
+            Prenom1,
+            Prenom2,
+            Masculin,
+            DateNaissance,
+        }, ['IdPersonne']);
 }
 
-//Permet de modifer une personne
-async function putPersonne(IdPersonne,TypePersonne,NomFamille,Prenom1,Prenom2,Masculin,DateNaissance){
+// Permet de modifer une personne
+async function putPersonne(
+    IdPersonne,
+    TypePersonne,
+    NomFamille,
+    Prenom1,
+    Prenom2,
+    Masculin,
+    DateNaissance,
+) {
     await knex('Personnes')
-    .where('IdPersonne', IdPersonne)
-    .update({'TypePersonne':TypePersonne, 
-            'NomFamille': NomFamille, 
-            'Prenom1':Prenom1, 
-            'Prenom2':Prenom2, 
-            'Masculin':Masculin,
-            'DateNaissance':DateNaissance
-})
+        .where('IdPersonne', IdPersonne)
+        .update({
+            TypePersonne,
+            NomFamille,
+            Prenom1,
+            Prenom2,
+            Masculin,
+            DateNaissance,
+        });
 }
 
-/*{
+/* {
     "TypePersonne": "Test",
     "NomFamille":"Test",
     "Prenom1":"test",
     "Prenom2":"test",
     "Masculin":1
-}*/
+} */
 
-
-async function deletePersonne(IdPersonne){
+async function deletePersonne(IdPersonne) {
     await knex('Personnes')
-    .where('IdPersonne', IdPersonne)
-    .join('PersonneIPPE', 'Personnes.IdPersonne','PersonneIPPE.IdPersonne')
-    .join('IPPE', 'PersonneIPPE.IdIPPE','IPPE.IdIPPE')
-    .join('Conditions', 'IPPE.IdIPPE', 'Conditions.IdCondition')
-    .del()
+        .where('Personnes.IdPersonne', IdPersonne)
+        .del();
 }
 
 module.exports = {
@@ -348,5 +350,5 @@ module.exports = {
     deletePersonne,
     getIBOB,
     getIBAF,
-    getIBVA
+    getIBVA,
 };
