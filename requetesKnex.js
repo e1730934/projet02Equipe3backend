@@ -49,6 +49,7 @@ function formatterIPPE(IPPEs) {
                     agentLiberation: ippe.AgentLiberation,
                     telephone: ippe.Telephone,
                     poste: ippe.Poste,
+                    // eslint-disable-next-line no-dupe-keys
                     conditions: [],
                 },
             );
