@@ -60,6 +60,29 @@ app.get('/ippeInfo', async (req, res) => {
     return res.status(200).json(resultat);
 });
 
+app.delete('/IBVA/supression', async (req, res) => {
+    const id = req.query.Identifiant;
+    if (id !== '' || id === undefined) {
+        try {
+            await request.suppresionIBVAByNoSerie(id); // TODO: remplacer par IBVA
+            res.json({
+                success: true,
+                message: 'Delete OK',
+            });
+        } catch (err) {
+            res.json({
+                success: false,
+                message: err,
+            });
+        }
+    } else {
+        res.json({
+            success: false,
+            message: `Delete failed, Identifiant incorrecte: ${req.query.Identifiant}`,
+        });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Mon application roule sur http://localhost:${PORT}`);
 });
