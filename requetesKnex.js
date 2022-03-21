@@ -325,7 +325,6 @@ async function getIBAFByNoSerie(noSerie) {
             'Marque',
             'Calibre',
             'TypeArme',
-            'TypeEvenement',
             'NoEvenement',
         );
 }
@@ -335,7 +334,7 @@ async function getCountIBAF(noSerie) {
         .count('* as nbrLigne');
 }
 
-async function ajoutIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement) {
+async function ajoutIBAF(noSerie, marque, calibre, typeArme, noEvenement) {
     const count = await getCountIBAF(noSerie);
     if (count[0].nbrLigne === 0) {
         await knex('IBAF')
@@ -345,7 +344,6 @@ async function ajoutIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEv
                     Marque: marque,
                     Calibre: calibre,
                     TypeArme: typeArme,
-                    TypeEvenement: typeEvenement,
                     NoEvenement: noEvenement,
                 },
             );
@@ -354,7 +352,7 @@ async function ajoutIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEv
     }
 }
 
-async function modificationIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement) {
+async function modificationIBAF(noSerie, marque, calibre, typeArme, noEvenement) {
     const count = await getCountIBAF(noSerie);
     if (count[0].nbrLigne !== 0) {
         await knex('IBAF')
@@ -363,7 +361,6 @@ async function modificationIBAF(noSerie, marque, calibre, typeArme, typeEvenemen
                     Marque: marque,
                     Calibre: calibre,
                     TypeArme: typeArme,
-                    TypeEvenement: typeEvenement,
                     NoEvenement: noEvenement,
                 },
             )
@@ -417,7 +414,7 @@ async function ajoutIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvene
 
 async function modificationIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement) {
     const count = await getCountIBVA(identifiant);
-    if (count[0].nbrLigne === 0) {
+    if (count[0].nbrLigne !== 0) {
         await knex('IBVA')
             .update(
                 {

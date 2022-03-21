@@ -154,15 +154,14 @@ app.post('/IBAF', async (req, res) => {
     const marque = req.body.Marque;
     const calibre = req.body.Calibre;
     const typeArme = req.body.TypeArme;
-    const typeEvenement = req.body.TypeEvenement;
     const noEvenement = req.body.NoEvenement;
     if (noSerie === undefined || marque === undefined || calibre === undefined
-        || typeArme === undefined || typeEvenement === undefined || noEvenement === undefined) {
+        || typeArme === undefined || noEvenement === undefined) {
         return res.status(400).json('paramètre manquant');
     }
     try {
         resultat = await
-        requeteKnex.ajoutIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement);
+        requeteKnex.ajoutIBAF(noSerie, marque, calibre, typeArme, noEvenement);
     } catch (error) {
         return res.status(500).json(error.message);
     }
@@ -175,15 +174,14 @@ app.put('/IBAF', async (req, res) => {
     const marque = req.body.Marque;
     const calibre = req.body.Calibre;
     const typeArme = req.body.TypeArme;
-    const typeEvenement = req.body.TypeEvenement;
     const noEvenement = req.body.NoEvenement;
     if (noSerie === undefined || marque === undefined || calibre === undefined
-        || typeArme === undefined || typeEvenement === undefined || noEvenement === undefined) {
+        || typeArme === undefined || noEvenement === undefined) {
         return res.status(400).json('paramètre manquant');
     }
     try {
         // eslint-disable-next-line max-len
-        resultat = await requeteKnex.modificationIBAF(noSerie, marque, calibre, typeArme, typeEvenement, noEvenement);
+        resultat = await requeteKnex.modificationIBAF(noSerie, marque, calibre, typeArme, noEvenement);
     } catch (error) {
         return res.status(500).json(error.message);
     }
