@@ -78,7 +78,7 @@ function formatterIPPE(dataIPPE, dataFps) {
                         motif: data.Motif,
                         natureCrime: data.NatureCrime,
                         noEvenement: data.NoEvenement,
-                        DossierEnquete: data.DossierEnquete,
+                        dossierEnquete: data.DossierEnquete,
 
                     },
                 );
@@ -143,7 +143,7 @@ function formatterIPPE(dataIPPE, dataFps) {
                         titre: 'Disparu',
                         noEvenement: data.NoEvenement,
                         nature: data.Nature,
-                        VuDerniereFois: data.VuDerniereFois,
+                        vuDerniereFois: data.VuDerniereFois,
                         descrPhysique: {
                             race: data.Race,
                             taille: data.Taille,
