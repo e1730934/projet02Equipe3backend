@@ -32,10 +32,21 @@ app.post('/login', async (req, res) => {
         Etudiant: resultat[0].Etudiant,
         Matricule: resultat[0].Identifiant,
         Nom: resultat[0].NomFamille,
+
     });
+    // Pour quand on uilisera les tokens
+    /* if(resultat[0].Etudiant){
+        return sessionStorage.setItem('Etudiant', token);
+    } */
 });
 
 app.get('/ippeInfo', async (req, res) => {
+    // Pour quand on uilisera les tokens
+    /* if(sessionStorage.getItem('Etudiant')){
+        res.status(401).json(error.message, 'le client n’a pas les autorisations nécessaires
+            pour accéder à la ressource.');
+    } */
+
     let resultat;
 
     try {
@@ -56,6 +67,12 @@ app.get('/ippeInfo', async (req, res) => {
 });
 
 app.get('/personnes', async (req, res) => {
+    // Pour quand on uilisera les tokens
+    /* if(sessionStorage.getItem('Etudiant')){
+        res.status(401).json(error.message, 'le client n’a pas les autorisations nécessaires
+            pour accéder à la ressource.');
+    } */
+
     const { IdPersonne } = req.query;
     let resultat;
 
@@ -76,6 +93,12 @@ app.get('/personnes', async (req, res) => {
 });
 
 app.post('/personnes', async (req, res) => {
+    // Pour quand on uilisera les tokens
+    /* if(sessionStorage.getItem('Etudiant')){
+        res.status(401).json(error.message, 'le client n’a pas les autorisations nécessaires
+            pour ajouter la ressource.');
+    } */
+
     const { TypePersonne } = req.body;
     const { NomFamille } = req.body;
     const { Prenom1 } = req.body;
@@ -98,8 +121,6 @@ app.post('/personnes', async (req, res) => {
         );
         res.status(200).json('Personne ajoutée :)');
     } catch (error) {
-        res.status(400).json(error.message);
-        res.status(401).json(error.message);
         res.status(500).json(error.message);
     }
 
@@ -114,6 +135,12 @@ app.post('/personnes', async (req, res) => {
 });
 
 app.put('/personnes', async (req, res) => {
+    // Pour quand on uilisera les tokens
+    /* if(sessionStorage.getItem('Etudiant')){
+        res.status(401).json(error.message, 'le client n’a pas les autorisations nécessaires
+            pour ajouter la ressource.');
+    } */
+
     const { IdPersonne } = req.query;
     const { TypePersonne } = req.body;
     const { NomFamille } = req.body;
@@ -121,6 +148,10 @@ app.put('/personnes', async (req, res) => {
     const { Prenom2 } = req.body;
     const { Masculin } = req.body;
     const { DateNaissance } = req.body;
+
+    if (Number.isNaN(IdPersonne)) {
+        res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
+    }
 
     try {
         await request.putPersonne(
@@ -134,9 +165,8 @@ app.put('/personnes', async (req, res) => {
         );
         res.status(200).json('Personne modifiée :)');
     } catch (error) {
-        res.status(400).json(error.message);
-        res.status(401).json(error.message);
         res.status(500).json(error.message);
+        res.status(404).send('La personne n\'existe pas!');
     }
     /* {
         "TypePersonne": "Enseignant",
@@ -149,8 +179,13 @@ app.put('/personnes', async (req, res) => {
     } */
 });
 
-// non termine
 app.delete('/personnes', async (req, res) => {
+    // Pour quand on uilisera les tokens
+    /* if(sessionStorage.getItem('Etudiant')){
+        res.status(401).json(error.message, 'le client n’a pas les autorisations nécessaires
+        pour supprimer la ressource.');
+    } */
+
     const { IdPersonne } = req.query;
     let resultat;
 
@@ -167,6 +202,9 @@ app.delete('/personnes', async (req, res) => {
         } else {
             try {
                 resultat = await request.deletePersonne(IdPersonne);
+                if (resultat === false) {
+                    res.status(400).send('Vous ne pouvez pas supprimer une personne avec un IPPE');
+                }
                 res.status(200).send({ deleted: true });
             } catch (error) {
                 res.status(500).json(error.message);

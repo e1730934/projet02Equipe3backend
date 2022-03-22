@@ -325,18 +325,21 @@ async function putPersonne(
         });
 }
 
-/* {
-    "TypePersonne": "Test",
-    "NomFamille":"Test",
-    "Prenom1":"test",
-    "Prenom2":"test",
-    "Masculin":1
-} */
-
+// Supprime une personne si elle n'a pas d'IPPE
 async function deletePersonne(IdPersonne) {
-    await knex('Personnes')
-        .where('Personnes.IdPersonne', IdPersonne)
-        .del();
+    const IPPE = [];
+    const reponseIPPE = await knex('PersonnesIPPE')
+        .where('IdPersonne', IdPersonne)
+        .select('*');
+    IPPE.push(reponseIPPE);
+
+    if (reponseIPPE.length === 0) {
+        await knex('Personnes')
+            .where('Personnes.IdPersonne', IdPersonne)
+            .del();
+        return true;
+    }
+    return false;
 }
 
 module.exports = {
