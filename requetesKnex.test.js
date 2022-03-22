@@ -1,5 +1,6 @@
 const reqKnex = require('./requetesKnex');
 
+// eslint-disable-next-line jest/no-commented-out-tests
 // test('Réponse ***RECHERCHÉ***', async () => {
 //     const resultat = [{
 //         idPersonne: 3,
@@ -15,8 +16,9 @@ const reqKnex = require('./requetesKnex');
 //         natureCrime: 'Agression armée',
 //         noEvenement: '108-220208-0031',
 //     }];
-//     const ippe = await reqKnex.getIPPE(resultat[0].nomFamille, resultat[0].prenom1, resultat[0].prenom2, resultat[0].masculin, resultat[0].dateNaissance);
-//
+//     const ippe = await reqKnex.getIPPE(resultat[0].nomFamille, resultat[0].prenom1,
+// resultat[0].prenom2, resultat[0].masculin, resultat[0].dateNaissance);
+
 //     expect(ippe).toEqual(resultat);
 // });
 test('suppresionIBOBByNoSerie dans database', async () => {
@@ -92,5 +94,43 @@ test('modificationIBAF dans database', async () => {
     }];
     const result = await reqKnex.getIBAFByNoSerie('Test');
     await reqKnex.suppresionIBAFByNoSerie('Test');
+    expect(expectedResult).toEqual(result);
+});
+
+test('suppresionIBVAByIdentifiant dans database', async () => {
+    await reqKnex.ajoutIBVA('Test', 'Test', 'Test', 'Test', '123456');
+    await reqKnex.suppresionIBVAByIdentifiant('Test');
+    const expectedResult = [];
+    const result = await reqKnex.getIBVAbyIdentifiant('Test');
+    expect(expectedResult).toEqual(result);
+});
+
+test('ajoutIBVA dans database', async () => {
+    await reqKnex.ajoutIBVA('Testt', 'Testt', 'Testt', 'Testt', '123456789123456');
+    const expectedResult = [{
+        Identifiant: 'Testt',
+        Auteur: 'Testt',
+        TypeValeur: 'Testt',
+        TypeEvenement: 'Testt',
+        NoEvenement: '123456789123456',
+    }];
+    const result = await reqKnex.getIBVAbyIdentifiant('Testt');
+    await reqKnex.suppresionIBVAByIdentifiant('Testt');
+    expect(expectedResult).toEqual(result);
+});
+
+test('modificationIBVA dans database', async () => {
+    await reqKnex.ajoutIBVA('Test', 'Tes', 'Tes', 'Tes', '123456789123456');
+    await reqKnex.modificationIBVA('Test', 'Test', 'Test', 'Test', '123456789123457');
+    const expectedResult = [{
+        Identifiant: 'Test',
+        Auteur: 'Test',
+        TypeValeur: 'Test',
+        TypeEvenement: 'Test',
+        NoEvenement: '123456789123457',
+
+    }];
+    const result = await reqKnex.getIBVAbyIdentifiant('Test');
+    await reqKnex.suppresionIBVAByIdentifiant('Test');
     expect(expectedResult).toEqual(result);
 });
