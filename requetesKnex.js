@@ -49,6 +49,7 @@ function formatterIPPE(IPPEs) {
                     agentLiberation: ippe.AgentLiberation,
                     telephone: ippe.Telephone,
                     poste: ippe.Poste,
+                    // eslint-disable-next-line no-dupe-keys
                     conditions: [],
                 },
             );
@@ -225,6 +226,67 @@ async function suppresionIBAFByNoSerie(noSerie) {
         .del();
 }
 
+async function getIBVAbyIdentifiant(identifiant) {
+    return knex('IBVA')
+        .where('Identifiant', identifiant)
+        .select(
+            'Identifiant',
+            'Auteur',
+            'TypeValeur',
+            'TypeEvenement',
+            'NoEvenement',
+        );
+}
+
+async function getCountIBVA(identifiant) {
+    return knex('IBVA')
+        .where('Identifiant', identifiant)
+        .count('* as nbrLigne');
+}
+
+async function ajoutIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement) {
+    const count = await getCountIBVA(identifiant);
+    if (count[0].nbrLigne === 0) {
+        await knex('IBVA')
+            .insert(
+                {
+                    Identifiant: identifiant,
+                    Auteur: auteur,
+                    TypeValeur: typeValeur,
+                    TypeEvenement: typeEvenement,
+                    NoEvenement: noEvenement,
+                },
+            );
+    } else {
+        console.log('Identifiant existe deja dans table IBVA'); // TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
+    }
+}
+
+async function modificationIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement) {
+    const count = await getCountIBVA(identifiant);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBVA')
+            .update(
+                {
+                    Identifiant: identifiant,
+                    Auteur: auteur,
+                    TypeValeur: typeValeur,
+                    TypeEvenement: typeEvenement,
+                    NoEvenement: noEvenement,
+                },
+            )
+            .where('Identifiant', identifiant);
+    } else {
+        console.log('N\'existe pas dans DB'); // TODO: IMPLEMENTER SI EXISTE PAS DNS DB
+    }
+}
+
+async function suppresionIBVAByIdentifiant(identifiant) {
+    return knex('IBVA')
+        .where('Identifiant', identifiant)
+        .del();
+}
+
 module.exports = {
     connexion,
     getIPPE,
@@ -237,4 +299,8 @@ module.exports = {
     ajoutIBAF,
     modificationIBAF,
     suppresionIBAFByNoSerie,
+    getIBVAbyIdentifiant,
+    ajoutIBVA,
+    modificationIBVA,
+    suppresionIBVAByIdentifiant,
 };
