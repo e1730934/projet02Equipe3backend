@@ -289,6 +289,36 @@ app.delete('/IBVA/:Identifiant', async (req, res) => {
     return res.status(200).json(resultat);
 });
 
+app.delete('/IBVA/supression/:Identifiant', async (req, res) => {
+    const id = req.params.Identifiant;
+    if (id !== '' || id === undefined) {
+        try {
+            const resultatRequete = await requeteKnex.suppresionIBVAByIdentifiant(id);
+            if (resultatRequete === true) {
+                res.json({
+                    success: true,
+                    message: 'Delete OK',
+                });
+            } else {
+                res.json({
+                    success: false,
+                    message: `Delete failed, Identifiant incorrecte: ${id}`,
+                });
+            }
+        } catch (err) {
+            res.json({
+                success: false,
+                message: err,
+            });
+        }
+    } else {
+        res.json({
+            success: false,
+            message: 'Aucun identifiant insérer',
+        });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Mon application roule sur http://localhost:${PORT}`);
 });
