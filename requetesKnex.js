@@ -282,9 +282,15 @@ async function modificationIBVA(identifiant, auteur, typeValeur, typeEvenement, 
 }
 
 async function suppresionIBVAByIdentifiant(identifiant) {
-    return knex('IBVA')
-        .where('Identifiant', identifiant)
-        .del();
+    let success = false;
+    const count = await getCountIBVA(identifiant);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBVA')
+            .where('Identifiant', identifiant)
+            .del();
+        success = true;
+    }
+    return success;
 }
 
 module.exports = {
