@@ -155,10 +155,16 @@ async function modificationIBOB(noSerie, marque, modele, typeObjet, noEvenement)
     }
 }
 
-async function suppresionIBOBByNoSerie(noSerie) {
-    return knex('IBOB')
-        .where('NoSerie', noSerie)
-        .del();
+async function suppresionIBOByNoSerie(noSerie) {
+    let success = false;
+    const count = await getCountIBOB(noSerie);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBOB')
+            .where('NoSerie', noSerie)
+            .del();
+        success = true;
+    }
+    return success;
 }
 
 async function getIBAFbyId(idIBAF) {
@@ -221,9 +227,15 @@ async function modificationIBAF(noSerie, marque, calibre, typeArme, noEvenement)
 }
 
 async function suppresionIBAFByNoSerie(noSerie) {
-    return knex('IBAF')
-        .where('NoSerie', noSerie)
-        .del();
+    let success = false;
+    const count = await getCountIBAF(noSerie);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBAF')
+            .where('NoSerie', noSerie)
+            .del();
+        success = true;
+    }
+    return success;
 }
 
 async function getIBVAbyIdentifiant(identifiant) {
@@ -299,7 +311,7 @@ module.exports = {
     getIBOBbyNoSerie,
     ajoutIBOB,
     modificationIBOB,
-    suppresionIBOBByNoSerie,
+    suppresionIBOByNoSerie,
     getIBAFbyId,
     getIBAFByNoSerie,
     ajoutIBAF,
