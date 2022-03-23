@@ -118,21 +118,34 @@ app.put('/IBOB', async (req, res) => {
     return res.status(200).json(resultat);
 });
 
-app.delete('/IBOB/:NoSerie', async (req, res) => {
-    let resultat;
-    const noSerie = req.params.NoSerie;
-    if (noSerie === undefined) {
-        return res.status(400).json('Le No de Série de l\'objet est manquant');
+app.delete('/IBOB/supression/:NoSerie', async (req, res) => {
+    const id = req.params.NoSerie;
+    if (id !== '' || id !== undefined) {
+        try {
+            const resultatRequete = await requeteKnex.suppresionIBOByNoSerie(id);
+            if (resultatRequete === true) {
+                res.json({
+                    success: true,
+                    message: 'Delete OK',
+                });
+            } else {
+                res.json({
+                    success: false,
+                    message: `Delete failed, No Série incorrecte: ${id}`,
+                });
+            }
+        } catch (err) {
+            res.json({
+                success: false,
+                message: err,
+            });
+        }
+    } else {
+        res.json({
+            success: false,
+            message: 'Aucun No de Série insérer',
+        });
     }
-    try {
-        resultat = await requeteKnex.suppresionIBOBByNoSerie(noSerie);
-    } catch (error) {
-        return res.status(500).json(error.message);
-    }
-    if (resultat.length === 0) {
-        return res.status(404).json('Cette objet n\'est pas répertoriée');
-    }
-    return res.status(200).json(resultat);
 });
 
 app.get('/IBAF/:NoSerie', async (req, res) => {
@@ -195,21 +208,34 @@ app.put('/IBAF', async (req, res) => {
     return res.status(200).json(resultat);
 });
 
-app.delete('/IBAF/:NoSerie', async (req, res) => {
-    let resultat;
-    const noSerie = req.params.NoSerie;
-    if (noSerie === undefined) {
-        return res.status(400).json('Le No de Série de l\'arme est manquant');
+app.delete('/IBAF/supression/:NoSerie', async (req, res) => {
+    const id = req.params.NoSerie;
+    if (id !== '' || id !== undefined) {
+        try {
+            const resultatRequete = await requeteKnex.suppresionIBAFByNoSerie(id);
+            if (resultatRequete === true) {
+                res.json({
+                    success: true,
+                    message: 'Delete OK',
+                });
+            } else {
+                res.json({
+                    success: false,
+                    message: `Delete failed, No Série incorrecte: ${id}`,
+                });
+            }
+        } catch (err) {
+            res.json({
+                success: false,
+                message: err,
+            });
+        }
+    } else {
+        res.json({
+            success: false,
+            message: 'Aucun No de Série insérer',
+        });
     }
-    try {
-        resultat = await requeteKnex.suppresionIBAFByNoSerie(noSerie);
-    } catch (error) {
-        return res.status(500).json(error.message);
-    }
-    if (resultat.length === 0) {
-        return res.status(404).json('Cette arme n\'est pas répertoriée');
-    }
-    return res.status(200).json(resultat);
 });
 
 app.get('/IBVA/:Identifiant', async (req, res) => {
@@ -291,7 +317,7 @@ app.delete('/IBVA/:Identifiant', async (req, res) => {
 
 app.delete('/IBVA/supression/:Identifiant', async (req, res) => {
     const id = req.params.Identifiant;
-    if (id !== '' || id === undefined) {
+    if (id !== '' || id !== undefined) {
         try {
             const resultatRequete = await requeteKnex.suppresionIBVAByIdentifiant(id);
             if (resultatRequete === true) {

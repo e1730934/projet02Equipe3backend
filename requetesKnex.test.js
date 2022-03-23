@@ -23,7 +23,7 @@ const reqKnex = require('./requetesKnex');
 // });
 test('suppresionIBOBByNoSerie dans database', async () => {
     await reqKnex.ajoutIBOB('Test', 'Test', 'Test', 'Test', '123456789123456');
-    await reqKnex.suppresionIBOBByNoSerie('Test');
+    await reqKnex.suppresionIBOByNoSerie('Test');
     const expectedResult = [];
     const result = await reqKnex.getIBOBbyNoSerie('Test');
     expect(expectedResult).toEqual(result);
@@ -40,7 +40,7 @@ test('ajoutIBOB dans database', async () => {
 
     }];
     const result = await reqKnex.getIBOBbyNoSerie('Test');
-    await reqKnex.suppresionIBOBByNoSerie('Test');
+    await reqKnex.suppresionIBOByNoSerie('Test');
     expect(expectedResult).toEqual(result);
 });
 
@@ -56,7 +56,7 @@ test('modificationIBOB dans database', async () => {
 
     }];
     const result = await reqKnex.getIBOBbyNoSerie('Test');
-    await reqKnex.suppresionIBOBByNoSerie('Test');
+    await reqKnex.suppresionIBOByNoSerie('Test');
     expect(expectedResult).toEqual(result);
 });
 
