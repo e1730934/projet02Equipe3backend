@@ -257,6 +257,7 @@ async function getCountIBVA(identifiant) {
 }
 
 async function ajoutIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement) {
+    let success = false;
     const count = await getCountIBVA(identifiant);
     if (count[0].nbrLigne === 0) {
         await knex('IBVA')
@@ -269,8 +270,10 @@ async function ajoutIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvene
                     NoEvenement: noEvenement,
                 },
             );
+        success = true;
     } else {
         console.log('Identifiant existe deja dans table IBVA'); // TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
+        return success;
     }
 }
 

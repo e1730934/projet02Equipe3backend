@@ -258,7 +258,6 @@ app.get('/IBVA/:Identifiant', async (req, res) => {
 
 app.post('/IBVA', async (req, res) => {
     let resultat;
-    console.log(req.body);
     const identifiant = req.body.Identifiant;
     const auteur = req.body.Auteur;
     const typeValeur = req.body.TypeValeur;
@@ -267,15 +266,31 @@ app.post('/IBVA', async (req, res) => {
         + req.body.JJ + req.body.sequenceChiffres;
     if (identifiant === undefined || auteur === undefined || typeValeur === undefined
         || typeEvenement === undefined || noEvenement === undefined) {
-        return res.status(400).json('paramètre manquant');
+        return res.status(400).json({
+            success: false,
+            message: 'POST FAILED, Valeur manquant(es)',
+        });
     }
     try {
-        resultat = await
+        const resultatRequete = await
         requeteKnex.ajoutIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement);
+        if (resultatRequete === true) {
+            res.status(200).json({
+                success: true,
+                message: 'POST SUCCESS',
+            });
+        } else {
+            res.json({
+                success: false,
+                message: 'POST FAILED',
+            });
+        }
     } catch (error) {
-        return res.status(500).json(error.message);
+        res.status(500).json({
+            success: false,
+            message: `POST FAILED, ${error}`,
+        });
     }
-    return res.status(200).json(resultat);
 });
 
 app.put('/IBVA', async (req, res) => {
