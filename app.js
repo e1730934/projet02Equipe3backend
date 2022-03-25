@@ -7,6 +7,7 @@ const requeteKnex = require('./requetesKnex');
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.post('/login', async (req, res) => {
@@ -257,11 +258,13 @@ app.get('/IBVA/:Identifiant', async (req, res) => {
 
 app.post('/IBVA', async (req, res) => {
     let resultat;
+    console.log(req.body);
     const identifiant = req.body.Identifiant;
     const auteur = req.body.Auteur;
     const typeValeur = req.body.TypeValeur;
     const typeEvenement = req.body.TypeEvenement;
-    const noEvenement = req.body.NoEvenement;
+    const noEvenement = req.body.NoEvenement + req.body.AA + req.body.MM
+        + req.body.JJ + req.body.sequenceChiffres;
     if (identifiant === undefined || auteur === undefined || typeValeur === undefined
         || typeEvenement === undefined || noEvenement === undefined) {
         return res.status(400).json('paramètre manquant');
@@ -292,25 +295,8 @@ app.put('/IBVA', async (req, res) => {
     } catch (error) {
         return res.status(500).json(error.message);
     }
-    if (resultat.length === 0) {
+    if (resultat === undefined) {
         return res.status(404).json('L\'objet de valeur à modifier n’existe pas.');
-    }
-    return res.status(200).json(resultat);
-});
-
-app.delete('/IBVA/:Identifiant', async (req, res) => {
-    let resultat;
-    const identifiant = req.params.Identifiant;
-    if (identifiant === undefined) {
-        return res.status(400).json('L\'identifiant de l\' est manquant');
-    }
-    try {
-        resultat = await requeteKnex.suppresionIBVAByIdentifiant(identifiant);
-    } catch (error) {
-        return res.status(500).json(error.message);
-    }
-    if (resultat.length === 0) {
-        return res.status(404).json('L\'objet de valeur n\'existe pas');
     }
     return res.status(200).json(resultat);
 });
