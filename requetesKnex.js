@@ -273,11 +273,12 @@ async function ajoutIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvene
         success = true;
     } else {
         console.log('Identifiant existe deja dans table IBVA'); // TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
-        return success;
     }
+    return success;
 }
 
 async function modificationIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement) {
+    let success = false;
     const count = await getCountIBVA(identifiant);
     if (count[0].nbrLigne !== 0) {
         await knex('IBVA')
@@ -291,9 +292,11 @@ async function modificationIBVA(identifiant, auteur, typeValeur, typeEvenement, 
                 },
             )
             .where('Identifiant', identifiant);
+        success = true;
     } else {
         console.log('N\'existe pas dans DB'); // TODO: IMPLEMENTER SI EXISTE PAS DNS DB
     }
+    return success;
 }
 
 async function suppresionIBVAByIdentifiant(identifiant) {
