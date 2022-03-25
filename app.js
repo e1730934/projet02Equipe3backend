@@ -7,6 +7,7 @@ const requeteKnex = require('./requetesKnex');
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}))
 
@@ -216,24 +217,24 @@ app.delete('/IBAF/supression/:NoSerie', async (req, res) => {
         try {
             const resultatRequete = await requeteKnex.suppresionIBAFByNoSerie(id);
             if (resultatRequete === true) {
-                res.json({
+                res.status(200).json({
                     success: true,
                     message: 'Delete OK',
                 });
             } else {
-                res.json({
+                res.status(404).json({
                     success: false,
                     message: `Delete failed, No Série incorrecte: ${id}`,
                 });
             }
         } catch (err) {
-            res.json({
+            res.status(400).json({
                 success: false,
                 message: err,
             });
         }
     } else {
-        res.json({
+        res.status(500).json({
             success: false,
             message: 'Aucun No de Série insérer',
         });
@@ -244,77 +245,92 @@ app.get('/IBVA/:Identifiant', async (req, res) => {
     let resultat;
     const identifiant = req.params.Identifiant;
     if (identifiant === undefined) {
-        return res.status(400).json('paramètre manquant');
+        res.status(400).json('paramètre manquant');
     }
     try {
         resultat = await requeteKnex.getIBVAbyIdentifiant(identifiant);
     } catch (error) {
-        return res.status(500).json(error.message);
+        res.status(500).json(error.message);
     }
     if (resultat.length === 0) {
-        return res.status(404).json('Cette objet de valeur n\'est pas répertoriée');
+        res.status(404).json('Cette objet de valeur n\'est pas répertoriée');
     }
-    return res.status(200).json(resultat);
+    res.status(200).json(resultat);
 });
 
 app.post('/IBVA', async (req, res) => {
-    let resultat;
     const identifiant = req.body.Identifiant;
     const auteur = req.body.Auteur;
     const typeValeur = req.body.TypeValeur;
     const typeEvenement = req.body.TypeEvenement;
-    const noEvenement = req.body.NoEvenement;
+    const noEvenement = `${req.body.NoEvenement}-${req.body.AA}${req.body.MM
+    }${req.body.JJ}-${req.body.sequenceChiffres}`;
     if (identifiant === undefined || auteur === undefined || typeValeur === undefined
-        || typeEvenement === undefined || noEvenement === undefined) {
-        return res.status(400).json('paramètre manquant');
+        || typeEvenement === undefined || req.body.NoEvenement === undefined
+        || req.body.AA === undefined || req.body.MM === undefined
+        || req.body.JJ === undefined || req.body.sequenceChiffres === undefined) {
+        return res.status(400).json({
+            success: false,
+            message: 'POST FAILED, Valeur manquant(es)',
+        });
     }
     try {
-        resultat = await
+        const resultatRequete = await
         requeteKnex.ajoutIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement);
+        if (resultatRequete === true) {
+            res.status(200).json({
+                success: true,
+                message: 'POST SUCCESS',
+            });
+        } else {
+            res.status(500).json({
+                success: false,
+                message: 'POST FAILED',
+            });
+        }
     } catch (error) {
-        return res.status(500).json(error.message);
+        res.status(500).json({
+            success: false,
+            message: `POST FAILED, ${error.message}`,
+        });
     }
-    return res.status(200).json(resultat);
 });
 
 app.put('/IBVA', async (req, res) => {
-    let resultat;
     const identifiant = req.body.Identifiant;
     const auteur = req.body.Auteur;
     const typeValeur = req.body.TypeValeur;
     const typeEvenement = req.body.TypeEvenement;
-    const noEvenement = req.body.NoEvenement;
+    const noEvenement = `${req.body.NoEvenement}-${req.body.AA}${req.body.MM
+    }${req.body.JJ}-${req.body.sequenceChiffres}`;
     if (identifiant === undefined || auteur === undefined || typeValeur === undefined
-        || typeEvenement === undefined || noEvenement === undefined) {
-        return res.status(400).json('paramètre manquant');
+        || typeEvenement === undefined || req.body.NoEvenement === undefined
+        || req.body.AA === undefined || req.body.MM === undefined
+        || req.body.JJ === undefined || req.body.sequenceChiffres === undefined) {
+        return res.status(400).json({
+            success: false,
+            message: 'PUT FAILED, Valeur manquant(es)',
+        });
     }
     try {
         // eslint-disable-next-line max-len
-        resultat = await requeteKnex.modificationIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement);
+        const resultatRequete = await requeteKnex.modificationIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement);
+        if (resultatRequete === true) {
+            return res.status(200).json({
+                success: true,
+                message: 'PUT SUCCESS',
+            });
+        }
+        return res.status(404).json({
+            success: false,
+            message: 'PUT FAILED, l\'objet est introuvable,',
+        });
     } catch (error) {
-        return res.status(500).json(error.message);
+        return res.status(500).json({
+            success: false,
+            message: `PUT FAILED, ${error.message}`,
+        });
     }
-    if (resultat.length === 0) {
-        return res.status(404).json('L\'objet de valeur à modifier n’existe pas.');
-    }
-    return res.status(200).json(resultat);
-});
-
-app.delete('/IBVA/:Identifiant', async (req, res) => {
-    let resultat;
-    const identifiant = req.params.Identifiant;
-    if (identifiant === undefined) {
-        return res.status(400).json('L\'identifiant de l\' est manquant');
-    }
-    try {
-        resultat = await requeteKnex.suppresionIBVAByIdentifiant(identifiant);
-    } catch (error) {
-        return res.status(500).json(error.message);
-    }
-    if (resultat.length === 0) {
-        return res.status(404).json('L\'objet de valeur n\'existe pas');
-    }
-    return res.status(200).json(resultat);
 });
 
 app.delete('/IBVA/supression/:Identifiant', async (req, res) => {
@@ -323,26 +339,26 @@ app.delete('/IBVA/supression/:Identifiant', async (req, res) => {
         try {
             const resultatRequete = await requeteKnex.suppresionIBVAByIdentifiant(id);
             if (resultatRequete === true) {
-                res.json({
+                res.status(200).json({
                     success: true,
                     message: 'Delete OK',
                 });
             } else {
-                res.json({
+                res.status(404).json({
                     success: false,
-                    message: `Delete failed, Identifiant incorrecte: ${id}`,
+                    message: 'Delete failed, Identifiant incorrecte',
                 });
             }
         } catch (err) {
-            res.json({
+            res.status(500).json({
                 success: false,
                 message: err,
             });
         }
     } else {
-        res.json({
+        res.status(400).json({
             success: false,
-            message: 'Aucun identifiant insérer',
+            message: 'Aucun No de Série insérer',
         });
     }
 });
