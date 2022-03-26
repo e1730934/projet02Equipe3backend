@@ -119,6 +119,7 @@ async function getCountIBOB(noSerie) {
         .count('* as nbrLigne');
 }
 async function ajoutIBOB(noSerie, marque, modele, typeObjet, noEvenement) {
+    let success = false;
     const count = await getCountIBOB(noSerie);
     if (count[0].nbrLigne === 0) {
         await knex('IBOB')
@@ -131,12 +132,15 @@ async function ajoutIBOB(noSerie, marque, modele, typeObjet, noEvenement) {
                     NoEvenement: noEvenement,
                 },
             );
+        success = true;
     } else {
         console.log('NoSerie existe deja dans table IBOB'); // TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
     }
+    return success;
 }
 
 async function modificationIBOB(noSerie, marque, modele, typeObjet, noEvenement) {
+    let success = false;
     const count = await getCountIBOB(noSerie);
     if (count[0].nbrLigne !== 0) {
         await knex('IBOB')
@@ -149,10 +153,12 @@ async function modificationIBOB(noSerie, marque, modele, typeObjet, noEvenement)
                 },
             )
             .where('NoSerie', noSerie);
+        success = true;
     } else {
         console.log('N\'existe pas dans DB');
         // TODO: IMPLEMENTER SI EXISTE PAS DNS DB
     }
+    return success;
 }
 
 async function suppresionIBOByNoSerie(noSerie) {
@@ -191,6 +197,7 @@ async function getCountIBAF(noSerie) {
 }
 
 async function ajoutIBAF(noSerie, marque, calibre, typeArme, noEvenement) {
+    let success = false;
     const count = await getCountIBAF(noSerie);
     if (count[0].nbrLigne === 0) {
         await knex('IBAF')
@@ -203,12 +210,15 @@ async function ajoutIBAF(noSerie, marque, calibre, typeArme, noEvenement) {
                     NoEvenement: noEvenement,
                 },
             );
+        success = true;
     } else {
         console.log('NoSerie existe deja dans table IBAF'); // TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
     }
+    return success;
 }
 
 async function modificationIBAF(noSerie, marque, calibre, typeArme, noEvenement) {
+    let success = false;
     const count = await getCountIBAF(noSerie);
     if (count[0].nbrLigne !== 0) {
         await knex('IBAF')
@@ -221,9 +231,11 @@ async function modificationIBAF(noSerie, marque, calibre, typeArme, noEvenement)
                 },
             )
             .where('NoSerie', noSerie);
+        success = true;
     } else {
         console.log('N\'existe pas dans DB'); // TODO: IMPLEMENTER SI EXISTE PAS DNS DB
     }
+    return success;
 }
 
 async function suppresionIBAFByNoSerie(noSerie) {
