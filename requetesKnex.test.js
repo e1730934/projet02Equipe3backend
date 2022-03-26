@@ -134,3 +134,43 @@ test('modificationIBVA dans database', async () => {
     await reqKnex.suppresionIBVAByIdentifiant('Test');
     expect(expectedResult).toEqual(result);
 });
+
+
+test('get IBOB by id dans database', async () => {
+    await reqKnex.getIBOBbyId(5);
+    const expectedResult = [{
+        NoSerie: '410MXBPVF637',
+        Marque: 'LG',
+        Modele: '32LB5600-UZ',
+        TypeObjet: 'RA',
+        NoEvenement: '123-220301-0007',
+    }];
+    const result = await reqKnex.getIBOBbyNoSerie('410MXBPVF637');
+    expect(expectedResult).toEqual(result);
+});
+
+test('get IBVA by id dans database', async () => {
+    await reqKnex.getIBVAbyId(5);
+    const expectedResult = [{
+        Identifiant: '628181-4249-96708',
+        Auteur: 'MASTERCARD',
+        TypeValeur: 'Carte de crédit / débit',
+        TypeEvenement: 'Perdu',
+        NoEvenement: '123-220301-0007',
+    }];
+    const result = await reqKnex.getIBVAbyIdentifiant('628181-4249-96708');
+    expect(expectedResult).toEqual(result);
+});
+
+test('get IBAF by id dans database', async () => {
+    await reqKnex.getIBVAbyId(1);
+    const expectedResult = [{
+        NoSerie: '1597538',
+        Marque: 'SMITH & WESSON',
+        Calibre: '357       ',
+        TypeArme: 'Révolver',
+        NoEvenement: '108-220304-0006',
+    }];
+    const result = await reqKnex.getIBAFByNoSerie('1597538');
+    expect(expectedResult).toEqual(result);
+});

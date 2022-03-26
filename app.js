@@ -61,14 +61,14 @@ app.get('/ippeInfo', async (req, res) => {
 
     return res.status(200).json(resultat);
 });
-app.get('/IBOB/:NoSerie', async (req, res) => {
+app.get('/IBOB/:IdIBOB', async (req, res) => {
     let resultat;
-    const noSerie = req.params.NoSerie;
-    if (noSerie === undefined) {
+    const id = req.params.IdIBOB;
+    if (id === undefined) {
         return res.status(400).json('paramètre manquant');
     }
     try {
-        resultat = await requeteKnex.getIBOBbyNoSerie(noSerie);
+        resultat = await requeteKnex.getIBOBbyId(id);
     } catch (error) {
         return res.status(500).json(error.message);
     }
@@ -183,14 +183,14 @@ app.delete('/IBOB/supression/:NoSerie', async (req, res) => {
     }
 });
 
-app.get('/IBAF/:NoSerie', async (req, res) => {
+app.get('/IBAF/:IdIBAF', async (req, res) => {
     let resultat;
-    const noSerie = req.params.NoSerie;
-    if (noSerie === undefined) {
+    const id = req.params.IdIBAF;
+    if (id === undefined) {
         return res.status(400).json('paramètre manquant');
     }
     try {
-        resultat = await requeteKnex.getIBAFByNoSerie(noSerie);
+        resultat = await requeteKnex.getIBAFById(id);
     } catch (error) {
         return res.status(500).json(error.message);
     }
@@ -305,14 +305,14 @@ app.delete('/IBAF/supression/:NoSerie', async (req, res) => {
     }
 });
 
-app.get('/IBVA/:Identifiant', async (req, res) => {
+app.get('/IBVA/:IdIBVA', async (req, res) => {
     let resultat;
-    const identifiant = req.params.Identifiant;
-    if (identifiant === undefined) {
+    const id = req.params.IdIBVA;
+    if (id === undefined) {
         res.status(400).json('paramètre manquant');
     }
     try {
-        resultat = await requeteKnex.getIBVAbyIdentifiant(identifiant);
+        resultat = await requeteKnex.getIBVAbyId(id);
     } catch (error) {
         res.status(500).json(error.message);
     }
