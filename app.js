@@ -9,8 +9,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}))
-
+app.use(express.urlencoded({ extended: false }));
 
 app.post('/login', async (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -80,45 +79,78 @@ app.get('/IBOB/:NoSerie', async (req, res) => {
 });
 
 app.post('/IBOB', async (req, res) => {
-    let resultat;
     const noSerie = req.body.NoSerie;
     const marque = req.body.Marque;
     const modele = req.body.Modele;
     const typeObjet = req.body.TypeObjet;
-    const noEvenement = req.body.NoEvenement;
-    if (noSerie === undefined || marque === undefined
-        || modele === undefined || typeObjet === undefined || noEvenement === undefined) {
-        return res.status(400).json('paramètre manquant');
+    const noEvenement = `${req.body.NoEvenement}-${req.body.AA}${req.body.MM
+    }${req.body.JJ}-${req.body.sequenceChiffres}`;
+    if (noSerie === undefined || marque === undefined || modele === undefined
+        || typeObjet === undefined || req.body.NoEvenement === undefined
+        || req.body.AA === undefined || req.body.MM === undefined
+        || req.body.JJ === undefined || req.body.sequenceChiffres === undefined) {
+        return res.status(400).json({
+            success: false,
+            message: 'POST FAILED, Valeur manquant(es)',
+        });
     }
     try {
-        resultat = await requeteKnex.ajoutIBOB(noSerie, marque, modele, typeObjet, noEvenement);
+        const resultatRequete = await
+        requeteKnex.ajoutIBOB(noSerie, marque, modele, typeObjet, noEvenement);
+        if (resultatRequete === true) {
+            res.status(200).json({
+                success: true,
+                message: 'POST SUCCESS',
+            });
+        } else {
+            res.status(500).json({
+                success: false,
+                message: 'POST FAILED',
+            });
+        }
     } catch (error) {
-        return res.status(500).json(error.message);
+        res.status(500).json({
+            success: false,
+            message: `POST FAILED, ${error.message}`,
+        });
     }
-    return res.status(200).json(resultat);
 });
 
 app.put('/IBOB', async (req, res) => {
-    let resultat;
     const noSerie = req.body.NoSerie;
     const marque = req.body.Marque;
     const modele = req.body.Modele;
     const typeObjet = req.body.TypeObjet;
-    const noEvenement = req.body.NoEvenement;
-    if (noSerie === undefined || marque === undefined
-        || modele === undefined || typeObjet === undefined || noEvenement === undefined) {
-        return res.status(400).json('paramètre manquant');
+    const noEvenement = `${req.body.NoEvenement}-${req.body.AA}${req.body.MM
+    }${req.body.JJ}-${req.body.sequenceChiffres}`;
+    if (noSerie === undefined || marque === undefined || modele === undefined
+        || typeObjet === undefined || req.body.NoEvenement === undefined
+        || req.body.AA === undefined || req.body.MM === undefined
+        || req.body.JJ === undefined || req.body.sequenceChiffres === undefined) {
+        return res.status(400).json({
+            success: false,
+            message: 'PUT FAILED, Valeur manquant(es)',
+        });
     }
     try {
-        resultat = await
+        const resultatRequete = await
         requeteKnex.modificationIBOB(noSerie, marque, modele, typeObjet, noEvenement);
+        if (resultatRequete === true) {
+            return res.status(200).json({
+                success: true,
+                message: 'PUT SUCCESS',
+            });
+        }
+        return res.status(404).json({
+            success: false,
+            message: 'PUT FAILED, l\'objet est introuvable,',
+        });
     } catch (error) {
-        return res.status(500).json(error.message);
+        return res.status(500).json({
+            success: false,
+            message: `PUT FAILED, ${error.message}`,
+        });
     }
-    if (resultat.length === 0) {
-        return res.status(404).json('L\'objet à modifier n’existe pas.');
-    }
-    return res.status(200).json(resultat);
 });
 
 app.delete('/IBOB/supression/:NoSerie', async (req, res) => {
@@ -169,46 +201,78 @@ app.get('/IBAF/:NoSerie', async (req, res) => {
 });
 
 app.post('/IBAF', async (req, res) => {
-    let resultat;
     const noSerie = req.body.NoSerie;
     const marque = req.body.Marque;
     const calibre = req.body.Calibre;
     const typeArme = req.body.TypeArme;
-    const noEvenement = req.body.NoEvenement;
+    const noEvenement = `${req.body.NoEvenement}-${req.body.AA}${req.body.MM
+    }${req.body.JJ}-${req.body.sequenceChiffres}`;
     if (noSerie === undefined || marque === undefined || calibre === undefined
-        || typeArme === undefined || noEvenement === undefined) {
-        return res.status(400).json('paramètre manquant');
+        || typeArme === undefined || req.body.NoEvenement === undefined
+        || req.body.AA === undefined || req.body.MM === undefined
+        || req.body.JJ === undefined || req.body.sequenceChiffres === undefined) {
+        return res.status(400).json({
+            success: false,
+            message: 'POST FAILED, Valeur manquant(es)',
+        });
     }
     try {
-        resultat = await
+        const resultatRequete = await
         requeteKnex.ajoutIBAF(noSerie, marque, calibre, typeArme, noEvenement);
+        if (resultatRequete === true) {
+            res.status(200).json({
+                success: true,
+                message: 'POST SUCCESS',
+            });
+        } else {
+            res.status(500).json({
+                success: false,
+                message: 'POST FAILED',
+            });
+        }
     } catch (error) {
-        return res.status(500).json(error.message);
+        res.status(500).json({
+            success: false,
+            message: `POST FAILED, ${error.message}`,
+        });
     }
-    return res.status(200).json(resultat);
 });
 
 app.put('/IBAF', async (req, res) => {
-    let resultat;
     const noSerie = req.body.NoSerie;
     const marque = req.body.Marque;
     const calibre = req.body.Calibre;
     const typeArme = req.body.TypeArme;
-    const noEvenement = req.body.NoEvenement;
+    const noEvenement = `${req.body.NoEvenement}-${req.body.AA}${req.body.MM
+    }${req.body.JJ}-${req.body.sequenceChiffres}`;
     if (noSerie === undefined || marque === undefined || calibre === undefined
-        || typeArme === undefined || noEvenement === undefined) {
-        return res.status(400).json('paramètre manquant');
+        || typeArme === undefined || req.body.NoEvenement === undefined
+        || req.body.AA === undefined || req.body.MM === undefined
+        || req.body.JJ === undefined || req.body.sequenceChiffres === undefined) {
+        return res.status(400).json({
+            success: false,
+            message: 'PUT FAILED, Valeur manquant(es)',
+        });
     }
     try {
         // eslint-disable-next-line max-len
-        resultat = await requeteKnex.modificationIBAF(noSerie, marque, calibre, typeArme, noEvenement);
+        const resultatRequete = await requeteKnex.modificationIBAF(noSerie, marque, calibre, typeArme, noEvenement);
+        if (resultatRequete === true) {
+            return res.status(200).json({
+                success: true,
+                message: 'PUT SUCCESS',
+            });
+        }
+        return res.status(404).json({
+            success: false,
+            message: 'PUT FAILED, l\'objet est introuvable,',
+        });
     } catch (error) {
-        return res.status(500).json(error.message);
+        return res.status(500).json({
+            success: false,
+            message: `PUT FAILED, ${error.message}`,
+        });
     }
-    if (resultat.length === 0) {
-        return res.status(404).json('L\'arme à modifier n’existe pas.');
-    }
-    return res.status(200).json(resultat);
 });
 
 app.delete('/IBAF/supression/:NoSerie', async (req, res) => {
