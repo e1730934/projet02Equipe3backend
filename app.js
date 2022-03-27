@@ -61,23 +61,24 @@ app.get('/ippeInfo', async (req, res) => {
 
     return res.status(200).json(resultat);
 });
-app.get('/IBOB/:NoSerie', async (req, res) => {
+app.get('/IBOB/:IdIBOB', async (req, res) => {
     let resultat;
-    const noSerie = req.params.NoSerie;
-    if (noSerie === undefined) {
-        return res.status(400).json('paramètre manquant');
-    }
+    const id = req.params.IdIBOB;
     try {
-        resultat = await requeteKnex.getIBOBbyNoSerie(noSerie);
+        if (id === undefined) {
+            return res.status(400).json({ message: 'paramètre manquant' });
+        }
+        resultat = await requeteKnex.getIBOBbyId(id);
+        if (resultat.length === 0) {
+            return res.status(404).json({ message: 'Cette objet n\'est pas répertoriée' });
+        }
+        return res.status(200).json(resultat);
     } catch (error) {
-        return res.status(500).json(error.message);
+        return res.status(500).json({ message: error.message });
     }
-    if (resultat.length === 0) {
-        return res.status(404).json('Cette objet n\'est pas répertoriée');
-    }
-    return res.status(200).json(resultat);
 });
 
+// eslint-disable-next-line consistent-return
 app.post('/IBOB', async (req, res) => {
     const noSerie = req.body.NoSerie;
     const marque = req.body.Marque;
@@ -183,21 +184,21 @@ app.delete('/IBOB/supression/:NoSerie', async (req, res) => {
     }
 });
 
-app.get('/IBAF/:NoSerie', async (req, res) => {
+app.get('/IBAF/:IdIBAF', async (req, res) => {
     let resultat;
-    const noSerie = req.params.NoSerie;
-    if (noSerie === undefined) {
-        return res.status(400).json('paramètre manquant');
-    }
+    const id = req.params.IdIBAF;
     try {
-        resultat = await requeteKnex.getIBAFByNoSerie(noSerie);
+        if (id === undefined) {
+            return res.status(400).json({ message: 'paramètre manquant' });
+        }
+        resultat = await requeteKnex.getIBAFById(id);
+        if (resultat.length === 0) {
+            return res.status(404).json({ message: 'Cette arme n\'est pas répertoriée' });
+        }
+        return res.status(200).json(resultat);
     } catch (error) {
-        return res.status(500).json(error.message);
+        return res.status(500).json({ message: error.message });
     }
-    if (resultat.length === 0) {
-        return res.status(404).json('Cette arme n\'est pas répertoriée');
-    }
-    return res.status(200).json(resultat);
 });
 
 app.post('/IBAF', async (req, res) => {
@@ -305,21 +306,20 @@ app.delete('/IBAF/supression/:NoSerie', async (req, res) => {
     }
 });
 
-app.get('/IBVA/:Identifiant', async (req, res) => {
+app.get('/IBVA/:IdIBVA', async (req, res) => {
     let resultat;
-    const identifiant = req.params.Identifiant;
-    if (identifiant === undefined) {
-        res.status(400).json('paramètre manquant');
+    const id = req.params.IdIBVA;
+    if (id === undefined) {
+        res.status(400).json({ message: 'paramètre manquant' });
     }
     try {
-        resultat = await requeteKnex.getIBVAbyIdentifiant(identifiant);
+        resultat = await requeteKnex.getIBVAbyId(id);
+        if (resultat.length === 0) {
+            res.status(404).json({ message: 'Cette objet de valeur n\'est pas répertoriée' });
+        } else res.status(200).json(resultat);
     } catch (error) {
-        res.status(500).json(error.message);
+        res.status(500).json({ message: error.message });
     }
-    if (resultat.length === 0) {
-        res.status(404).json('Cette objet de valeur n\'est pas répertoriée');
-    }
-    res.status(200).json(resultat);
 });
 
 app.post('/IBVA', async (req, res) => {

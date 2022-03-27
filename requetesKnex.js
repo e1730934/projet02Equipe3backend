@@ -1,3 +1,5 @@
+// noinspection JSNonASCIINames
+
 const knex = require('knex')({
     client: 'mssql',
     connection: {
@@ -102,6 +104,18 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
+async function getIBOBbyId(Id) {
+    return knex('IBOB')
+        .where('IdBOB', Id)
+        .select(
+            'NoSerie',
+            'Marque',
+            'Modele',
+            'TypeObjet',
+            'NoEvenement',
+        );
+}
+
 async function getIBOBbyNoSerie(noSerie) {
     return knex('IBOB')
         .where('NoSerie', noSerie)
@@ -113,6 +127,7 @@ async function getIBOBbyNoSerie(noSerie) {
             'NoEvenement',
         );
 }
+
 async function getCountIBOB(noSerie) {
     return knex('IBOB')
         .where('NoSerie', noSerie)
@@ -173,10 +188,16 @@ async function suppresionIBOByNoSerie(noSerie) {
     return success;
 }
 
-async function getIBAFbyId(idIBAF) {
+async function getIBAFById(id) {
     return knex('IBAF')
-        .where('IdIBAF', idIBAF)
-        .select('*');
+        .where('IdIBAF', id)
+        .select(
+            'NoSerie',
+            'Marque',
+            'Calibre',
+            'TypeArme',
+            'NoEvenement',
+        );
 }
 
 async function getIBAFByNoSerie(noSerie) {
@@ -190,6 +211,7 @@ async function getIBAFByNoSerie(noSerie) {
             'NoEvenement',
         );
 }
+
 async function getCountIBAF(noSerie) {
     return knex('IBAF')
         .where('NoSerie', noSerie)
@@ -248,6 +270,18 @@ async function suppresionIBAFByNoSerie(noSerie) {
         success = true;
     }
     return success;
+}
+
+async function getIBVAbyId(id) {
+    return knex('IBVA')
+        .where('IdIBVA', id)
+        .select(
+            'Identifiant',
+            'Auteur',
+            'TypeValeur',
+            'TypeEvenement',
+            'NoEvenement',
+        );
 }
 
 async function getIBVAbyIdentifiant(identifiant) {
@@ -326,17 +360,19 @@ async function suppresionIBVAByIdentifiant(identifiant) {
 module.exports = {
     connexion,
     getIPPE,
-    getIBOBbyNoSerie,
+    getIBOBbyId,
     ajoutIBOB,
     modificationIBOB,
     suppresionIBOByNoSerie,
-    getIBAFbyId,
-    getIBAFByNoSerie,
+    getIBAFById,
     ajoutIBAF,
     modificationIBAF,
     suppresionIBAFByNoSerie,
-    getIBVAbyIdentifiant,
+    getIBVAbyId,
     ajoutIBVA,
     modificationIBVA,
     suppresionIBVAByIdentifiant,
+    getIBVAbyIdentifiant,
+    getIBAFByNoSerie,
+    getIBOBbyNoSerie,
 };

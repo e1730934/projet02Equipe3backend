@@ -23,6 +23,6 @@
     "lint": "npx eslint *.js",
     "fix": "npx eslint *.js --fix",
     "test": "jest",
-    "serve": "nodemon app.js "
+    "start": "nodemon app.js "
   }
 }
