@@ -148,8 +148,6 @@ async function ajoutIBOB(noSerie, marque, modele, typeObjet, noEvenement) {
                 },
             );
         success = true;
-    } else {
-        console.log('NoSerie existe deja dans table IBOB'); // TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
     }
     return success;
 }
@@ -169,9 +167,6 @@ async function modificationIBOB(noSerie, marque, modele, typeObjet, noEvenement)
             )
             .where('NoSerie', noSerie);
         success = true;
-    } else {
-        console.log('N\'existe pas dans DB');
-        // TODO: IMPLEMENTER SI EXISTE PAS DNS DB
     }
     return success;
 }
@@ -233,8 +228,6 @@ async function ajoutIBAF(noSerie, marque, calibre, typeArme, noEvenement) {
                 },
             );
         success = true;
-    } else {
-        console.log('NoSerie existe deja dans table IBAF'); // TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
     }
     return success;
 }
@@ -254,8 +247,6 @@ async function modificationIBAF(noSerie, marque, calibre, typeArme, noEvenement)
             )
             .where('NoSerie', noSerie);
         success = true;
-    } else {
-        console.log('N\'existe pas dans DB'); // TODO: IMPLEMENTER SI EXISTE PAS DNS DB
     }
     return success;
 }
@@ -317,8 +308,6 @@ async function ajoutIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvene
                 },
             );
         success = true;
-    } else {
-        console.log('Identifiant existe deja dans table IBVA'); // TODO: IMPLEMENTER SI EXISTE DEJA DNS DB
     }
     return success;
 }
@@ -339,8 +328,6 @@ async function modificationIBVA(identifiant, auteur, typeValeur, typeEvenement, 
             )
             .where('Identifiant', identifiant);
         success = true;
-    } else {
-        console.log('N\'existe pas dans DB'); // TODO: IMPLEMENTER SI EXISTE PAS DNS DB
     }
     return success;
 }
