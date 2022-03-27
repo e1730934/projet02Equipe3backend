@@ -135,7 +135,6 @@ test('modificationIBVA dans database', async () => {
     expect(expectedResult).toEqual(result);
 });
 
-
 test('get IBOB by id dans database', async () => {
     await reqKnex.getIBOBbyId(5);
     const expectedResult = [{

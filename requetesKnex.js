@@ -1,3 +1,5 @@
+// noinspection JSNonASCIINames
+
 const knex = require('knex')({
     client: 'mssql',
     connection: {
@@ -372,5 +374,5 @@ module.exports = {
     suppresionIBVAByIdentifiant,
     getIBVAbyIdentifiant,
     getIBAFByNoSerie,
-    getIBOBbyNoSerie
+    getIBOBbyNoSerie,
 };
