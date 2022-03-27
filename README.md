@@ -29,11 +29,11 @@ Projet 2 - Développement d'applications
 <br/>
 <hr/>
 
-## Tests
+## Information complémentaire
 Afin de completer les tests unitaires il faut lancer la commande : `npm test`<br/>
 Le port utiliser pour lancer le serveur est le 3000 et la commande script est : `npm run serve` <br/>
 Afin d'utiliser le linter sur tout les fichiers la commande a taper est : `npm run lint` <br/>
 Afin d'utiliser le linter sur tout les fichiers et corriger les erreurs la commande a taper est : `npm run fix` <br/>
-Afin d'utiliser l'API Veuillez installer toutes les dependances avec la commande : `npm i` <br/>
+Afin d'utiliser l'API Veuillez installer toutes les dependances avec la commande : `npm install` <br/>
 
 </div>
