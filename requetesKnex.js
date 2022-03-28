@@ -10,6 +10,7 @@ const knex = require('knex')({
         },
     },
     pool: { min: 0, max: 7 },
+    useNullAsDefault: true,
 });
 
 // Requete knex qui retourne les informations de connexion
@@ -254,14 +255,128 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
-function personneAjoutOuModification(IdPersonne) {
-    return knex('Personnes')
-        .where('IdPersonne', IdPersonne)
+// Permet d'aller chercher les conditions d'un IPPE pour l'afficher
+function getCondition(IdIPPE) {
+    return knex('Conditions')
+        .where('Conditions.IdIPPE', IdIPPE)
+        .select('*');
 }
+
+// Permet d'aller chercher les IBOB pour l'afficher
+function getIBOB(IdIBOB) {
+    return knex('IBOB')
+        .where('IBOB.IdIBOB', IdIBOB)
+        .select('*');
+}
+
+// Permet d'aller chercher les IBAF pour l'afficher
+function getIBAF(IdIBAF) {
+    return knex('IBAF')
+        .where('IBAF.IdIBAF', IdIBAF)
+        .select('*');
+}
+
+// Permet d'aller chercher les conditions d'un IPPE pour l'afficher
+function getIBVA(IdIBVA) {
+    return knex('IBVA')
+        .where('IBAF.IdIBVA', IdIBVA)
+        .select('*');
+}
+
+// Permet d'aller chercher une personne dans personne ainsi que son ippe pour l'afficher
+function getPersonne(IdPersonne) {
+    return knex('Personnes')
+        .where('Personnes.IdPersonne', IdPersonne)
+        .select('*');
+}
+
+// Permet d'ajouter une personne à la base de donnée
+function postPersonne(TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
+    return knex('Personnes')
+        .insert({
+            TypePersonne,
+            NomFamille,
+            Prenom1,
+            Prenom2,
+            Masculin,
+            DateNaissance,
+        }, ['IdPersonne'])
+        .returning('IdPersonne');
+}
+//Info necessaire pour le tableau de la page personne
+async function getIppePersonne(IdPersonne){
+    const resultat= await knex('Personnes')
+    .where('Personnes.IdPersonne', IdPersonne)
+    .leftJoin('PersonnesIPPE', 'Personnes.IdPersonne', 'PersonnesIPPE.IdPersonne')
+    .leftJoin('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.IdIPPE')
+    
+    return resultat
+}
+// Permet de modifer une personne
+async function putPersonne(
+    IdPersonne,
+    TypePersonne,
+    NomFamille,
+    Prenom1,
+    Prenom2,
+    Masculin,
+    DateNaissance,
+) {
+    await knex('Personnes')
+        .where('IdPersonne', IdPersonne)
+        .update({
+            TypePersonne,
+            NomFamille,
+            Prenom1,
+            Prenom2,
+            Masculin,
+            DateNaissance,
+        });
+}
+
+// Supprime une personne ainsi que son IPPE et ses Conditions
+async function deletePersonne(IdPersonne) {
+
+    const IPPE = [];
+    const reponseIPPE = await knex('PersonnesIPPE')
+        .where('IdPersonne', IdPersonne)
+        .select('IdIPPE');
+    IPPE.push(reponseIPPE);
+
+    if (reponseIPPE.length !== 0) {
+        reponseIPPE.forEach(async(element) =>{
+            await knex('Conditions')
+            .where('IdIPPE', element.IdIPPE)
+            .del();
+            await knex('PersonnesIPPE')
+            .where('IdIPPE', element.IdIPPE)
+            .del()
+            await knex('IPPE')
+            .where('IdIPPE', element.IdIPPE)
+            .del();
+            await knex('Personnes')
+            .where('IdPersonne', IdPersonne)
+            .del();
+        })   
+    } else {
+        await knex('Personnes')
+        .where('IdPersonne', IdPersonne)
+        .del();
+    }
+}
+
 
 module.exports = {
     connexion,
     getIPPE,
     getFPS,
-    personneAjoutOuModification
+    postPersonne,
+    getPersonne,
+    putPersonne,
+    getCondition,
+    deletePersonne,
+    getIppePersonne,
+    getIBOB,
+    getIBAF,
+    getIBVA,
 };
