@@ -38,8 +38,9 @@ app.get('/ippeInfo', async (req, res) => {
 
     const { nomFamille, prenom1 } = req.query;
     const prenom2 = (req.query.prenom2 === '') ? null : req.query.prenom2;
-    const masculin = (req.query.masculin === 'true');
+    const masculin = (req.query.masculin === '1');
     const { dateNaissance } = req.query;
+    console.log(req.query.masculin)
 
     if (nomFamille === undefined || prenom1 === undefined || prenom2 === undefined
         || masculin === undefined || dateNaissance === undefined) {
@@ -58,7 +59,24 @@ app.get('/ippeInfo', async (req, res) => {
     return res.status(200).json(resultat);
 });
 
-
+app.get('/natcrime', async (req,res) => {
+    const { IdNatureCrime } = req.query;
+    let resultat;
+    if (Number.isNaN(IdNatureCrime)) {
+        res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
+    } else {
+        try {
+            resultat = await request.natCrime(IdNatureCrime);
+            if (resultat.length === 0 || resultat === undefined) {
+                res.status(404).send('La personne n\'existe pas!');
+            } else {
+                res.status(200).send(resultat);
+            }
+        } catch (error) {
+            res.status(500).json(error.message);
+        }
+    }
+});
 app.get('/personnes', async (req, res) => {
     // Pour quand on uilisera les tokens
     /* if(sessionStorage.getItem('Etudiant')){

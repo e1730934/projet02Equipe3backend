@@ -24,18 +24,7 @@ function getFPS(DataIdPersonne) {
     return knex('FPS')
         .where('FPS.IdPersonne', DataIdPersonne)
         .join('Personnes', 'FPS.IdPersonne', 'Personnes.IdPersonne')
-        .select(
-            'FPS.*',
-            'Personnes.Race',
-            'Personnes.Taille',
-            'Personnes.Poids',
-            'Personnes.Yeux',
-            'Personnes.Cheveux',
-            'Personnes.Marques',
-            'Personnes.Toxicomanie',
-            'Personnes.Desorganise',
-            'Personnes.Depressif',
-        );
+        .select('FPS.*');
 }
 
 // Fonction qui manie l'affichage de la reponse IPPE
@@ -55,11 +44,11 @@ function formatterIPPE(IPPEs) {
                     mandat: ippe.Mandat,
                     motif: ippe.Motif,
                     nature: ippe.Nature,
-                    dossierEnquête: ippe.dossierEnquete,
+                    dossierEnquête: ippe.DossierEnquete,
                     cour: ippe.Cour,
                     noMandat: ippe.NoMandat,
                     noCause: ippe.NoCause,
-                    idNatureCrime: ippe.idNatureCrime,
+                    idNatureCrime: ippe.IdNatureCrime,
                     lieuDetention: ippe.LieuDetention,
                     finSentence: ippe.FinSentence,
                     vuDerniereFois: ippe.VuDerniereFois,
@@ -119,7 +108,11 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
 
     return resultat;
 }
-
+//function get Nature crime
+function natCrime(IdNatureCrime){
+    return knex('Crimes')
+    .where('Crimes.IdCrime', IdNatureCrime)
+}
 // Permet d'aller chercher les conditions d'un IPPE pour l'afficher
 function getCondition(IdIPPE) {
     return knex('Conditions')
@@ -233,6 +226,7 @@ async function deletePersonne(IdPersonne) {
 
 module.exports = {
     connexion,
+    natCrime,
     getIPPE,
     getFPS,
     postPersonne,
