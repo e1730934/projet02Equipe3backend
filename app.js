@@ -40,7 +40,6 @@ app.get('/ippeInfo', async (req, res) => {
     const prenom2 = (req.query.prenom2 === '') ? null : req.query.prenom2;
     const masculin = (req.query.masculin === '1');
     const { dateNaissance } = req.query;
-    console.log(req.query.masculin)
 
     if (nomFamille === undefined || prenom1 === undefined || prenom2 === undefined
         || masculin === undefined || dateNaissance === undefined) {
