@@ -25,181 +25,10 @@ function getFPS(DataIdPersonne) {
     return knex('FPS')
         .where('FPS.IdPersonne', DataIdPersonne)
         .join('Personnes', 'FPS.IdPersonne', 'Personnes.IdPersonne')
-        .select(
-            'FPS.*',
-            'Personnes.Race',
-            'Personnes.Taille',
-            'Personnes.Poids',
-            'Personnes.Yeux',
-            'Personnes.Cheveux',
-            'Personnes.Marques',
-            'Personnes.Toxicomanie',
-            'Personnes.Desorganise',
-            'Personnes.Depressif',
-        );
+        .select('FPS.*');
 }
 
 // Fonction qui manie l'affichage de la reponse IPPE
-function formatterIPPE(dataIPPE, dataFps) {
-    const dataToSend = [];
-    const libelleList = [];
-
-    dataIPPE.forEach((data) => {
-        // Verifie si l'information IPPE se trouve deja dans les datas a envoyer
-        const dupCheck = dataToSend.some((element) => element.IdIPPE === data.IdIPPE);
-        if (dupCheck) {
-            // ajoute les conditions aux tableau afin de les afficher plus tard
-            libelleList.push(data.Libelle);
-        } else {
-            // si aucunes conditions n'est presente rien est envoyer dans le tableau de conditions
-            libelleList.push(data.Libelle ? data.Libelle : null);
-
-            // le switch trie les elements a envoyer pour ne pas envoyer d'information inutile
-            switch (data.TypeEvenement) {
-            case 'Recherché':
-                dataToSend.push(
-                    {
-                        idPersonne: data.IdPersonne[0],
-                        idIPPE: data.IdIPPE[0],
-                        titre: 'Recherché',
-                        mandat: data.Mandat,
-                        cour: data.Cour,
-                        noMandat: data.NoMandat,
-                        natureCrime: data.NatureCrime,
-                        noEvenement: data.NoEvenement,
-                    },
-                );
-                break;
-            case 'Sous observation':
-                dataToSend.push(
-                    {
-                        idPersonne: data.IdPersonne[0],
-                        idIPPE: data.IdIPPE[0],
-                        titre: 'Sous Observation',
-                        motif: data.Motif,
-                        natureCrime: data.NatureCrime,
-                        noEvenement: data.NoEvenement,
-                        dossierEnquete: data.DossierEnquete,
-
-                    },
-                );
-                break;
-            case 'Accusé':
-                dataToSend.push(
-                    {
-                        idPersonne: data.IdPersonne[0],
-                        idIPPE: data.IdIPPE[0],
-                        titre: 'Accusé',
-                        cour: data.Cour,
-                        noCause: data.NoCause,
-                        natureCrime: data.NatureCrime,
-                        noEvenement: data.NoEvenement,
-                        conditions: libelleList,
-                    },
-                );
-                break;
-            case 'Probation':
-                dataToSend.push(
-                    {
-                        idPersonne: data.IdPersonne[0],
-                        idIPPE: data.IdIPPE[0],
-                        titre: 'Probation',
-                        cour: data.Cour,
-                        noCause: data.NoCause,
-                        natureCrime: data.NatureCrime,
-                        noEvenement: data.NoEvenement,
-                        finSentence: data.FinSentence,
-                        conditions: libelleList,
-                        agentProbation: data.AgentProbation,
-                        telephone: data.Telephone,
-                        poste: data.Poste,
-                    },
-                );
-                break;
-            case 'Libération Conditionnelle':
-                dataToSend.push(
-                    {
-                        idPersonne: data.IdPersonne[0],
-                        idIPPE: data.IdIPPE[0],
-                        titre: 'Libération Conditionnelle',
-                        cour: data.Cour,
-                        noCause: data.NoCause,
-                        natureCrime: data.NatureCrime,
-                        noEvenement: data.NoEvenement,
-                        fps: dataFps[0].NoFPS,
-                        lieuDetention: data.LieuDetention,
-                        finSentence: data.FinSentence,
-                        conditions: libelleList,
-                        agentLiberation: data.AgentLiberation,
-                        telephone: data.Telephone,
-                        poste: data.Poste,
-                    },
-                );
-                break;
-            case 'Disparu':
-                dataToSend.push(
-                    {
-                        idPersonne: data.IdPersonne[0],
-                        idIPPE: data.IdIPPE[0],
-                        titre: 'Disparu',
-                        noEvenement: data.NoEvenement,
-                        nature: data.Nature,
-                        vuDerniereFois: data.VuDerniereFois,
-                        descrPhysique: {
-                            race: data.Race,
-                            taille: data.Taille,
-                            poids: data.Poids,
-                            yeux: data.Yeux,
-                            cheveux: data.Cheveux,
-                            marques: data.Marques,
-                        },
-                        descrVestimentaire: {
-                            gilet: data.Gilet,
-                            pantalon: data.Pantalon,
-                            autreVetements: data.AutreVetement,
-                        },
-                        problemesSante: {
-                            toxicomanie: data.Toxicomanie,
-                            desorganise: data.Desorganise,
-                            depressif: data.Depressif,
-                            suicidaire: data.Suicidaire,
-                            violent: data.Violent,
-                        },
-                    },
-                );
-                break;
-            case 'Interdit':
-                dataToSend.push(
-                    {
-                        idPersonne: data.IdPersonne[0],
-                        idIPPE: data.IdIPPE[0],
-                        titre: 'Interdit',
-                        nature: data.Nature,
-                        cour: data.Cour,
-                        noCause: data.NoCause,
-                        natureCrime: data.NatureCrime,
-                        noEvenement: data.NoEvenement,
-                        expiration: data.FinSentence,
-                    },
-                );
-                break;
-            default:
-            }
-        }
-    });
-
-    // gere les doublons en les supprimants
-    const result = dataToSend.reduce((unique, o) => {
-        if (!unique.some((obj) => obj.noEvenement === o.noEvenement && obj.value === o.value)) {
-            unique.push(o);
-        }
-        return unique;
-    }, []);
-
-    return result;
-}
-
-/*// Fonction qui manie l'affichage de la reponse IPPE
 function formatterIPPE(IPPEs) {
     const resultat = [];
     const libelleList = [];
@@ -216,11 +45,11 @@ function formatterIPPE(IPPEs) {
                     mandat: ippe.Mandat,
                     motif: ippe.Motif,
                     nature: ippe.Nature,
-                    dossierEnquête: ippe.dossierEnquete,
+                    dossierEnquête: ippe.DossierEnquete,
                     cour: ippe.Cour,
                     noMandat: ippe.NoMandat,
                     noCause: ippe.NoCause,
-                    idNatureCrime: ippe.idNatureCrime,
+                    idNatureCrime: ippe.IdNatureCrime,
                     lieuDetention: ippe.LieuDetention,
                     finSentence: ippe.FinSentence,
                     vuDerniereFois: ippe.VuDerniereFois,
@@ -247,35 +76,6 @@ function formatterIPPE(IPPEs) {
     });
 
     return resultat;
-}*/
-
-
-// Fonction qui prend en charge l'affichage des FPS
-function formatterFPS(dataFPS) {
-    const dataToSend = [];
-    dataToSend.push({
-        titre: 'FPS',
-        NoFPS: dataFPS[0].NoFPS,
-        DateMesure: dataFPS[0].DateMesure,
-        CD: dataFPS[0].CD,
-        Antecedents: dataFPS[0].Antecedents,
-        Violent: dataFPS[0].Violent,
-        Echappe: dataFPS[0].Echappe,
-        Suicidaire: dataFPS[0].Suicidaire,
-        Desequilibre: dataFPS[0].Desequilibre,
-        Contagieux: dataFPS[0].Contagieux,
-        Race: dataFPS[0].Race,
-        Taille: dataFPS[0].Taille,
-        Poids: dataFPS[0].Poids,
-        Yeux: dataFPS[0].Yeux,
-        Cheveux: dataFPS[0].Cheveux,
-        Marques: dataFPS[0].Marques,
-        Toxicomanie: dataFPS[0].Toxicomanie,
-        Desorganise: dataFPS[0].Desorganise,
-        Depressif: dataFPS[0].Depressif,
-    });
-
-    return dataToSend;
 }
 
 async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
@@ -309,8 +109,11 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
 
     return resultat;
 }
-
-
+//function get Nature crime
+function natCrime(IdNatureCrime){
+    return knex('Crimes')
+    .where('Crimes.IdCrime', IdNatureCrime)
+}
 // Permet d'aller chercher les conditions d'un IPPE pour l'afficher
 function getCondition(IdIPPE) {
     return knex('Conditions')
@@ -356,9 +159,18 @@ function postPersonne(TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, Date
             Prenom2,
             Masculin,
             DateNaissance,
-        }, ['IdPersonne']);
+        }, ['IdPersonne'])
+        .returning('IdPersonne');
 }
-
+//Info necessaire pour le tableau de la page personne
+async function getIppePersonne(IdPersonne){
+    const resultat= await knex('Personnes')
+    .where('Personnes.IdPersonne', IdPersonne)
+    .leftJoin('PersonnesIPPE', 'Personnes.IdPersonne', 'PersonnesIPPE.IdPersonne')
+    .leftJoin('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.IdIPPE')
+    
+    return resultat
+}
 // Permet de modifer une personne
 async function putPersonne(
     IdPersonne,
@@ -381,25 +193,41 @@ async function putPersonne(
         });
 }
 
-// Supprime une personne si elle n'a pas d'IPPE
+// Supprime une personne ainsi que son IPPE et ses Conditions
 async function deletePersonne(IdPersonne) {
+
     const IPPE = [];
     const reponseIPPE = await knex('PersonnesIPPE')
         .where('IdPersonne', IdPersonne)
-        .select('*');
+        .select('IdIPPE');
     IPPE.push(reponseIPPE);
 
-    if (reponseIPPE.length === 0) {
-        await knex('Personnes')
-            .where('Personnes.IdPersonne', IdPersonne)
+    if (reponseIPPE.length !== 0) {
+        reponseIPPE.forEach(async(element) =>{
+            await knex('Conditions')
+            .where('IdIPPE', element.IdIPPE)
             .del();
-        return true;
+            await knex('PersonnesIPPE')
+            .where('IdIPPE', element.IdIPPE)
+            .del()
+            await knex('IPPE')
+            .where('IdIPPE', element.IdIPPE)
+            .del();
+            await knex('Personnes')
+            .where('IdPersonne', IdPersonne)
+            .del();
+        })   
+    } else {
+        await knex('Personnes')
+        .where('IdPersonne', IdPersonne)
+        .del();
     }
-    return false;
 }
+
 
 module.exports = {
     connexion,
+    natCrime,
     getIPPE,
     getFPS,
     postPersonne,
@@ -407,6 +235,7 @@ module.exports = {
     putPersonne,
     getCondition,
     deletePersonne,
+    getIppePersonne,
     getIBOB,
     getIBAF,
     getIBVA,
