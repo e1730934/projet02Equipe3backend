@@ -1,7 +1,9 @@
 const express = require('express');
+
 const app = express();
 const cors = require('cors');
 const request = require('./requetesKnex');
+
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
@@ -40,7 +42,6 @@ app.get('/ippeInfo', async (req, res) => {
     const prenom2 = (req.query.prenom2 === '') ? null : req.query.prenom2;
     const masculin = (req.query.masculin === '1');
     const { dateNaissance } = req.query;
-    console.log(req.query.masculin)
 
     if (nomFamille === undefined || prenom1 === undefined || prenom2 === undefined
         || masculin === undefined || dateNaissance === undefined) {
@@ -59,7 +60,7 @@ app.get('/ippeInfo', async (req, res) => {
     return res.status(200).json(resultat);
 });
 
-app.get('/natcrime', async (req,res) => {
+app.get('/natcrime', async (req, res) => {
     const { IdNatureCrime } = req.query;
     let resultat;
     if (Number.isNaN(IdNatureCrime)) {
@@ -100,7 +101,8 @@ app.get('/personnes', async (req, res) => {
         } catch (error) {
             res.status(500).json({ succes: false });
         }
-}});
+    }
+});
 
 app.post('/personnes', async (req, res) => {
     // Pour quand on uilisera les tokens
@@ -130,8 +132,9 @@ app.post('/personnes', async (req, res) => {
             DateNaissance,
         );
         res.status(200).json({
-            message : 'Personne ajoutée :)',
-            IdPersonne : id});
+            message: 'Personne ajoutée :)',
+            IdPersonne: id,
+        });
     } catch (error) {
         res.status(500).json(error.message);
     }
@@ -201,37 +204,34 @@ app.delete('/personnes', async (req, res) => {
     let resultat;
 
     if (Number.isNaN(IdPersonne)) {
-        res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
-    } else {
-        try {
-            resultat = await request.getPersonne(IdPersonne);
-        } catch (error) {
-            res.status(500).json(error.message);
-        }
-        if (resultat.length === 0) {
-            res.status(404).send('La personne que vous voulez supprimer n\'existe pas!');
-        } else {
-            try {
-                //Supprime les conditions, les IPPE et la personne de la BD
-                await request.deletePersonne(IdPersonne);
-                return res.status(200).send({ deleted: true });
-            } catch (error) {
-                res.status(500).json(error.message);
-                
-            }
-        }
+        return res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
+    }
+    try {
+        resultat = await request.getPersonne(IdPersonne);
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
+    if (resultat.length === 0) {
+        return res.status(404).send('La personne que vous voulez supprimer n\'existe pas!');
+    }
+    try {
+        // Supprime les conditions, les IPPE et la personne de la BD
+        await request.deletePersonne(IdPersonne);
+        return res.status(200).send({ deleted: true });
+    } catch (error) {
+        return res.status(500).json(error.message);
     }
 });
 
-app.get('/IppePersonnes', async (req,res)=>{
-    try{
+app.get('/IppePersonnes', async (req, res) => {
+    try {
         const { IdPersonne } = req.query;
-        const ippeResult = await request.getIppePersonne(IdPersonne)
-        res.status(200).send(ippeResult) 
-    }catch (error){
-        res.status(404).json(error.message)
+        const ippeResult = await request.getIppePersonne(IdPersonne);
+        res.status(200).send(ippeResult);
+    } catch (error) {
+        res.status(404).json(error.message);
     }
-})
+});
 app.listen(PORT, () => {
-	console.log(`Mon application roule sur http://localhost:${PORT}`);
+    console.log(`Mon application roule sur http://localhost:${PORT}`);
 });
