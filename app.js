@@ -117,7 +117,6 @@ app.post('/personnes', async (req, res) => {
     const { Prenom2 } = req.body;
     const { Masculin } = req.body;
     const { DateNaissance } = req.body;
-
     if (!TypePersonne || !NomFamille || !Prenom1 || Masculin === null || !DateNaissance) {
         console.log({ message: 'ce champs ne peut etre vide' });
     }
