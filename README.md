@@ -22,10 +22,13 @@ Afin de completer les tests unitaires il faut lancer la commande :
     
 Le port utiliser pour lancer le serveur est le 3000 et la commande script est : 
     `npm run serve`
+
 Afin d'utiliser le linter sur tout les fichiers la commande a taper est : 
     `npm run lint`
+
 Afin d'utiliser le linter sur tout les fichiers et corriger les erreurs la commande a taper est : 
     `npm run fix`
+    
 Afin d'utiliser l'API Veuillez installer toutes les dependances avec la commande : 
     `npm i`
 
