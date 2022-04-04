@@ -19,6 +19,7 @@ Cette application servira comme outil de formation au étudiants en technique po
 ## Tests
 Afin de completer les tests unitaires il faut lancer la commande : 
     `npm test`
+    
 Le port utiliser pour lancer le serveur est le 3000 et la commande script est : 
     `npm run serve`
 Afin d'utiliser le linter sur tout les fichiers la commande a taper est : 
