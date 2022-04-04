@@ -1,6 +1,6 @@
 const reqKnex = require('./requetesKnex');
 
-test('Réponse ***RECHERCHÉ***', async () => {
+test('Réponse IPPE', async () => {
     const resultat = [{
         Adresse1: null,
         Adresse2: null,
@@ -68,28 +68,78 @@ test('Réponse ***RECHERCHÉ***', async () => {
 test('RequêteKnex FPS', async () => {
     // Arrange les resultat qui sortirons avant d'etre trier
     const resultat = [{
-        Id: 2,
-        IdPersonne: 43,
-        NoFPS: '438761F',
-        DateMesure: new Date('2020-02-25'),
-        CD: 'W08,W03,W08,W08,W07,W07,W01,W06,W03,U08',
-        Antecedents: 'Tentative de meurtre',
-        Violent: true,
-        Echappe: null,
-        Suicidaire: null,
-        Desequilibre: null,
-        Desorganise: null,
+        Antecedents: 'Voie de fait',
+        CD: 'W01',
         Contagieux: null,
-        Race: null,
-        Taille: null,
-        Poids: null,
-        Yeux: null,
-        Cheveux: null,
-        Marques: null,
-        Toxicomanie: null,
-        Depressif: null,
-    }];
-    const fps = await reqKnex.FPS(resultat[0].IdPersonne);
+        DateMesure: new Date('2020-01-01T00:00:00.000Z'),
+        Desequilibre: null,
+        Echappe: null,
+        IdFPS: 4,
+        IdPersonne: 7,
+        NoFPS: '438761F',
+        Suicidaire: null,
+        Violent: null,
+
+    },
+    ];
+    const fps = await reqKnex.getFPS(resultat[0].IdPersonne);
     // Assert
     expect(fps).toEqual(resultat);
+});
+
+test('RequêteKnex, verification connection concluante', async () => {
+    // Arrange les infos fournis par le client
+    const identifiant = 'e1233772';
+    const password = 'bonjour';
+    // reultat retourner temporaire jusqu'aux temps d'instoration du token
+    const resultat = [{
+        Etudiant: true,
+        IdUtilisateur: 1,
+        Identifiant: 'e1233772',
+        MotDePasse: 'bonjour',
+        NomFamille: 'Aganier',
+    }];
+
+    const conn = await reqKnex.connexion(identifiant, password);
+
+    // Assert
+    expect(conn).toEqual(resultat);
+});
+test('RequêteKnex, verification connection sans mot de passe valide', async () => {
+    // Arrange les infos fournis par le client
+    const identifiant = 'e1233772';
+    const password = null;
+
+    const resultatError = [];
+
+    const connErrorPwd = await reqKnex.connexion(identifiant, password);
+
+    // Assert
+    expect(connErrorPwd).toEqual(resultatError);
+});
+
+test('RequêteKnex, verification connection sans User et Password valide', async () => {
+    // Arrange les infos fournis par le client
+    const identifiant = null;
+    const password = null;
+
+    const resultatError = [];
+
+    const connEmpty = await reqKnex.connexion(identifiant, password);
+
+    // Assert
+    expect(connEmpty).toEqual(resultatError);
+});
+
+test('RequêteKnex, verification connection sans utilisateur valide', async () => {
+    // Arrange les infos fournis par le client
+    const identifiant = null;
+    const password = 'bonjour';
+
+    const resultatError = [];
+
+    const connErrorUser = await reqKnex.connexion(identifiant, password);
+
+    // Assert
+    expect(connErrorUser).toEqual(resultatError);
 });
