@@ -136,20 +136,18 @@ test('modificationIBVA dans database', async () => {
 });
 
 test('get IBOB by id dans database', async () => {
-    await reqKnex.getIBOBbyId(5);
     const expectedResult = [{
-        NoSerie: '410MXBPVF637',
         Marque: 'LG',
         Modele: '32LB5600-UZ',
-        TypeObjet: 'RA',
         NoEvenement: '123-220301-0007',
+        NoSerie: '410MXBPVF637',
+        TypeObjet: 'RA',
     }];
-    const result = await reqKnex.getIBOBbyNoSerie('410MXBPVF637');
+    const result = await reqKnex.getIBOBbyId(1);
     expect(expectedResult).toEqual(result);
 });
 
 test('get IBVA by id dans database', async () => {
-    await reqKnex.getIBVAbyId(5);
     const expectedResult = [{
         Identifiant: '628181-4249-96708',
         Auteur: 'MASTERCARD',
@@ -157,12 +155,11 @@ test('get IBVA by id dans database', async () => {
         TypeEvenement: 'Perdu',
         NoEvenement: '123-220301-0007',
     }];
-    const result = await reqKnex.getIBVAbyIdentifiant('628181-4249-96708');
+    const result = await reqKnex.getIBVAbyId(5);
     expect(expectedResult).toEqual(result);
 });
 
 test('get IBAF by id dans database', async () => {
-    await reqKnex.getIBVAbyId(1);
     const expectedResult = [{
         NoSerie: '1597538',
         Marque: 'SMITH & WESSON',
@@ -170,6 +167,6 @@ test('get IBAF by id dans database', async () => {
         TypeArme: 'Révolver',
         NoEvenement: '108-220304-0006',
     }];
-    const result = await reqKnex.getIBAFByNoSerie('1597538');
+    const result = await reqKnex.getIBAFById(1);
     expect(expectedResult).toEqual(result);
 });
