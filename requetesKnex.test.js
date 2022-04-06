@@ -1,112 +1,193 @@
 const reqKnex = require('./requetesKnex');
 
-test('connexion étudiant', async () => {
+/*test('Réponse IPPE', async () => {
     const resultat = [{
-        identifiant: 'e1233772',
-        motDePasse: 'bonjour'
-    }];
-    const connect = await reqKnex.connexion(
-        resultat[0].identifiant,
-        resultat[0].motDePasse
-    );
-    expect(connect).toContain(resultat);
-})
-
-test('get fps', async () => {
-    const resultat = [{
-        idFPS : 4,
-        idPersonne: 7,
-        noFPS: '438761F',
-        dateMesure: '2020-01-01',
-        CD: 'W01',
-        antecedents: 'Voie de fait',
-        violent: null,
-        echappe: null,
-        suicidaire: null,
-        desequilibre: null,
-        contagieux: null
-    }];
-    const fps = await reqKnex.getFPS(
-        resultat.idFPS,
-        resultat.idPersonne,
-        resultat.noFPS,
-        resultat.dateMesure,
-        resultat.CD,
-        resultat.antecedents,
-        resultat.violent,
-        resultat.echappe,
-        resultat.suicidaire,
-        resultat.desequilibre,
-        resultat.contagieux
-    );
-    expect(fps).toContain(resultat);
-})
-
-/*test('Réponse ***RECHERCHÉ***', async () => {
-    const resultat = [{
-        idPersonne: 3,
-        idIPPE: 8,
-        nomFamille: 'Ducharme',
-        prenom1: 'Benoit',
-        prenom2: null,
-        masculin: true,
-        dateNaissance: new Date('1975-08-31'),
-        mandat: 'Arrestation',
-        cour: 'Municipale de Longueuil',
-        noMandat: 'CM-LGL-A-26840',
-        natureCrime: 'Agression armée',
-        noEvenement: '108-220208-0031',
+        Adresse1: null,
+        Adresse2: null,
+        AutreVetement: null,
+        Cheveux: null,
+        CodePostal: null,
+        DateNaissance: new Date('1975-08-31T00:00:00.000Z'),
+        Depressif: null,
+        Desorganise: null,
+        FPS: null,
+        Gilet: null,
+        IPPE: [
+            {
+                agentLiberation: null,
+                agentProbation: null,
+                conditions: [],
+                cour: 'Municipale de Longueuil',
+                dossierEnquête: null,
+                finSentence: null,
+                idIPPE: 8,
+                idNatureCrime: 14,
+                lieuDetention: null,
+                mandat: 'Arrestation',
+                motif: null,
+                nature: null,
+                noCause: null,
+                noEvenement: '108-220208-0031',
+                noMandat: 'CM-LGL-A-26840',
+                poste: null,
+                telephone: null,
+                typeEvenement: 'Recherché',
+                vuDerniereFois: null,
+            },
+        ],
+        IdPersonne: 3,
+        Marques: null,
+        Masculin: true,
+        NoPermis: null,
+        NomFamille: 'Ducharme',
+        Pantalon: null,
+        Poids: null,
+        Prenom1: 'Benoit',
+        Prenom2: null,
+        Province: null,
+        Race: null,
+        Suicidaire: null,
+        Taille: null,
+        Telephone: null,
+        Toxicomanie: null,
+        TypePersonne: 'Enseignant',
+        Ville: null,
+        Violent: null,
+        Yeux: null,
     }];
     const ippe = await reqKnex.getIPPE(
-        resultat[0].nomFamille,
-        resultat[0].prenom1,
-        resultat[0].prenom2,
-        resultat[0].masculin,
-        resultat[0].dateNaissance,
+        resultat[0].NomFamille,
+        resultat[0].Prenom1,
+        resultat[0].Prenom2,
+        resultat[0].Masculin,
+        resultat[0].DateNaissance,
     );
 
     expect(ippe).toEqual(resultat);
+});
+test('RequêteKnex FPS', async () => {
+    // Arrange les resultat qui sortirons avant d'etre trier
+    const resultat = [{
+        Antecedents: 'Voie de fait',
+        CD: 'W01',
+        Contagieux: null,
+        DateMesure: new Date('2020-01-01T00:00:00.000Z'),
+        Desequilibre: null,
+        Echappe: null,
+        IdFPS: 4,
+        IdPersonne: 7,
+        NoFPS: '438761F',
+        Suicidaire: null,
+        Violent: null,
+
+    },
+    ];
+    const fps = await reqKnex.getFPS(resultat[0].IdPersonne);
+    // Assert
+    expect(fps).toEqual(resultat);
+});
+
+test('RequêteKnex, verification connection concluante', async () => {
+    // Arrange les infos fournis par le client
+    const identifiant = 'e1233772';
+    const password = 'bonjour';
+    // reultat retourner temporaire jusqu'aux temps d'instoration du token
+    const resultat = [{
+        Etudiant: true,
+        IdUtilisateur: 1,
+        Identifiant: 'e1233772',
+        MotDePasse: 'bonjour',
+        NomFamille: 'Aganier',
+    }];
+
+    const conn = await reqKnex.connexion(identifiant, password);
+
+    // Assert
+    expect(conn).toEqual(resultat);
+});
+test('RequêteKnex, verification connection sans mot de passe valide', async () => {
+    // Arrange les infos fournis par le client
+    const identifiant = 'e1233772';
+    const password = null;
+
+    const resultatError = [];
+
+    const connErrorPwd = await reqKnex.connexion(identifiant, password);
+
+    // Assert
+    expect(connErrorPwd).toEqual(resultatError);
+});
+
+test('RequêteKnex, verification connection sans User et Password valide', async () => {
+    // Arrange les infos fournis par le client
+    const identifiant = null;
+    const password = null;
+
+    const resultatError = [];
+
+    const connEmpty = await reqKnex.connexion(identifiant, password);
+
+    // Assert
+    expect(connEmpty).toEqual(resultatError);
+});
+
+test('RequêteKnex, verification connection sans utilisateur valide', async () => {
+    // Arrange les infos fournis par le client
+    const identifiant = null;
+    const password = 'bonjour';
+
+    const resultatError = [];
+
+    const connErrorUser = await reqKnex.connexion(identifiant, password);
+
+    // Assert
+    expect(connErrorUser).toEqual(resultatError);
 });*/
 
-test('Ajouter personne', async () => {
-    const resultat = [{
-        typePersonne: 'Enseignant',
-        nomFamille: 'Ajout',
-        prenom1: 'Personne',
-        prenom2: 'Test',
-        masculin: false,
-        dateNaissance: new Date('2001-09-15'),
-    }];
-    const ajout = await reqKnex.postPersonne(
-        resultat[0].typePersonne,
-        resultat[0].nomFamille,
-        resultat[0].prenom1,
-        resultat[0].prenom2,
-        resultat[0].masculin,
-        resultat[0].dateNaissance,
-    );
+test('RequeteKnex, ajout de personne dans la base de donnee', async () => {
+    const TypePersonne = 'Enseignant'
+    const NomFamille = 'Knex'
+    const Prenom1 = 'Test'
+    const Prenom2 = null
+    const Masculin = 0
+    const DateNaissance = '20100504'
 
-    expect(ajout).toEqual(resultat);
+    const creationPersonne = await reqKnex.postPersonne(TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, DateNaissance)
+
+    const allezChercherLaPersonneCree = await reqKnex.getPersonne(creationPersonne[0])
+
+    expect(allezChercherLaPersonneCree).toBeCalledWith(
+        expect.objectContaining({
+            'IdPersonne': expect.any(creationPersonne[0]),
+        }),
+      );
+
 })
 
-/*test('modifier personne', async () => {
-    const resultat = [{
-        typePersonne: 'Enseignant',
-        nomFamille: 'modification',
-        prenom1: 'Personne',
-        prenom2: 'Test',
-        masculin: false,
-        dateNaissance: new Date('2001-09-15'),
-    }];
-    const modification = await reqKnex.postPersonne(
-        resultat[0].typePersonne,
-        resultat[0].nomFamille,
-        resultat[0].prenom1,
-        resultat[0].prenom2,
-        resultat[0].masculin,
-        resultat[0].dateNaissance,
-    );
+test('RequeteKnex, modification de personne dans la base de donnee', async () => {
+    const IdPersonne = 66
+    const TypePersonne = 'Enseignant'
+    const NomFamille = 'Knex'
+    const Prenom1 = 'Test'
+    const Prenom2 = 'modification'
+    const Masculin = 0
+    const DateNaissance = '20100504'
 
-    expect(modification).toEqual(resultat);
-})*/
+    const modificationPersonne = await reqKnex.putPersonne(IdPersonne,TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, DateNaissance)
 
+    const allezChercherLaPersonneModifiee = await reqKnex.getPersonne(IdPersonne)
+
+    expect(allezChercherLaPersonneModifiee).toEqual(modificationPersonne)
+
+
+})
+
+test('RequeteKnex, suppression de personne dans la base de donnee', async () => {
+    const IdPersonne = 67
+
+    const suppressionDePersonne = await reqKnex.deletePersonne(IdPersonne);
+
+    const allezChercherLaPersonneSupprime = await reqKnex.getPersonne(IdPersonne);
+
+    expect(allezChercherLaPersonneSupprime).toBeUndefined() 
+})
