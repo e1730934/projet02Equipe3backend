@@ -1,6 +1,6 @@
 const reqKnex = require('./requetesKnex');
 
-/*test('Réponse IPPE', async () => {
+test('Réponse IPPE', async () => {
     const resultat = [{
         Adresse1: null,
         Adresse2: null,
@@ -142,52 +142,105 @@ test('RequêteKnex, verification connection sans utilisateur valide', async () =
 
     // Assert
     expect(connErrorUser).toEqual(resultatError);
-});*/
+});
 
-test('RequeteKnex, ajout de personne dans la base de donnee', async () => {
-    const TypePersonne = 'Enseignant'
-    const NomFamille = 'Knex'
-    const Prenom1 = 'Test'
-    const Prenom2 = null
-    const Masculin = 0
-    const DateNaissance = '20100504'
+test('RequêteKnex, voir une personne de la base de donnée', async () => {
+    const IdPersonne = 4;
 
-    const creationPersonne = await reqKnex.postPersonne(TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, DateNaissance)
+    const resultat = [{
+        IdPersonne: 4,
+        TypePersonne: 'Personnage',
+        NomFamille: 'Sirois',
+        Prenom1: 'Danielle',
+        Prenom2: null,
+        Masculin: false,
+        DateNaissance: new Date('1980-02-14T00:00:00.000Z'),
+        Telephone: null,
+        NoPermis: null,
+        Adresse1: null,
+        Adresse2: null,
+        Ville: null,
+        Province: null,
+        CodePostal: null,
+        Race: null,
+        Taille: null,
+        Poids: null,
+        Yeux: null,
+        Cheveux: null,
+        Marques: null,
+        Toxicomanie: null,
+        Desorganise: null,
+        Depressif: null,
+        Suicidaire: null,
+        Violent: null,
+        Gilet: null,
+        Pantalon: null,
+        AutreVetement: null,
+    }];
 
-    const allezChercherLaPersonneCree = await reqKnex.getPersonne(creationPersonne[0])
+    const voirPersonne = await reqKnex.getPersonne(
+        IdPersonne,
+    );
 
-    expect(allezChercherLaPersonneCree).toBeCalledWith(
-        expect.objectContaining({
-            'IdPersonne': expect.any(creationPersonne[0]),
-        }),
-      );
+    expect(voirPersonne).toEqual(resultat);
+});
 
-})
+test('RequêteKnex, ajout de personne dans la base de donnée', async () => {
+    const TypePersonne = 'Enseignant';
+    const NomFamille = 'Knex';
+    const Prenom1 = 'Test';
+    const Prenom2 = null;
+    const Masculin = 0;
+    const DateNaissance = '20100504';
 
-test('RequeteKnex, modification de personne dans la base de donnee', async () => {
-    const IdPersonne = 66
-    const TypePersonne = 'Enseignant'
-    const NomFamille = 'Knex'
-    const Prenom1 = 'Test'
-    const Prenom2 = 'modification'
-    const Masculin = 0
-    const DateNaissance = '20100504'
+    const creationPersonne = await reqKnex.postPersonne(
+        TypePersonne,
+        NomFamille,
+        Prenom1,
+        Prenom2,
+        Masculin,
+        DateNaissance,
+    );
 
-    const modificationPersonne = await reqKnex.putPersonne(IdPersonne,TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, DateNaissance)
+    expect(creationPersonne).toHaveLength(1);
+});
 
-    const allezChercherLaPersonneModifiee = await reqKnex.getPersonne(IdPersonne)
+test('RequêteKnex, modification de personne dans la base de donnée', async () => {
+    const IdPersonne = 66;
+    const TypePersonne = 'Enseignant';
+    const NomFamille = 'Knex';
+    const Prenom1 = 'Test';
+    const Prenom2 = 'modification';
+    const Masculin = false;
+    const DateNaissance = new Date('2010-05-04T00:00:00.000Z');
 
-    expect(allezChercherLaPersonneModifiee).toEqual(modificationPersonne)
+    await reqKnex.putPersonne(
+        IdPersonne,
+        TypePersonne,
+        NomFamille,
+        Prenom1,
+        Prenom2,
+        Masculin,
+        DateNaissance,
+    );
 
+    const allezChercherLaPersonneModifiee = await reqKnex.getPersonne(IdPersonne);
 
-})
+    expect(allezChercherLaPersonneModifiee[0].IdPersonne).toEqual(IdPersonne);
+    expect(allezChercherLaPersonneModifiee[0].TypePersonne).toEqual(TypePersonne);
+    expect(allezChercherLaPersonneModifiee[0].NomFamille).toEqual(NomFamille);
+    expect(allezChercherLaPersonneModifiee[0].Prenom1).toEqual(Prenom1);
+    expect(allezChercherLaPersonneModifiee[0].Prenom2).toEqual(Prenom2);
+    expect(allezChercherLaPersonneModifiee[0].Masculin).toEqual(Masculin);
+    expect(allezChercherLaPersonneModifiee[0].DateNaissance).toEqual(DateNaissance);
+});
 
-test('RequeteKnex, suppression de personne dans la base de donnee', async () => {
-    const IdPersonne = 67
+test('RequêteKnex, suppression de personne dans la base de donnée', async () => {
+    const IdPersonne = 65;
 
-    const suppressionDePersonne = await reqKnex.deletePersonne(IdPersonne);
+    await reqKnex.deletePersonne(IdPersonne);
 
     const allezChercherLaPersonneSupprime = await reqKnex.getPersonne(IdPersonne);
 
-    expect(allezChercherLaPersonneSupprime).toBeUndefined() 
-})
+    expect(allezChercherLaPersonneSupprime).toHaveLength(0);
+});
