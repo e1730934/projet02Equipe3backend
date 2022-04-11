@@ -61,9 +61,9 @@ app.get('/ippeInfo', async (req, res) => {
 
     return res.status(200).json(resultat);
 });
-app.get('/IBOB/:IdIBOB', async (req, res) => {
+app.get('/objet/:idObjet', async (req, res) => {
     let resultat;
-    const id = req.params.IdIBOB;
+    const id = req.params.idObjet;
     try {
         if (id === undefined) {
             return res.status(400).json({ message: 'paramètre manquant' });
@@ -79,7 +79,7 @@ app.get('/IBOB/:IdIBOB', async (req, res) => {
 });
 
 // eslint-disable-next-line consistent-return
-app.post('/IBOB', async (req, res) => {
+app.post('/objet', async (req, res) => {
     const noSerie = req.body.NoSerie;
     const marque = req.body.Marque;
     const modele = req.body.Modele;
@@ -117,7 +117,7 @@ app.post('/IBOB', async (req, res) => {
     }
 });
 
-app.put('/IBOB', async (req, res) => {
+app.put('/objet', async (req, res) => {
     const noSerie = req.body.NoSerie;
     const marque = req.body.Marque;
     const modele = req.body.Modele;
@@ -154,11 +154,11 @@ app.put('/IBOB', async (req, res) => {
     }
 });
 
-app.delete('/IBOB/supression/:NoSerie', async (req, res) => {
-    const id = req.params.NoSerie;
+app.delete('/objet/:idObjet', async (req, res) => {
+    const id = req.params.idObjet;
     if (id !== '' || id !== undefined) {
         try {
-            const resultatRequete = await requeteKnex.suppresionIBOByNoSerie(id);
+            const resultatRequete = await requeteKnex.suppresionIBOById(id);
             if (resultatRequete === true) {
                 res.json({
                     success: true,
@@ -184,9 +184,9 @@ app.delete('/IBOB/supression/:NoSerie', async (req, res) => {
     }
 });
 
-app.get('/IBAF/:IdIBAF', async (req, res) => {
+app.get('/armes/:idArme', async (req, res) => {
     let resultat;
-    const id = req.params.IdIBAF;
+    const id = req.params.idArme;
     try {
         if (id === undefined) {
             return res.status(400).json({ message: 'paramètre manquant' });
@@ -201,7 +201,8 @@ app.get('/IBAF/:IdIBAF', async (req, res) => {
     }
 });
 
-app.post('/IBAF', async (req, res) => {
+// eslint-disable-next-line consistent-return
+app.post('/armes', async (req, res) => {
     const noSerie = req.body.NoSerie;
     const marque = req.body.Marque;
     const calibre = req.body.Calibre;
@@ -239,7 +240,7 @@ app.post('/IBAF', async (req, res) => {
     }
 });
 
-app.put('/IBAF', async (req, res) => {
+app.put('/armes', async (req, res) => {
     const noSerie = req.body.NoSerie;
     const marque = req.body.Marque;
     const calibre = req.body.Calibre;
@@ -276,11 +277,11 @@ app.put('/IBAF', async (req, res) => {
     }
 });
 
-app.delete('/IBAF/supression/:NoSerie', async (req, res) => {
-    const id = req.params.NoSerie;
+app.delete('/armes/:idArme', async (req, res) => {
+    const id = req.params.idArme;
     if (id !== '' || id !== undefined) {
         try {
-            const resultatRequete = await requeteKnex.suppresionIBAFByNoSerie(id);
+            const resultatRequete = await requeteKnex.suppresionIBAFById(id);
             if (resultatRequete === true) {
                 res.status(200).json({
                     success: true,
@@ -306,9 +307,9 @@ app.delete('/IBAF/supression/:NoSerie', async (req, res) => {
     }
 });
 
-app.get('/IBVA/:IdIBVA', async (req, res) => {
+app.get('/valeurs/:idValeur', async (req, res) => {
     let resultat;
-    const id = req.params.IdIBVA;
+    const id = req.params.idValeur;
     if (id === undefined) {
         res.status(400).json({ message: 'paramètre manquant' });
     }
@@ -322,7 +323,8 @@ app.get('/IBVA/:IdIBVA', async (req, res) => {
     }
 });
 
-app.post('/IBVA', async (req, res) => {
+// eslint-disable-next-line consistent-return
+app.post('/valeurs', async (req, res) => {
     const identifiant = req.body.Identifiant;
     const auteur = req.body.Auteur;
     const typeValeur = req.body.TypeValeur;
@@ -360,7 +362,7 @@ app.post('/IBVA', async (req, res) => {
     }
 });
 
-app.put('/IBVA', async (req, res) => {
+app.put('/valeurs', async (req, res) => {
     const identifiant = req.body.Identifiant;
     const auteur = req.body.Auteur;
     const typeValeur = req.body.TypeValeur;
@@ -397,11 +399,11 @@ app.put('/IBVA', async (req, res) => {
     }
 });
 
-app.delete('/IBVA/supression/:Identifiant', async (req, res) => {
-    const id = req.params.Identifiant;
+app.delete('/valeurs/:idValeur', async (req, res) => {
+    const id = req.params.idValeur;
     if (id !== '' || id !== undefined) {
         try {
-            const resultatRequete = await requeteKnex.suppresionIBVAByIdentifiant(id);
+            const resultatRequete = await requeteKnex.suppresionIBVAById(id);
             if (resultatRequete === true) {
                 res.status(200).json({
                     success: true,

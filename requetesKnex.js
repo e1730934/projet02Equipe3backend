@@ -183,6 +183,18 @@ async function suppresionIBOByNoSerie(noSerie) {
     return success;
 }
 
+async function suppresionIBOById(idObjet) {
+    let success = false;
+    const count = await getCountIBOB(idObjet);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBOB')
+            .where('IdBOB', idObjet)
+            .del();
+        success = true;
+    }
+    return success;
+}
+
 async function getIBAFById(id) {
     return knex('IBAF')
         .where('IdIBAF', id)
@@ -257,6 +269,17 @@ async function suppresionIBAFByNoSerie(noSerie) {
     if (count[0].nbrLigne !== 0) {
         await knex('IBAF')
             .where('NoSerie', noSerie)
+            .del();
+        success = true;
+    }
+    return success;
+}
+async function suppresionIBAFById(idArme) {
+    let success = false;
+    const count = await getCountIBAF(idArme);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBAF')
+            .where('IdIBAF', idArme)
             .del();
         success = true;
     }
@@ -344,6 +367,18 @@ async function suppresionIBVAByIdentifiant(identifiant) {
     return success;
 }
 
+async function suppresionIBVAById(idValeur) {
+    let success = false;
+    const count = await getCountIBVA(idValeur);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBVA')
+            .where('IdIBVA', idValeur)
+            .del();
+        success = true;
+    }
+    return success;
+}
+
 module.exports = {
     connexion,
     getIPPE,
@@ -351,14 +386,17 @@ module.exports = {
     ajoutIBOB,
     modificationIBOB,
     suppresionIBOByNoSerie,
+    suppresionIBOById,
     getIBAFById,
     ajoutIBAF,
     modificationIBAF,
     suppresionIBAFByNoSerie,
+    suppresionIBAFById,
     getIBVAbyId,
     ajoutIBVA,
     modificationIBVA,
     suppresionIBVAByIdentifiant,
+    suppresionIBVAById,
     getIBVAbyIdentifiant,
     getIBAFByNoSerie,
     getIBOBbyNoSerie,
