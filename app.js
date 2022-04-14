@@ -214,7 +214,7 @@ app.post('/armes', async (req, res) => {
         || req.body.JJ === undefined || req.body.sequenceChiffres === undefined) {
         return res.status(400).json({
             success: false,
-            message: 'POST FAILED, Valeur manquant(es)',
+            message: 'Valeur manquant(es)',
         });
     }
     try {
@@ -223,18 +223,18 @@ app.post('/armes', async (req, res) => {
         if (resultatRequete === true) {
             res.status(200).json({
                 success: true,
-                message: 'POST SUCCESS',
+                message: 'L\'action a bien été effectuée',
             });
         } else {
             res.status(500).json({
                 success: false,
-                message: 'POST FAILED',
+                message: 'Une erreur est survenue, l\'action n\'a pas été effectuée',
             });
         }
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: `POST FAILED, ${error.message}`,
+            message: `Une erreur est survenue, l'action n'a pas été effectuée, ${error.message}`,
         });
     }
 });
@@ -251,7 +251,7 @@ app.put('/armes', async (req, res) => {
         || req.body.JJ === undefined || req.body.sequenceChiffres === undefined) {
         return res.status(400).json({
             success: false,
-            message: 'PUT FAILED, Valeur manquant(es)',
+            message: 'Valeur manquant(es)',
         });
     }
     try {
@@ -260,17 +260,17 @@ app.put('/armes', async (req, res) => {
         if (resultatRequete === true) {
             return res.status(200).json({
                 success: true,
-                message: 'PUT SUCCESS',
+                message: 'L\'action a bien été effectuée',
             });
         }
         return res.status(404).json({
             success: false,
-            message: 'PUT FAILED, l\'objet est introuvable,',
+            message: 'Une erreur est survenue, l\'action n\'a pas été effectuée',
         });
     } catch (error) {
         return res.status(500).json({
             success: false,
-            message: `PUT FAILED, ${error.message}`,
+            message: `Une erreur est survenue, l'action n'a pas été effectuée: \n${error.message}`,
         });
     }
 });
