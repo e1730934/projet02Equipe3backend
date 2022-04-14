@@ -203,14 +203,13 @@ app.get('/armes/:idArme', async (req, res) => {
 
 // eslint-disable-next-line consistent-return
 app.post('/armes', async (req, res) => {
-    const noSerie = req.body.NoSerie;
-    const marque = req.body.Marque;
-    const calibre = req.body.Calibre;
-    const typeArme = req.body.TypeArme;
-    const noEvenement = `${req.body.NoEvenement}-${req.body.AA}${req.body.MM
+    const {
+        noSerie, marque, calibre, typeArme,
+    } = req.body;
+    const noEvenement = `${req.body.NoCours}-${req.body.AA}${req.body.MM
     }${req.body.JJ}-${req.body.sequenceChiffres}`;
     if (noSerie === undefined || marque === undefined || calibre === undefined
-        || typeArme === undefined || req.body.NoEvenement === undefined
+        || typeArme === undefined || req.body.NoCours === undefined
         || req.body.AA === undefined || req.body.MM === undefined
         || req.body.JJ === undefined || req.body.sequenceChiffres === undefined) {
         return res.status(400).json({
@@ -241,14 +240,13 @@ app.post('/armes', async (req, res) => {
 });
 
 app.put('/armes', async (req, res) => {
-    const noSerie = req.body.NoSerie;
-    const marque = req.body.Marque;
-    const calibre = req.body.Calibre;
-    const typeArme = req.body.TypeArme;
-    const noEvenement = `${req.body.NoEvenement}-${req.body.AA}${req.body.MM
+    const {
+        noSerie, marque, calibre, typeArme,
+    } = req.body;
+    const noEvenement = `${req.body.NoCours}-${req.body.AA}${req.body.MM
     }${req.body.JJ}-${req.body.sequenceChiffres}`;
     if (noSerie === undefined || marque === undefined || calibre === undefined
-        || typeArme === undefined || req.body.NoEvenement === undefined
+        || typeArme === undefined || req.body.NoCours === undefined
         || req.body.AA === undefined || req.body.MM === undefined
         || req.body.JJ === undefined || req.body.sequenceChiffres === undefined) {
         return res.status(400).json({
