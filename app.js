@@ -16,7 +16,6 @@ const valeursRouter = require('./routes/valeurs');
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 app.use('/personnes', personnesRouter);
 app.use('/connexion', connexionRouter);

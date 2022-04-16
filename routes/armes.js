@@ -21,12 +21,21 @@ router.get('/:idArme', async (req, res) => {
     }
 });
 
-router.post('/armes', async (req, res) => {
+router.post('/', async (req, res) => {
     const {
         noSerie, marque, calibre, typeArme,
     } = req.body;
+    const regexJJ = /^(0[1-9]|1[0-2])$/;
+    const regexMM = /^\d{1,2}$/;
+    const regexAA = /^\d{2}$/;
+    const regexSChiffres = /^\d{4}$/;
+    const validationEvent = ((regexJJ.test(req.body.JJ) && regexMM.test(req.body.MM)
+        && regexAA.test(req.body.AA) && regexSChiffres.test(req.body.sequenceChiffres)));
     const noEvenement = `${req.body.NoCours}-${req.body.AA}${req.body.MM
     }${req.body.JJ}-${req.body.sequenceChiffres}`;
+    if (validationEvent === false) {
+        return res.status(400).json({ message: 'Numéro d\'événement invalide' });
+    }
     if (noSerie === undefined || marque === undefined || calibre === undefined
         || typeArme === undefined || req.body.NoCours === undefined
         || req.body.AA === undefined || req.body.MM === undefined
@@ -58,12 +67,21 @@ router.post('/armes', async (req, res) => {
     }
 });
 
-router.put('/armes', async (req, res) => {
+router.put('/', async (req, res) => {
     const {
         noSerie, marque, calibre, typeArme,
     } = req.body;
     const noEvenement = `${req.body.NoCours}-${req.body.AA}${req.body.MM
     }${req.body.JJ}-${req.body.sequenceChiffres}`;
+    const regexJJ = /^(0[1-9]|1[0-2])$/;
+    const regexMM = /^\d{1,2}$/;
+    const regexAA = /^\d{2}$/;
+    const regexSChiffres = /^\d{4}$/;
+    const validationEvent = ((regexJJ.test(req.body.JJ) && regexMM.test(req.body.MM)
+        && regexAA.test(req.body.AA) && regexSChiffres.test(req.body.sequenceChiffres)));
+    if (validationEvent === false) {
+        return res.status(400).json({ message: 'Numéro d\'événement invalide' });
+    }
     if (noSerie === undefined || marque === undefined || calibre === undefined
         || typeArme === undefined || req.body.NoCours === undefined
         || req.body.AA === undefined || req.body.MM === undefined
@@ -94,7 +112,7 @@ router.put('/armes', async (req, res) => {
     }
 });
 
-router.delete('/armes/:idArme', async (req, res) => {
+router.delete('/:idArme', async (req, res) => {
     const id = req.params.idArme;
     if (id !== '' || id !== undefined) {
         try {
