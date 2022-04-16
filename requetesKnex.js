@@ -219,6 +219,11 @@ async function getIBAFByNoSerie(noSerie) {
         );
 }
 
+async function getCountIBAFById(id) {
+    return knex('IBAF')
+        .where('IdIBAF', id)
+        .count('* as nbrLigne');
+}
 async function getCountIBAF(noSerie) {
     return knex('IBAF')
         .where('NoSerie', noSerie)
@@ -276,7 +281,7 @@ async function suppresionIBAFByNoSerie(noSerie) {
 }
 async function suppresionIBAFById(idArme) {
     let success = false;
-    const count = await getCountIBAF(idArme);
+    const count = await getCountIBAFById(idArme);
     if (count[0].nbrLigne !== 0) {
         await knex('IBAF')
             .where('IdIBAF', idArme)
