@@ -9,6 +9,13 @@ Cambray, Bastien - E1920614<br/>
 Khendaf, Bilal - E1730934<br/>
 Phung, Truong Sang Mario - E2066576
 
+
+## Cadre d'utilisation
+Cette application servira comme outil de formation au étudiants en technique policière. Il habituera l'élève à:
+-Manipuler une carte d'identité lors de mises en situations
+-Se familiarisé avec les informations récoltés lors d'une altercation
+-Utilisé un outil de recherche de base de données
+
 <br/>
 <br/>
 
