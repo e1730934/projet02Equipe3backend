@@ -44,11 +44,11 @@ function formatterIPPE(IPPEs) {
                     mandat: ippe.Mandat,
                     motif: ippe.Motif,
                     nature: ippe.Nature,
-                    dossierEnquête: ippe.DossierEnquete,
+                    dossierEnquête: ippe.dossierEnquete,
                     cour: ippe.Cour,
                     noMandat: ippe.NoMandat,
                     noCause: ippe.NoCause,
-                    idNatureCrime: ippe.IdNatureCrime,
+                    idNatureCrime: ippe.idNatureCrime,
                     lieuDetention: ippe.LieuDetention,
                     finSentence: ippe.FinSentence,
                     vuDerniereFois: ippe.VuDerniereFois,
@@ -76,6 +76,17 @@ function formatterIPPE(IPPEs) {
 
     return resultat;
 }
+//function get Nature crime
+function natCrime(IdNatureCrime){
+    return knex('Crimes')
+    .where('Crimes.IdCrime', IdNatureCrime)
+}
+// Permet d'aller chercher les conditions d'un IPPE pour l'afficher
+function getCondition(IdIPPE) {
+    return knex('Conditions')
+        .where('Conditions.IdIPPE', IdIPPE)
+        .select('*');
+}
 
 async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     const resultat = await knex('Personnes')
@@ -102,45 +113,6 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
         .where('PersonnesIPPE.IdPersonne', resultat[0].IdPersonne);
 
     if (resultat[0].IPPE.length === 0) return resultat;
-
-    // La personne a des événements IPPE associés: on les formate
-    resultat[0].IPPE = formatterIPPE(resultat[0].IPPE);
-
-    return resultat;
-}
-//function get Nature crime
-function natCrime(IdNatureCrime){
-    return knex('Crimes')
-    .where('Crimes.IdCrime', IdNatureCrime)
-}
-// Permet d'aller chercher les conditions d'un IPPE pour l'afficher
-function getCondition(IdIPPE) {
-    return knex('Conditions')
-        .where('Conditions.IdIPPE', IdIPPE)
-        .select('*');
-}
-
-// Permet d'aller chercher les IBOB pour l'afficher
-function getIBOB(IdIBOB) {
-    return knex('IBOB')
-        .where('IBOB.IdIBOB', IdIBOB)
-        .select('*');
-}
-
-// Permet d'aller chercher les IBAF pour l'afficher
-function getIBAF(IdIBAF) {
-    return knex('IBAF')
-        .where('IBAF.IdIBAF', IdIBAF)
-        .select('*');
-}
-
-// Permet d'aller chercher les conditions d'un IPPE pour l'afficher
-function getIBVA(IdIBVA) {
-    return knex('IBVA')
-        .where('IBAF.IdIBVA', IdIBVA)
-        .select('*');
-}
-
 // Permet d'aller chercher une personne dans personne ainsi que son ippe pour l'afficher
 function getPersonne(IdPersonne) {
     return knex('Personnes')
@@ -148,6 +120,10 @@ function getPersonne(IdPersonne) {
         .select('*');
 }
 
+    // La personne a des événements IPPE associés: on les formate
+    resultat[0].IPPE = formatterIPPE(resultat[0].IPPE);
+
+    return resultat;
 // Permet d'ajouter une personne à la base de donnée
 function postPersonne(TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
     return knex('Personnes')
@@ -235,7 +211,4 @@ module.exports = {
     getCondition,
     deletePersonne,
     getIppePersonne,
-    getIBOB,
-    getIBAF,
-    getIBVA,
 };
