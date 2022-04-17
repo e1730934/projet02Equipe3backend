@@ -9,7 +9,7 @@ router.get('/:idArme', async (req, res) => {
     const id = req.params.idArme;
     try {
         if (id === undefined) {
-            return res.status(400).json({ message: 'paramètre manquant' });
+            return res.status(400).json({ message: 'Paramètre manquant' });
         }
         resultat = await request.getIBAFById(id);
         if (resultat.length === 0) {
@@ -73,7 +73,7 @@ router.post('/', async (req, res) => {
 
 router.put('/', async (req, res) => {
     const {
-        noSerie, marque, calibre, typeArme,
+        idArme, noSerie, marque, calibre, typeArme,
     } = req.body;
     const noEvenement = `${req.body.NoCours}-${req.body.AA}${req.body.MM
     }${req.body.JJ}-${req.body.sequenceChiffres}`;
@@ -101,7 +101,7 @@ router.put('/', async (req, res) => {
     }
     try {
         // eslint-disable-next-line max-len
-        const resultatRequete = await request.modificationIBAF(noSerie, marque, calibre, typeArme, noEvenement);
+        const resultatRequete = await request.modificationIBAF(idArme, noSerie, marque, calibre, typeArme, noEvenement);
         if (resultatRequete === true) {
             return res.status(200).json({
                 success: true,
@@ -128,24 +128,24 @@ router.delete('/:idArme', async (req, res) => {
             if (resultatRequete === true) {
                 res.status(200).json({
                     success: true,
-                    message: 'Delete OK',
+                    message: 'L\'élément a bien été supprimé',
                 });
             } else {
                 res.status(404).json({
                     success: false,
-                    message: `Delete failed, No Série incorrecte: ${id}`,
+                    message: 'Une erreur est survenue, l\'élément n\'a pas été supprimé',
                 });
             }
         } catch (err) {
             res.status(400).json({
                 success: false,
-                message: err,
+                message: `Une erreur est survenue: \n ${err}`,
             });
         }
     } else {
         res.status(500).json({
             success: false,
-            message: 'Aucun No de Série insérer',
+            message: 'Une erreur est survenue, l\'élément n\'a pas été supprimé',
         });
     }
 });

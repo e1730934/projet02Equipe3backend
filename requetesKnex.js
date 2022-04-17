@@ -249,20 +249,21 @@ async function ajoutIBAF(noSerie, marque, calibre, typeArme, noEvenement) {
     return success;
 }
 
-async function modificationIBAF(noSerie, marque, calibre, typeArme, noEvenement) {
+async function modificationIBAF(id, noSerie, marque, calibre, typeArme, noEvenement) {
     let success = false;
-    const count = await getCountIBAF(noSerie);
+    const count = await getCountIBAFById(id);
     if (count[0].nbrLigne !== 0) {
         await knex('IBAF')
             .update(
                 {
+                    NoSerie: noSerie,
                     Marque: marque,
                     Calibre: calibre,
                     TypeArme: typeArme,
                     NoEvenement: noEvenement,
                 },
             )
-            .where('NoSerie', noSerie);
+            .where('IdIBAF', id);
         success = true;
     }
     return success;
