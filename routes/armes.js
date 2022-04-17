@@ -53,18 +53,17 @@ router.post('/', async (req, res) => {
         const resultatRequete = await
         request.ajoutIBAF(noSerie, marque, calibre, typeArme, noEvenement);
         if (resultatRequete === true) {
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: 'L\'action a bien été effectuée',
             });
-        } else {
-            res.status(500).json({
-                success: false,
-                message: 'Une erreur est survenue, Le numéro de série existe déjà dans la base de données.',
-            });
         }
+        return res.status(500).json({
+            success: false,
+            message: 'Une erreur est survenue, Le numéro de série existe déjà dans la base de données.',
+        });
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: `Une erreur est survenue, l'action n'a pas été effectuée, ${error.message}`,
         });
