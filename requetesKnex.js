@@ -316,6 +316,11 @@ async function getIBVAbyIdentifiant(identifiant) {
         );
 }
 
+async function getCountIBVAById(id) {
+    return knex('IBVA')
+        .where('IdIBVA', id)
+        .count('* as nbrLigne');
+}
 async function getCountIBVA(identifiant) {
     return knex('IBVA')
         .where('Identifiant', identifiant)
@@ -341,9 +346,9 @@ async function ajoutIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvene
     return success;
 }
 
-async function modificationIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement) {
+async function modificationIBVA(id, identifiant, auteur, typeValeur, typeEvenement, noEvenement) {
     let success = false;
-    const count = await getCountIBVA(identifiant);
+    const count = await getCountIBVAById(id);
     if (count[0].nbrLigne !== 0) {
         await knex('IBVA')
             .update(
@@ -355,7 +360,7 @@ async function modificationIBVA(identifiant, auteur, typeValeur, typeEvenement, 
                     NoEvenement: noEvenement,
                 },
             )
-            .where('Identifiant', identifiant);
+            .where('IdIBVA', id);
         success = true;
     }
     return success;
@@ -375,7 +380,7 @@ async function suppresionIBVAByIdentifiant(identifiant) {
 
 async function suppresionIBVAById(idValeur) {
     let success = false;
-    const count = await getCountIBVA(idValeur);
+    const count = await getCountIBVAById(idValeur);
     if (count[0].nbrLigne !== 0) {
         await knex('IBVA')
             .where('IdIBVA', idValeur)
