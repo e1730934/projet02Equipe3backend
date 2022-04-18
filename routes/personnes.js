@@ -125,7 +125,7 @@ router.delete('/:IdPersonne', async (req, res) => {
         pour supprimer la ressource.');
     } */
 
-    const { IdPersonne } = req.params['IdPersonne'];
+    const IdPersonne = req.params['IdPersonne'];
     let resultat;
 
     if (Number.isNaN(IdPersonne)) {
