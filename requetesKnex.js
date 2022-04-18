@@ -31,7 +31,6 @@ function getFPS(DataIdPersonne) {
 // Fonction qui manie l'affichage de la reponse IPPE
 function formatterIPPE(IPPEs) {
     const resultat = [];
-    const libelleList = [];
 
     IPPEs.forEach((ippe) => {
         // Verifie si l'information IPPE se trouve deja dans les datas a envoyer
@@ -45,15 +44,14 @@ function formatterIPPE(IPPEs) {
                     mandat: ippe.Mandat,
                     motif: ippe.Motif,
                     nature: ippe.Nature,
-                    dossierEnquête: ippe.DossierEnquete,
+                    dossierEnquête: ippe.dossierEnquete,
                     cour: ippe.Cour,
                     noMandat: ippe.NoMandat,
                     noCause: ippe.NoCause,
-                    idNatureCrime: ippe.IdNatureCrime,
+                    idNatureCrime: ippe.idNatureCrime,
                     lieuDetention: ippe.LieuDetention,
                     finSentence: ippe.FinSentence,
                     vuDerniereFois: ippe.VuDerniereFois,
-                    conditions: libelleList,
                     agentProbation: ippe.AgentProbation,
                     agentLiberation: ippe.AgentLiberation,
                     telephone: ippe.Telephone,
@@ -76,6 +74,17 @@ function formatterIPPE(IPPEs) {
     });
 
     return resultat;
+}
+//function get Nature crime
+function natCrime(IdNatureCrime){
+    return knex('Crimes')
+    .where('Crimes.IdCrime', IdNatureCrime)
+}
+// Permet d'aller chercher les conditions d'un IPPE pour l'afficher
+function getCondition(IdIPPE) {
+    return knex('Conditions')
+        .where('Conditions.IdIPPE', IdIPPE)
+        .select('*');
 }
 
 async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
@@ -103,43 +112,11 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
         .where('PersonnesIPPE.IdPersonne', resultat[0].IdPersonne);
 
     if (resultat[0].IPPE.length === 0) return resultat;
-
+    
     // La personne a des événements IPPE associés: on les formate
     resultat[0].IPPE = formatterIPPE(resultat[0].IPPE);
 
     return resultat;
-}
-//function get Nature crime
-function natCrime(IdNatureCrime){
-    return knex('Crimes')
-    .where('Crimes.IdCrime', IdNatureCrime)
-}
-// Permet d'aller chercher les conditions d'un IPPE pour l'afficher
-function getCondition(IdIPPE) {
-    return knex('Conditions')
-        .where('Conditions.IdIPPE', IdIPPE)
-        .select('*');
-}
-
-// Permet d'aller chercher les IBOB pour l'afficher
-function getIBOB(IdIBOB) {
-    return knex('IBOB')
-        .where('IBOB.IdIBOB', IdIBOB)
-        .select('*');
-}
-
-// Permet d'aller chercher les IBAF pour l'afficher
-function getIBAF(IdIBAF) {
-    return knex('IBAF')
-        .where('IBAF.IdIBAF', IdIBAF)
-        .select('*');
-}
-
-// Permet d'aller chercher les conditions d'un IPPE pour l'afficher
-function getIBVA(IdIBVA) {
-    return knex('IBVA')
-        .where('IBAF.IdIBVA', IdIBVA)
-        .select('*');
 }
 
 // Permet d'aller chercher une personne dans personne ainsi que son ippe pour l'afficher
@@ -148,7 +125,6 @@ function getPersonne(IdPersonne) {
         .where('Personnes.IdPersonne', IdPersonne)
         .select('*');
 }
-
 // Permet d'ajouter une personne à la base de donnée
 function postPersonne(TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
     return knex('Personnes')
@@ -162,14 +138,14 @@ function postPersonne(TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, Date
         }, ['IdPersonne'])
         .returning('IdPersonne');
 }
-//Info necessaire pour le tableau de la page personne
-async function getIppePersonne(IdPersonne){
-    const resultat= await knex('Personnes')
-    .where('Personnes.IdPersonne', IdPersonne)
-    .leftJoin('PersonnesIPPE', 'Personnes.IdPersonne', 'PersonnesIPPE.IdPersonne')
-    .leftJoin('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.IdIPPE')
-    
-    return resultat
+// Info necessaire pour le tableau de la page personne
+async function getIppePersonne(IdPersonne) {
+    const resultat = await knex('Personnes')
+        .where('Personnes.IdPersonne', IdPersonne)
+        .leftJoin('PersonnesIPPE', 'Personnes.IdPersonne', 'PersonnesIPPE.IdPersonne')
+        .leftJoin('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.IdIPPE');
+
+    return resultat;
 }
 // Permet de modifer une personne
 async function putPersonne(
@@ -195,7 +171,6 @@ async function putPersonne(
 
 // Supprime une personne ainsi que son IPPE et ses Conditions
 async function deletePersonne(IdPersonne) {
-
     const IPPE = [];
     const reponseIPPE = await knex('PersonnesIPPE')
         .where('IdPersonne', IdPersonne)
@@ -203,25 +178,76 @@ async function deletePersonne(IdPersonne) {
     IPPE.push(reponseIPPE);
 
     if (reponseIPPE.length !== 0) {
-        reponseIPPE.forEach(async(element) =>{
+        reponseIPPE.forEach(async (element) => {
             await knex('Conditions')
-            .where('IdIPPE', element.IdIPPE)
-            .del();
+                .where('IdIPPE', element.IdIPPE)
+                .del();
             await knex('PersonnesIPPE')
-            .where('IdIPPE', element.IdIPPE)
-            .del()
+                .where('IdIPPE', element.IdIPPE)
+                .del();
             await knex('IPPE')
-            .where('IdIPPE', element.IdIPPE)
-            .del();
+                .where('IdIPPE', element.IdIPPE)
+                .del();
             await knex('Personnes')
-            .where('IdPersonne', IdPersonne)
-            .del();
-        })   
+                .where('IdPersonne', IdPersonne)
+                .del();
+        });
     } else {
         await knex('Personnes')
-        .where('IdPersonne', IdPersonne)
-        .del();
+            .where('IdPersonne', IdPersonne)
+            .del();
     }
+}
+
+// Permet de modifer les description d'une personne
+async function putDescription(
+    IdPersonne,
+    telephone,
+    noPermis,
+    adresseUn,
+    adresseDeux,
+    ville,
+    province,
+    CP,
+    race,
+    taille,
+    poids,
+    yeux,
+    cheveux,
+    marques,
+    gilet,
+    pantalon,
+    Autre,
+    toxicomanie,
+    desorganise,
+    suicidaire,
+    violent,
+    depressif) {
+    await knex('Personnes')
+        .where('IdPersonne', IdPersonne)
+        .update({
+            Telephone:telephone,
+            NoPermis:noPermis,
+            Adresse1:adresseUn,
+            Adresse2:adresseDeux,
+            Ville:ville,
+            Province:province,
+            CodePostal:CP,
+            Race:race,
+            Taille:taille,
+            Poids:poids,
+            Yeux:yeux,
+            Cheveux:cheveux,
+            Marques:marques,
+            Gilet:gilet,
+            Pantalon:pantalon,
+            AutreVetement:Autre,
+            Toxicomanie:toxicomanie,
+            Desorganise:desorganise,
+            Suicidaire:suicidaire,
+            Violent:violent,
+            Depressif:depressif
+        });
 }
 
 
@@ -236,7 +262,5 @@ module.exports = {
     getCondition,
     deletePersonne,
     getIppePersonne,
-    getIBOB,
-    getIBAF,
-    getIBVA,
+    putDescription,
 };
