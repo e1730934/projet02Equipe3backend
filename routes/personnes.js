@@ -4,14 +4,14 @@ const request = require('../requetesKnex');
 
 const router = express.Router();
 
-router.get('/:idPersonne', async (req, res) => {
+router.get('/:IdPersonne', async (req, res) => {
     // Pour quand on uilisera les tokens
     /* if(sessionStorage.getItem('Etudiant')){
         res.status(401).json(error.message, 'le client n’a pas les autorisations nécessaires
             pour accéder à la ressource.');
     } */
 
-    const IdPersonne  = req.params['idPersonne'];
+    const IdPersonne  = req.params['IdPersonne'];
     let resultat;
 
     if (Number.isNaN(IdPersonne)) {
@@ -74,14 +74,14 @@ router.post('/', async (req, res) => {
     }   */
 });
 
-router.put('/:idPersonne', async (req, res) => {
+router.put('/:IdPersonne', async (req, res) => {
     // Pour quand on uilisera les tokens
     /* if(sessionStorage.getItem('Etudiant')){
         res.status(401).json(error.message, 'le client n’a pas les autorisations nécessaires
             pour ajouter la ressource.');
     } */
 
-    const IdPersonne = req.params['idPersonne'];
+    const IdPersonne = req.params['IdPersonne'];
     const { TypePersonne } = req.body;
     const { NomFamille } = req.body;
     const { Prenom1 } = req.body;
@@ -118,14 +118,14 @@ router.put('/:idPersonne', async (req, res) => {
     } */
 });
 
-router.delete('/:idPersonne', async (req, res) => {
+router.delete('/:IdPersonne', async (req, res) => {
     // Pour quand on uilisera les tokens
     /* if(sessionStorage.getItem('Etudiant')){
         res.status(401).json(error.message, 'le client n’a pas les autorisations nécessaires
         pour supprimer la ressource.');
     } */
 
-    const { IdPersonne } = req.params['idPersonne'];
+    const { IdPersonne } = req.params['IdPersonne'];
     let resultat;
 
     if (Number.isNaN(IdPersonne)) {
@@ -147,7 +147,7 @@ router.delete('/:idPersonne', async (req, res) => {
         return res.status(500).json(error.message);
     }
 });
-router.put('/:idPersonne/description', async (req, res) => {
+router.put('/:IdPersonne/description', async (req, res) => {
     const IdPersonne = req.params['idPersonne'];
     const { Telephone } = req.body; 
     const { NoPermis } = req.body;
