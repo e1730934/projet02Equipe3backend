@@ -113,17 +113,19 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
         .where('PersonnesIPPE.IdPersonne', resultat[0].IdPersonne);
 
     if (resultat[0].IPPE.length === 0) return resultat;
+    
+    // La personne a des événements IPPE associés: on les formate
+    resultat[0].IPPE = formatterIPPE(resultat[0].IPPE);
+
+    return resultat;
+}
+
 // Permet d'aller chercher une personne dans personne ainsi que son ippe pour l'afficher
 function getPersonne(IdPersonne) {
     return knex('Personnes')
         .where('Personnes.IdPersonne', IdPersonne)
         .select('*');
 }
-
-    // La personne a des événements IPPE associés: on les formate
-    resultat[0].IPPE = formatterIPPE(resultat[0].IPPE);
-
-    return resultat;
 // Permet d'ajouter une personne à la base de donnée
 function postPersonne(TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, DateNaissance) {
     return knex('Personnes')
@@ -199,6 +201,57 @@ async function deletePersonne(IdPersonne) {
     }
 }
 
+// Permet de modifer les description d'une personne
+async function putDescription(
+    IdPersonne,
+    telephone,
+    noPermis,
+    adresseUn,
+    adresseDeux,
+    ville,
+    province,
+    CP,
+    race,
+    taille,
+    poids,
+    yeux,
+    cheveux,
+    marques,
+    gilet,
+    pantalon,
+    Autre,
+    toxicomanie,
+    desorganise,
+    suicidaire,
+    violent,
+    depressif) {
+    await knex('Personnes')
+        .where('IdPersonne', IdPersonne)
+        .update({
+            Telephone:telephone,
+            NoPermis:noPermis,
+            Adresse1:adresseUn,
+            Adresse2:adresseDeux,
+            Ville:ville,
+            Province:province,
+            CodePostal:CP,
+            Race:race,
+            Taille:taille,
+            Poids:poids,
+            Yeux:yeux,
+            Cheveux:cheveux,
+            Marques:marques,
+            Gilet:gilet,
+            Pantalon:pantalon,
+            AutreVetement:Autre,
+            Toxicomanie:toxicomanie,
+            Desorganise:desorganise,
+            Suicidaire:suicidaire,
+            Violent:violent,
+            Depressif:depressif
+        });
+}
+
 
 module.exports = {
     connexion,
@@ -211,4 +264,5 @@ module.exports = {
     getCondition,
     deletePersonne,
     getIppePersonne,
+    putDescription,
 };
