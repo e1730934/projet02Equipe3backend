@@ -9,7 +9,7 @@ Dans le cadre du cours de Projet 2 - 4D1, le premier projet à réaliser ,dans l
 Cette application servira comme outil de formation au étudiants en technique policière. Il habituera l'élève à:
 -Manipuler une carte d'identité lors de mises en situations
 -Se familiarisé avec les informations récoltés lors d'une altercation
--Utilisé un outil de recherche de base de données 
+-Utilisé un outil de recherche de base de données
 
 ## Colaboration
 **Ce projet est réalisé par:** David Déchaine, Ryma Merrouchi, Charles-Étienne Doucet et Dan Bagalwa.
