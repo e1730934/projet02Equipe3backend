@@ -148,7 +148,7 @@ router.delete('/:IdPersonne', async (req, res) => {
     }
 });
 router.put('/:IdPersonne/description', async (req, res) => {
-    const IdPersonne = req.params['idPersonne'];
+    const IdPersonne = req.params['IdPersonne'];
     const { Telephone } = req.body; 
     const { NoPermis } = req.body;
     const { AdresseUn } = req.body;
