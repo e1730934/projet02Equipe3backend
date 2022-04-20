@@ -30,7 +30,6 @@ function getFPS(DataIdPersonne) {
 // Fonction qui manie l'affichage de la reponse IPPE
 function formatterIPPE(IPPEs) {
     const resultat = [];
-    const libelleList = [];
 
     IPPEs.forEach((ippe) => {
         // Verifie si l'information IPPE se trouve deja dans les datas a envoyer
@@ -52,7 +51,6 @@ function formatterIPPE(IPPEs) {
                     lieuDetention: ippe.LieuDetention,
                     finSentence: ippe.FinSentence,
                     vuDerniereFois: ippe.VuDerniereFois,
-                    conditions: libelleList,
                     agentProbation: ippe.AgentProbation,
                     agentLiberation: ippe.AgentLiberation,
                     telephone: ippe.Telephone,
@@ -76,10 +74,10 @@ function formatterIPPE(IPPEs) {
 
     return resultat;
 }
-//function get Nature crime
-function natCrime(IdNatureCrime){
+// function get Nature crime
+function natCrime(IdNatureCrime) {
     return knex('Crimes')
-    .where('Crimes.IdCrime', IdNatureCrime)
+        .where('Crimes.IdCrime', IdNatureCrime);
 }
 // Permet d'aller chercher les conditions d'un IPPE pour l'afficher
 function getCondition(IdIPPE) {
@@ -113,7 +111,7 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
         .where('PersonnesIPPE.IdPersonne', resultat[0].IdPersonne);
 
     if (resultat[0].IPPE.length === 0) return resultat;
-    
+
     // La personne a des événements IPPE associés: on les formate
     resultat[0].IPPE = formatterIPPE(resultat[0].IPPE);
 
@@ -139,14 +137,15 @@ function postPersonne(TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, Date
         }, ['IdPersonne'])
         .returning('IdPersonne');
 }
-//Info necessaire pour le tableau de la page personne
-async function getIppePersonne(IdPersonne){
-    const resultat= await knex('Personnes')
-    .where('Personnes.IdPersonne', IdPersonne)
-    .leftJoin('PersonnesIPPE', 'Personnes.IdPersonne', 'PersonnesIPPE.IdPersonne')
-    .leftJoin('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.IdIPPE')
-    
-    return resultat
+// Info necessaire pour le tableau de la page personne
+async function getIppePersonne(IdPersonne) {
+    const resultat = await knex('IPPE')
+        .select('IPPE.*')
+        .where('PersonnesIPPE.IdPersonne', IdPersonne)
+        .join('PersonnesIPPE', 'IPPE.IdIPPE', 'PersonnesIPPE.IdIPPE')
+        .join('Personnes', 'PersonnesIPPE.IdPersonne', 'Personnes.IdPersonne');
+
+    return resultat;
 }
 // Permet de modifer une personne
 async function putPersonne(
@@ -172,7 +171,6 @@ async function putPersonne(
 
 // Supprime une personne ainsi que son IPPE et ses Conditions
 async function deletePersonne(IdPersonne) {
-
     const IPPE = [];
     const reponseIPPE = await knex('PersonnesIPPE')
         .where('IdPersonne', IdPersonne)
@@ -180,24 +178,24 @@ async function deletePersonne(IdPersonne) {
     IPPE.push(reponseIPPE);
 
     if (reponseIPPE.length !== 0) {
-        reponseIPPE.forEach(async(element) =>{
+        reponseIPPE.forEach(async (element) => {
             await knex('Conditions')
-            .where('IdIPPE', element.IdIPPE)
-            .del();
+                .where('IdIPPE', element.IdIPPE)
+                .del();
             await knex('PersonnesIPPE')
-            .where('IdIPPE', element.IdIPPE)
-            .del()
+                .where('IdIPPE', element.IdIPPE)
+                .del();
             await knex('IPPE')
-            .where('IdIPPE', element.IdIPPE)
-            .del();
+                .where('IdIPPE', element.IdIPPE)
+                .del();
             await knex('Personnes')
-            .where('IdPersonne', IdPersonne)
-            .del();
-        })   
+                .where('IdPersonne', IdPersonne)
+                .del();
+        });
     } else {
         await knex('Personnes')
-        .where('IdPersonne', IdPersonne)
-        .del();
+            .where('IdPersonne', IdPersonne)
+            .del();
     }
 }
 
@@ -224,35 +222,34 @@ async function putDescription(
     desorganise,
     suicidaire,
     violent,
-    depressif) {
+    depressif,
+) {
     await knex('Personnes')
         .where('IdPersonne', IdPersonne)
         .update({
-            Telephone:telephone,
-            NoPermis:noPermis,
-            Adresse1:adresseUn,
-            Adresse2:adresseDeux,
-            Ville:ville,
-            Province:province,
-            CodePostal:CP,
-            Race:race,
-            Taille:taille,
-            Poids:poids,
-            Yeux:yeux,
-            Cheveux:cheveux,
-            Marques:marques,
-            Gilet:gilet,
-            Pantalon:pantalon,
-            AutreVetement:Autre,
-            Toxicomanie:toxicomanie,
-            Desorganise:desorganise,
-            Suicidaire:suicidaire,
-            Violent:violent,
-            Depressif:depressif
+            Telephone: telephone,
+            NoPermis: noPermis,
+            Adresse1: adresseUn,
+            Adresse2: adresseDeux,
+            Ville: ville,
+            Province: province,
+            CodePostal: CP,
+            Race: race,
+            Taille: taille,
+            Poids: poids,
+            Yeux: yeux,
+            Cheveux: cheveux,
+            Marques: marques,
+            Gilet: gilet,
+            Pantalon: pantalon,
+            AutreVetement: Autre,
+            Toxicomanie: toxicomanie,
+            Desorganise: desorganise,
+            Suicidaire: suicidaire,
+            Violent: violent,
+            Depressif: depressif,
         });
 }
-
-
 module.exports = {
     connexion,
     natCrime,

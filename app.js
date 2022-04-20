@@ -1,4 +1,5 @@
 const express = require('express');
+
 const app = express();
 const cors = require('cors');
 
@@ -25,5 +26,5 @@ app.use('/armes', armesRouter);
 app.use('/valeurs', valeursRouter);
 
 app.listen(PORT, () => {
-	console.log(`Mon application roule sur http://localhost:${PORT}`);
+    console.log(`Mon application roule sur http://localhost:${PORT}`);
 });
