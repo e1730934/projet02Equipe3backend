@@ -125,12 +125,22 @@ CREATE TABLE [dbo].[FPS](
 	[IdPersonne] [int] NOT NULL,
 	[NoFPS] [nchar](7) NOT NULL,
 	[CD] [nvarchar](50) NOT NULL,
-	[Antecedents] [varchar](150) NOT NULL,
 	[Violent] [bit] NULL,
 	[Echappe] [bit] NULL,
 	[Suicidaire] [bit] NULL,
 	[Desequilibre] [bit] NULL,
 	[Contagieux] [bit] NULL,
+	[Violence] [bit] NULL,
+	[Fraude] [bit] NULL,
+	[ConduiteVehicule] [bit] NULL,
+	[IntroEffraction] [bit] NULL,
+	[Sexe] [bit] NULL,
+	[ArmeOffensive] [bit] NULL,
+	[Vol] [bit] NULL,
+	[Drogue] [bit] NULL,
+	[Mefait] [bit] NULL,
+	[Incendie] [bit] NULL,
+	[AutreInfraction] [bit] NULL
  CONSTRAINT [PK_FPS] PRIMARY KEY CLUSTERED
 (
 	[IdFPS] ASC

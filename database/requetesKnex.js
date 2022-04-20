@@ -1,16 +1,7 @@
-const knex = require('knex')({
-    client: 'mssql',
-    connection: {
-        host: 'sv55.cmaisonneuve.qc.ca',
-        user: 'AppCRTPDev',
-        password: 'Cours4D1',
-        database: 'CRTPDev',
-        options: {
-            enableArithAbort: false,
-        },
-    },
-    pool: { min: 0, max: 7 },
-});
+const knexModule = require('knex');
+const constantes = require('../constantes');
+
+const knex = knexModule(constantes.chaineConnexion);
 
 // Requete knex qui retourne les informations de connexion
 function connexion(identifiant, motDePasse) {
@@ -22,7 +13,6 @@ function connexion(identifiant, motDePasse) {
 // Fonction qui manie l'affichage de la reponse IPPE
 function formatterIPPE(IPPEs) {
     const resultat = [];
-    const libelleList = [];
 
     IPPEs.forEach((ippe) => {
         // Verifie si l'information IPPE se trouve deja dans les datas a envoyer
@@ -44,7 +34,6 @@ function formatterIPPE(IPPEs) {
                     lieuDetention: ippe.LieuDetention,
                     finSentence: ippe.FinSentence,
                     vuDerniereFois: ippe.VuDerniereFois,
-                    conditions: libelleList,
                     agentProbation: ippe.AgentProbation,
                     agentLiberation: ippe.AgentLiberation,
                     telephone: ippe.Telephone,
