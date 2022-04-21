@@ -9,15 +9,15 @@ router.get('/:idValeur', async (req, res) => {
     const id = req.params.idValeur;
     try {
         if (id === undefined) {
-            return res.status(400).json({ message: 'Paramètre manquant'});
+            return res.status(400).json({ message: 'Paramètre manquant' });
         }
         resultat = await request.getIBVAbyId(id);
         if (resultat.length === 0) {
-            return res.status(404).json({ message: 'Cette valeur n\'est pas répertoriée'});
+            return res.status(404).json({ message: 'Cette valeur n\'est pas répertoriée' });
         }
         return res.status(200).json(resultat);
     } catch (error) {
-        return res.status(500).json({ message: error.message});
+        return res.status(500).json({ message: error.message });
     }
 });
 
@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
         && regexSChiffres.test(req.body.sequenceChiffres)
     );
     if (validationEvent === false) {
-        return res.status(400).json({message: 'Numéro d\'événement invalide'});
+        return res.status(400).json({ message: 'Numéro d\'événement invalide' });
     }
     if (identifiant === undefined || auteur === undefined || typeValeur === undefined
         || typeEvenement === undefined || req.body.NoCours === undefined
@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
     }
     try {
         const resultatRequete = await
-            request.ajoutIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement);
+        request.ajoutIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement);
         if (resultatRequete === true) {
             return res.status(200).json({
                 success: true,
@@ -87,7 +87,7 @@ router.put('/', async (req, res) => {
         && regexSChiffres.test(req.body.sequenceChiffres)
     );
     if (validationEvent === false) {
-        return res.status(400).json({message: 'Numéro d\'événement invalide'});
+        return res.status(400).json({ message: 'Numéro d\'événement invalide' });
     }
     if (identifiant === undefined || auteur === undefined || typeValeur === undefined
         || typeEvenement === undefined || req.body.NoCours === undefined
@@ -100,7 +100,7 @@ router.put('/', async (req, res) => {
     }
     try {
         const resultatRequete = await
-            request.modificationIBVA(idValeur, identifiant, auteur, typeValeur, typeEvenement, noEvenement);
+        request.modificationIBVA(idValeur, identifiant, auteur, typeValeur, typeEvenement, noEvenement);
         if (resultatRequete === true) {
             return res.status(200).son({
                 success: true,

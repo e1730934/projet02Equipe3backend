@@ -90,7 +90,349 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
     return resultat;
 }
 
+async function getIBOBbyId(Id) {
+    return knex('IBOB')
+        .where('IdBOB', Id)
+        .select(
+            'NoSerie',
+            'Marque',
+            'Modele',
+            'TypeObjet',
+            'NoEvenement',
+        );
+}
+
+async function getIBOBbyNoSerie(noSerie) {
+    return knex('IBOB')
+        .where('NoSerie', noSerie)
+        .select(
+            'NoSerie',
+            'Marque',
+            'Modele',
+            'TypeObjet',
+            'NoEvenement',
+        );
+}
+
+async function getCountIBOB(noSerie) {
+    return knex('IBOB')
+        .where('NoSerie', noSerie)
+        .count('* as nbrLigne');
+}
+async function ajoutIBOB(noSerie, marque, modele, typeObjet, noEvenement) {
+    let success = false;
+    const count = await getCountIBOB(noSerie);
+    if (count[0].nbrLigne === 0) {
+        await knex('IBOB')
+            .insert(
+                {
+                    NoSerie: noSerie,
+                    Marque: marque,
+                    Modele: modele,
+                    TypeObjet: typeObjet,
+                    NoEvenement: noEvenement,
+                },
+            );
+        success = true;
+    }
+    return success;
+}
+
+async function modificationIBOB(noSerie, marque, modele, typeObjet, noEvenement) {
+    let success = false;
+    const count = await getCountIBOB(noSerie);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBOB')
+            .update(
+                {
+                    Marque: marque,
+                    Modele: modele,
+                    TypeObjet: typeObjet,
+                    NoEvenement: noEvenement,
+                },
+            )
+            .where('NoSerie', noSerie);
+        success = true;
+    }
+    return success;
+}
+
+async function suppresionIBOByNoSerie(noSerie) {
+    let success = false;
+    const count = await getCountIBOB(noSerie);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBOB')
+            .where('NoSerie', noSerie)
+            .del();
+        success = true;
+    }
+    return success;
+}
+
+async function suppresionIBOById(idObjet) {
+    let success = false;
+    const count = await getCountIBOB(idObjet);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBOB')
+            .where('IdBOB', idObjet)
+            .del();
+        success = true;
+    }
+    return success;
+}
+
+async function getIBAFById(id) {
+    return knex('IBAF')
+        .where('IdIBAF', id)
+        .select(
+            'NoSerie',
+            'Marque',
+            'Calibre',
+            'TypeArme',
+            'NoEvenement',
+        );
+}
+
+async function getIBAFByNoSerie(noSerie) {
+    return knex('IBAF')
+        .where('NoSerie', noSerie)
+        .select(
+            'NoSerie',
+            'Marque',
+            'Calibre',
+            'TypeArme',
+            'NoEvenement',
+        );
+}
+
+async function getCountIBAFById(id) {
+    return knex('IBAF')
+        .where('IdIBAF', id)
+        .count('* as nbrLigne');
+}
+async function getCountIBAF(noSerie) {
+    return knex('IBAF')
+        .where('NoSerie', noSerie)
+        .count('* as nbrLigne');
+}
+
+async function ajoutIBAF(noSerie, marque, calibre, typeArme, noEvenement) {
+    let success = false;
+    const count = await getCountIBAF(noSerie);
+    if (count[0].nbrLigne === 0) {
+        await knex('IBAF')
+            .insert(
+                {
+                    NoSerie: noSerie,
+                    Marque: marque,
+                    Calibre: calibre,
+                    TypeArme: typeArme,
+                    NoEvenement: noEvenement,
+                },
+            );
+        success = true;
+    }
+    return success;
+}
+
+async function modificationIBAF(id, noSerie, marque, calibre, typeArme, noEvenement) {
+    let success = false;
+    const count = await getCountIBAFById(id);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBAF')
+            .update(
+                {
+                    NoSerie: noSerie,
+                    Marque: marque,
+                    Calibre: calibre,
+                    TypeArme: typeArme,
+                    NoEvenement: noEvenement,
+                },
+            )
+            .where('IdIBAF', id);
+        success = true;
+    }
+    return success;
+}
+async function modificationIBAFByNoSerie(noSerie, marque, calibre, typeArme, noEvenement) {
+    let success = false;
+    const count = await getCountIBAF(noSerie);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBAF')
+            .update(
+                {
+                    Marque: marque,
+                    Calibre: calibre,
+                    TypeArme: typeArme,
+                    NoEvenement: noEvenement,
+                },
+            )
+            .where('NoSerie', noSerie);
+        success = true;
+    }
+    return success;
+}
+async function suppresionIBAFByNoSerie(noSerie) {
+    let success = false;
+    const count = await getCountIBAF(noSerie);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBAF')
+            .where('NoSerie', noSerie)
+            .del();
+        success = true;
+    }
+    return success;
+}
+async function suppresionIBAFById(idArme) {
+    let success = false;
+    const count = await getCountIBAFById(idArme);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBAF')
+            .where('IdIBAF', idArme)
+            .del();
+        success = true;
+    }
+    return success;
+}
+
+async function getIBVAbyId(id) {
+    return knex('IBVA')
+        .where('IdIBVA', id)
+        .select(
+            'Identifiant',
+            'Auteur',
+            'TypeValeur',
+            'TypeEvenement',
+            'NoEvenement',
+        );
+}
+
+async function getIBVAbyIdentifiant(identifiant) {
+    return knex('IBVA')
+        .where('Identifiant', identifiant)
+        .select(
+            'Identifiant',
+            'Auteur',
+            'TypeValeur',
+            'TypeEvenement',
+            'NoEvenement',
+        );
+}
+
+async function getCountIBVAById(id) {
+    return knex('IBVA')
+        .where('IdIBVA', id)
+        .count('* as nbrLigne');
+}
+async function getCountIBVA(identifiant) {
+    return knex('IBVA')
+        .where('Identifiant', identifiant)
+        .count('* as nbrLigne');
+}
+
+async function ajoutIBVA(identifiant, auteur, typeValeur, typeEvenement, noEvenement) {
+    let success = false;
+    const count = await getCountIBVA(identifiant);
+    if (count[0].nbrLigne === 0) {
+        await knex('IBVA')
+            .insert(
+                {
+                    Identifiant: identifiant,
+                    Auteur: auteur,
+                    TypeValeur: typeValeur,
+                    TypeEvenement: typeEvenement,
+                    NoEvenement: noEvenement,
+                },
+            );
+        success = true;
+    }
+    return success;
+}
+
+async function modificationIBVA(id, identifiant, auteur, typeValeur, typeEvenement, noEvenement) {
+    let success = false;
+    const count = await getCountIBVAById(id);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBVA')
+            .update(
+                {
+                    Identifiant: identifiant,
+                    Auteur: auteur,
+                    TypeValeur: typeValeur,
+                    TypeEvenement: typeEvenement,
+                    NoEvenement: noEvenement,
+                },
+            )
+            .where('IdIBVA', id);
+        success = true;
+    }
+    return success;
+}
+
+async function modificationIBVAByIdentifiant(identifiant, auteur, typeValeur, typeEvenement, noEvenement) {
+    let success = false;
+    const count = await getCountIBVA(identifiant);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBVA')
+            .update(
+                {
+                    Auteur: auteur,
+                    TypeValeur: typeValeur,
+                    TypeEvenement: typeEvenement,
+                    NoEvenement: noEvenement,
+                },
+            )
+            .where('Identifiant', identifiant);
+        success = true;
+    }
+    return success;
+}
+async function suppresionIBVAByIdentifiant(identifiant) {
+    let success = false;
+    const count = await getCountIBVA(identifiant);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBVA')
+            .where('Identifiant', identifiant)
+            .del();
+        success = true;
+    }
+    return success;
+}
+
+async function suppresionIBVAById(idValeur) {
+    let success = false;
+    const count = await getCountIBVAById(idValeur);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBVA')
+            .where('IdIBVA', idValeur)
+            .del();
+        success = true;
+    }
+    return success;
+}
+
 module.exports = {
     connexion,
     getIPPE,
+    getIBOBbyId,
+    ajoutIBOB,
+    modificationIBOB,
+    suppresionIBOByNoSerie,
+    suppresionIBOById,
+    getIBAFById,
+    ajoutIBAF,
+    modificationIBAF,
+    modificationIBAFByNoSerie,
+    suppresionIBAFByNoSerie,
+    suppresionIBAFById,
+    getIBVAbyId,
+    ajoutIBVA,
+    modificationIBVA,
+    modificationIBVAByIdentifiant,
+    suppresionIBVAByIdentifiant,
+    suppresionIBVAById,
+    getIBVAbyIdentifiant,
+    getIBAFByNoSerie,
+    getIBOBbyNoSerie,
+
 };

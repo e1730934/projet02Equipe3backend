@@ -84,7 +84,7 @@ test('ajoutIBAF dans database', async () => {
 
 test('modificationIBAF dans database', async () => {
     await reqKnex.ajoutIBAF('Test', 'Tes', '9999999998', 'Tes', '99999999999999');
-    await reqKnex.modificationIBAF('Test', 'Test', '9999999999', 'Test', '123456789123456');
+    await reqKnex.modificationIBAFByNoSerie('Test', 'Test', '9999999999', 'Test', '123456789123456');
     const expectedResult = [{
         NoSerie: 'Test',
         Marque: 'Test',
@@ -121,7 +121,7 @@ test('ajoutIBVA dans database', async () => {
 
 test('modificationIBVA dans database', async () => {
     await reqKnex.ajoutIBVA('Test', 'Tes', 'Tes', 'Tes', '123456789123456');
-    await reqKnex.modificationIBVA('Test', 'Test', 'Test', 'Test', '123456789123457');
+    await reqKnex.modificationIBVAByIdentifiant('Test', 'Test', 'Test', 'Test', '123456789123457');
     const expectedResult = [{
         Identifiant: 'Test',
         Auteur: 'Test',

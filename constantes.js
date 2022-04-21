@@ -12,7 +12,5 @@ const chaineConnexion = {
     pool: { min: 0, max: 7 },
 };
 
-
-
 // eslint-disable-next-line import/prefer-default-export
-export { chaineConnexion };
+module.exports = { chaineConnexion };
