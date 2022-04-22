@@ -1,4 +1,4 @@
-USE 4D1EquipeXX
+USE 4D1Equipexx
 GO
 ALTER TABLE [dbo].[Personnes] DROP CONSTRAINT [CK_Personnes]
 GO
@@ -18,9 +18,6 @@ ALTER TABLE [dbo].[Conditions] DROP CONSTRAINT [FK_Conditions_IPPE]
 GO
 /****** Object:  Index [UQ__Utilisat__DD380E4FCDE609CB]    Script Date: 2022-03-15 21:14:49 ******/
 ALTER TABLE [dbo].[Utilisateurs] DROP CONSTRAINT [UQ__Utilisat__DD380E4FCDE609CB]
-GO
-/****** Object:  Index [UQ__FPS__3AFC042386CD78F8]    Script Date: 2022-03-15 21:14:49 ******/
-ALTER TABLE [dbo].[FPS] DROP CONSTRAINT [UQ__FPS__3AFC042386CD78F8]
 GO
 /****** Object:  Table [dbo].[Utilisateurs]    Script Date: 2022-03-15 21:14:49 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Utilisateurs]') AND type in (N'U'))
@@ -125,22 +122,22 @@ CREATE TABLE [dbo].[FPS](
 	[IdPersonne] [int] NOT NULL,
 	[NoFPS] [nchar](7) NOT NULL,
 	[CD] [nvarchar](50) NOT NULL,
-	[Violent] [bit] NULL,
-	[Echappe] [bit] NULL,
-	[Suicidaire] [bit] NULL,
-	[Desequilibre] [bit] NULL,
-	[Contagieux] [bit] NULL,
-	[Violence] [bit] NULL,
-	[Fraude] [bit] NULL,
-	[ConduiteVehicule] [bit] NULL,
-	[IntroEffraction] [bit] NULL,
-	[Sexe] [bit] NULL,
-	[ArmeOffensive] [bit] NULL,
-	[Vol] [bit] NULL,
-	[Drogue] [bit] NULL,
-	[Mefait] [bit] NULL,
-	[Incendie] [bit] NULL,
-	[AutreInfraction] [bit] NULL
+	[Violent] [bit] NOT NULL,
+	[Echappe] [bit] NOT NULL,
+	[Suicidaire] [bit] NOT NULL,
+	[Desequilibre] [bit] NOT NULL,
+	[Contagieux] [bit] NOT NULL,
+	[Violence] [bit] NOT NULL,
+	[Fraude] [bit] NOT NULL,
+	[ConduiteVehicule] [bit] NOT NULL,
+	[IntroEffraction] [bit] NOT NULL,
+	[Sexe] [bit] NOT NULL,
+	[ArmeOffensive] [bit] NOT NULL,
+	[Vol] [bit] NOT NULL,
+	[Drogue] [bit] NOT NULL,
+	[Mefait] [bit] NOT NULL,
+	[Incendie] [bit] NOT NULL,
+	[AutreInfraction] [bit] NOT NULL,
  CONSTRAINT [PK_FPS] PRIMARY KEY CLUSTERED
 (
 	[IdFPS] ASC
@@ -580,7 +577,9 @@ SET IDENTITY_INSERT [dbo].[Crimes] OFF
 GO
 SET IDENTITY_INSERT [dbo].[FPS] ON
 GO
-INSERT [dbo].[FPS] ([IdFPS], [IdPersonne], [NoFPS], [DateMesure], [CD], [Antecedents], [Violent], [Echappe], [Suicidaire], [Desequilibre], [Contagieux]) VALUES (4, 7, N'438761F', CAST(N'2020-01-01T00:00:00.000' AS DateTime), N'W01', N'Voie de fait', NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[FPS] ([IdFPS], [IdPersonne], [NoFPS], [CD], [Violent], [Echappe], [Suicidaire], [Desequilibre], [Contagieux], [Violence], [Fraude], [ConduiteVehicule], [IntroEffraction], [Sexe], [ArmeOffensive], [Vol], [Drogue], [Mefait], [Incendie], [AutreInfraction]) VALUES (1, 5, N'462758H', N'W01, W04, W12, W06, W20, W08, W02, W01, W13, W04', 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0)
+GO
+INSERT [dbo].[FPS] ([IdFPS], [IdPersonne], [NoFPS], [CD], [Violent], [Echappe], [Suicidaire], [Desequilibre], [Contagieux], [Violence], [Fraude], [ConduiteVehicule], [IntroEffraction], [Sexe], [ArmeOffensive], [Vol], [Drogue], [Mefait], [Incendie], [AutreInfraction]) VALUES (2, 10, N'583769H', N'W01, W04, W12, W06, W20, W08, W02, W01, W13, W04', 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0)
 GO
 SET IDENTITY_INSERT [dbo].[FPS] OFF
 GO
@@ -697,9 +696,9 @@ INSERT [dbo].[PersonnesIPPE] ([IdPersonne], [IdIPPE]) VALUES (10, 27)
 GO
 SET IDENTITY_INSERT [dbo].[Utilisateurs] ON
 GO
-INSERT [dbo].[Utilisateurs] ([IdUtilisateur], [Identifiant], [MotDePasse], [Etudiant], [NomFamille]) VALUES (1, N'e1233772', N'bonjour', 1, N'Aganier')
+INSERT [dbo].[Utilisateurs] ([IdUtilisateur], [Identifiant], [MotDePasse], [Etudiant], [NomFamille]) VALUES (1, N'e1234567', N'bonjour', 1, N'EtudiantAganier')
 GO
-INSERT [dbo].[Utilisateurs] ([IdUtilisateur], [Identifiant], [MotDePasse], [Etudiant], [NomFamille]) VALUES (2, N'e1233152', N'bonjour', 1, N'Lamarre')
+INSERT [dbo].[Utilisateurs] ([IdUtilisateur], [Identifiant], [MotDePasse], [Etudiant], [NomFamille]) VALUES (2, N'1234', N'bonjour', 0, N'ProfLamarre')
 GO
 INSERT [dbo].[Utilisateurs] ([IdUtilisateur], [Identifiant], [MotDePasse], [Etudiant], [NomFamille]) VALUES (4, N'e1236443', N'bonjour', 1, N'Masse')
 GO

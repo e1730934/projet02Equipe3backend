@@ -1,15 +1,14 @@
 const knexModule = require('knex');
-const constantes = require('../constantes');
+const chaineConnexion = require('../constantes');
 
-const knex = knexModule(constantes.chaineConnexion);
+const knex = knexModule(chaineConnexion);
 
-// Requete knex qui retourne les informations de connexion
-function connexion(identifiant, motDePasse) {
-    return knex('Utilisateurs')
-        .where('Identifiant', identifiant)
-        .andWhere('MotDePasse', motDePasse);
+// Requete de test
+function getIppesAll() {
+    return knex('IPPE');
 }
 
+// Requete knex qui retourne les informations de connexion
 // Fonction qui manie l'affichage de la reponse IPPE
 function formatterIPPE(IPPEs) {
     const resultat = [];
@@ -26,7 +25,7 @@ function formatterIPPE(IPPEs) {
                     mandat: ippe.Mandat,
                     motif: ippe.Motif,
                     nature: ippe.Nature,
-                    dossierEnquête: ippe.dossierEnquete,
+                    dossierEnquete: ippe.dossierEnquete,
                     cour: ippe.Cour,
                     noMandat: ippe.NoMandat,
                     noCause: ippe.NoCause,
@@ -91,6 +90,6 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
 }
 
 module.exports = {
-    connexion,
+    getIppesAll,
     getIPPE,
 };
