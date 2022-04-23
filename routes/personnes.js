@@ -1,6 +1,6 @@
 const express = require('express');
 
-const request = require('../requetesKnex');
+const request = require('../database/personnes');
 
 const router = express.Router();
 
