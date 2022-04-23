@@ -102,7 +102,7 @@ router.put('/', async (req, res) => {
         const resultatRequete = await
         request.modificationIBVA(idValeur, identifiant, auteur, typeValeur, typeEvenement, noEvenement);
         if (resultatRequete === true) {
-            return res.status(200).son({
+            return res.status(200).json({
                 success: true,
                 message: 'L\'action a bien été effectuée',
             });
