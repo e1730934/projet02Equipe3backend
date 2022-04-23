@@ -75,10 +75,10 @@ function formatterIPPE(IPPEs) {
 
     return resultat;
 }
-//function get Nature crime
-function natCrime(IdNatureCrime){
+// function get Nature crime
+function natCrime(IdNatureCrime) {
     return knex('Crimes')
-    .where('Crimes.IdCrime', IdNatureCrime)
+        .where('Crimes.IdCrime', IdNatureCrime);
 }
 // Permet d'aller chercher les conditions d'un IPPE pour l'afficher
 function getCondition(IdIPPE) {
@@ -112,7 +112,7 @@ async function getIPPE(nomFamille, prenom1, prenom2, masculin, dateNaissance) {
         .where('PersonnesIPPE.IdPersonne', resultat[0].IdPersonne);
 
     if (resultat[0].IPPE.length === 0) return resultat;
-    
+
     // La personne a des événements IPPE associés: on les formate
     resultat[0].IPPE = formatterIPPE(resultat[0].IPPE);
 
@@ -140,10 +140,11 @@ function postPersonne(TypePersonne, NomFamille, Prenom1, Prenom2, Masculin, Date
 }
 // Info necessaire pour le tableau de la page personne
 async function getIppePersonne(IdPersonne) {
-    const resultat = await knex('Personnes')
-        .where('Personnes.IdPersonne', IdPersonne)
-        .leftJoin('PersonnesIPPE', 'Personnes.IdPersonne', 'PersonnesIPPE.IdPersonne')
-        .leftJoin('IPPE', 'PersonnesIPPE.IdIPPE', 'IPPE.IdIPPE');
+    const resultat = await knex('IPPE')
+        .select('IPPE.*')
+        .where('PersonnesIPPE.IdPersonne', IdPersonne)
+        .join('PersonnesIPPE', 'IPPE.IdIPPE', 'PersonnesIPPE.IdIPPE')
+        .join('Personnes', 'PersonnesIPPE.IdPersonne', 'Personnes.IdPersonne');
 
     return resultat;
 }
@@ -222,35 +223,34 @@ async function putDescription(
     desorganise,
     suicidaire,
     violent,
-    depressif) {
+    depressif,
+) {
     await knex('Personnes')
         .where('IdPersonne', IdPersonne)
         .update({
-            Telephone:telephone,
-            NoPermis:noPermis,
-            Adresse1:adresseUn,
-            Adresse2:adresseDeux,
-            Ville:ville,
-            Province:province,
-            CodePostal:CP,
-            Race:race,
-            Taille:taille,
-            Poids:poids,
-            Yeux:yeux,
-            Cheveux:cheveux,
-            Marques:marques,
-            Gilet:gilet,
-            Pantalon:pantalon,
-            AutreVetement:Autre,
-            Toxicomanie:toxicomanie,
-            Desorganise:desorganise,
-            Suicidaire:suicidaire,
-            Violent:violent,
-            Depressif:depressif
+            Telephone: telephone,
+            NoPermis: noPermis,
+            Adresse1: adresseUn,
+            Adresse2: adresseDeux,
+            Ville: ville,
+            Province: province,
+            CodePostal: CP,
+            Race: race,
+            Taille: taille,
+            Poids: poids,
+            Yeux: yeux,
+            Cheveux: cheveux,
+            Marques: marques,
+            Gilet: gilet,
+            Pantalon: pantalon,
+            AutreVetement: Autre,
+            Toxicomanie: toxicomanie,
+            Desorganise: desorganise,
+            Suicidaire: suicidaire,
+            Violent: violent,
+            Depressif: depressif,
         });
 }
-
-
 module.exports = {
     connexion,
     natCrime,
