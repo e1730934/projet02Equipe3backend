@@ -1,24 +1,24 @@
 const express = require('express');
 
-const request = require('../requetesKnex');
+const request = require('../database/personnes');
 
 const router = express.Router();
 
-router.get('/:IdPersonne', async (req, res) => {
+router.get('/:idPersonne', async (req, res) => {
     // Pour quand on uilisera les tokens
     /* if(sessionStorage.getItem('Etudiant')){
         res.status(401).json(error.message, 'le client n’a pas les autorisations nécessaires
             pour accéder à la ressource.');
     } */
 
-    const IdPersonne  = req.params['IdPersonne'];
+    const { idPersonne } = req.params;
     let resultat;
 
-    if (Number.isNaN(IdPersonne)) {
+    if (Number.isNaN(idPersonne)) {
         res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
     } else {
         try {
-            resultat = await request.getPersonne(IdPersonne);
+            resultat = await request.getPersonne(idPersonne);
             if (resultat.length === 0 || resultat === undefined) {
                 res.status(404).send('La personne n\'existe pas!');
             } else {
@@ -74,14 +74,14 @@ router.post('/', async (req, res) => {
     }   */
 });
 
-router.put('/:IdPersonne', async (req, res) => {
+router.put('/:idPersonne', async (req, res) => {
     // Pour quand on uilisera les tokens
     /* if(sessionStorage.getItem('Etudiant')){
         res.status(401).json(error.message, 'le client n’a pas les autorisations nécessaires
             pour ajouter la ressource.');
     } */
 
-    const IdPersonne = req.params['IdPersonne'];
+    const { idPersonne } = req.params;
     const { TypePersonne } = req.body;
     const { NomFamille } = req.body;
     const { Prenom1 } = req.body;
@@ -89,13 +89,13 @@ router.put('/:IdPersonne', async (req, res) => {
     const { Masculin } = req.body;
     const { DateNaissance } = req.body;
 
-    if (Number.isNaN(IdPersonne)) {
+    if (Number.isNaN(idPersonne)) {
         res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
     }
 
     try {
         await request.putPersonne(
-            IdPersonne,
+            idPersonne,
             TypePersonne,
             NomFamille,
             Prenom1,
@@ -118,21 +118,21 @@ router.put('/:IdPersonne', async (req, res) => {
     } */
 });
 
-router.delete('/:IdPersonne', async (req, res) => {
+router.delete('/:idPersonne', async (req, res) => {
     // Pour quand on uilisera les tokens
     /* if(sessionStorage.getItem('Etudiant')){
         res.status(401).json(error.message, 'le client n’a pas les autorisations nécessaires
         pour supprimer la ressource.');
     } */
 
-    const { IdPersonne } = req.params['IdPersonne'];
+    const { idPersonne } = req.params;
     let resultat;
 
-    if (Number.isNaN(IdPersonne)) {
+    if (Number.isNaN(idPersonne)) {
         return res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
     }
     try {
-        resultat = await request.getPersonne(IdPersonne);
+        resultat = await request.getPersonne(idPersonne);
     } catch (error) {
         return res.status(500).json(error.message);
     }
@@ -141,15 +141,15 @@ router.delete('/:IdPersonne', async (req, res) => {
     }
     try {
         // Supprime les conditions, les IPPE et la personne de la BD
-        await request.deletePersonne(IdPersonne);
+        await request.deletePersonne(idPersonne);
         return res.status(200).send({ deleted: true });
     } catch (error) {
         return res.status(500).json(error.message);
     }
 });
-router.put('/:IdPersonne/description', async (req, res) => {
-    const IdPersonne = req.params['IdPersonne'];
-    const { Telephone } = req.body; 
+router.put('/:idPersonne/description', async (req, res) => {
+    const { idPersonne } = req.params;
+    const { Telephone } = req.body;
     const { NoPermis } = req.body;
     const { AdresseUn } = req.body;
     const { AdresseDeux } = req.body;
@@ -169,15 +169,15 @@ router.put('/:IdPersonne/description', async (req, res) => {
     const { Desorganise } = req.body;
     const { Suicidaire } = req.body;
     const { Violent } = req.body;
-    const { Depressif} = req.body;
+    const { Depressif } = req.body;
 
-    if (Number.isNaN(IdPersonne)) {
-        res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
+    if (Number.isNaN(idPersonne)) {
+        return res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
     }
 
     try {
         await request.putDescription(
-            IdPersonne,
+            idPersonne,
             Telephone,
             NoPermis,
             AdresseUn,
@@ -198,20 +198,26 @@ router.put('/:IdPersonne/description', async (req, res) => {
             Desorganise,
             Suicidaire,
             Violent,
-            Depressif
+            Depressif,
         );
-        res.status(200).json('Description modifiée');
+        return res.status(200).json('Description modifiée');
     } catch (error) {
-        res.status(500).json('Les valeurs ne sont pas conforme.');
+        return res.status(500).json('Les valeurs ne sont pas conforme.');
     }
-    /* {
-        "TypePersonne": "Enseignant",
-        "NomFamille":"Test1",
-        "Prenom1":"test1",
-        "Prenom2":"test1",
-        "Masculin":1,
-        "DateNaissance": "2014-01-01"
-
-    } */
+});
+router.get('/:idPersonne/ippes', async (req, res) => {
+    const { idPersonne } = req.params;
+    if (Number.isNaN(idPersonne)) {
+        return res.status(400).send('les paramètres sont invalides.');
+    }
+    try {
+        const resultat = await request.getIppePersonne(idPersonne);
+        if (resultat.length === 0 || resultat === undefined) {
+            return res.status(404).send('La personne ne possède pas d\'IPPE!');
+        }
+        return res.status(200).send(resultat);
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
 });
 module.exports = router;
