@@ -13,6 +13,5 @@ const chaineConnexion = {
     useNullAsDefault: true,
 };
 
-
 // eslint-disable-next-line import/prefer-default-export
 module.exports = chaineConnexion;
