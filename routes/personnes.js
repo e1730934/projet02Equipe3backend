@@ -1,6 +1,6 @@
 const express = require('express');
 
-const request = require('../requetesKnex');
+const request = require('../database/personnes');
 
 const router = express.Router();
 
@@ -209,17 +209,15 @@ router.get('/:idPersonne/ippes', async (req, res) => {
     const { idPersonne } = req.params;
     if (Number.isNaN(idPersonne)) {
         return res.status(400).send('les paramètres sont invalides.');
-    } else {
-        try {
-            const resultat = await request.getIppePersonne(idPersonne);
-            if (resultat.length === 0 || resultat === undefined) {
-                return res.status(404).send('La personne ne possède pas d\'IPPE!');
-            } else {
-                return res.status(200).send(resultat);
-            }
-        } catch (error) {
-            return res.status(500).json(error.message);
+    }
+    try {
+        const resultat = await request.getIppePersonne(idPersonne);
+        if (resultat.length === 0 || resultat === undefined) {
+            return res.status(404).send('La personne ne possède pas d\'IPPE!');
         }
+        return res.status(200).send(resultat);
+    } catch (error) {
+        return res.status(500).json(error.message);
     }
 });
 module.exports = router;
