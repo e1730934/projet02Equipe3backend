@@ -65,7 +65,7 @@ async function modificationIBOB(id, noSerie, marque, modele, typeObjet, noEvenem
         await knex('IBOB')
             .update(
                 {
-                    noSerie: noSerie,
+                    noSerie,
                     Marque: marque,
                     Modele: modele,
                     TypeObjet: typeObjet,
