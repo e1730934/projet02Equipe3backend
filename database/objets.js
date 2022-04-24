@@ -27,11 +27,18 @@ async function getIBOBbyNoSerie(noSerie) {
         );
 }
 
+async function getCountIBOBById(id) {
+    return knex('IBOB')
+        .where('IdBOB', id)
+        .count('* as nbrLigne');
+}
+
 async function getCountIBOB(noSerie) {
     return knex('IBOB')
         .where('NoSerie', noSerie)
         .count('* as nbrLigne');
 }
+
 async function ajoutIBOB(noSerie, marque, modele, typeObjet, noEvenement) {
     let success = false;
     const count = await getCountIBOB(noSerie);
@@ -51,20 +58,21 @@ async function ajoutIBOB(noSerie, marque, modele, typeObjet, noEvenement) {
     return success;
 }
 
-async function modificationIBOB(noSerie, marque, modele, typeObjet, noEvenement) {
+async function modificationIBOB(id, noSerie, marque, modele, typeObjet, noEvenement) {
     let success = false;
-    const count = await getCountIBOB(noSerie);
+    const count = await getCountIBOBById(id);
     if (count[0].nbrLigne !== 0) {
         await knex('IBOB')
             .update(
                 {
+                    noSerie: noSerie,
                     Marque: marque,
                     Modele: modele,
                     TypeObjet: typeObjet,
                     NoEvenement: noEvenement,
                 },
             )
-            .where('NoSerie', noSerie);
+            .where('IdBOB', id);
         success = true;
     }
     return success;
@@ -84,7 +92,7 @@ async function suppresionIBOByNoSerie(noSerie) {
 
 async function suppresionIBOById(idObjet) {
     let success = false;
-    const count = await getCountIBOB(idObjet);
+    const count = await getCountIBOBById(idObjet);
     if (count[0].nbrLigne !== 0) {
         await knex('IBOB')
             .where('IdBOB', idObjet)
@@ -95,6 +103,8 @@ async function suppresionIBOById(idObjet) {
 }
 module.exports = {
     getIBOBbyId,
+    getCountIBOB,
+    getCountIBOBById,
     ajoutIBOB,
     modificationIBOB,
     suppresionIBOByNoSerie,
