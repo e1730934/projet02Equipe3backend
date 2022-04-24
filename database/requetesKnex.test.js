@@ -1,63 +1,45 @@
-const reqKnex = require('./requetesKnex');
+const reqKnex = require('./ippes');
 
-// eslint-disable-next-line jest/no-commented-out-tests
-// test('Réponse ***RECHERCHÉ***', async () => {
-//     const resultat = [{
-//         idPersonne: 3,
-//         idIPPE: 8,
-//         nomFamille: 'Ducharme',
-//         prenom1: 'Benoit',
-//         prenom2: null,
-//         masculin: true,
-//         dateNaissance: new Date('1975-08-31'),
-//         mandat: 'Arrestation',
-//         cour: 'Municipale de Longueuil',
-//         noMandat: 'CM-LGL-A-26840',
-//         natureCrime: 'Agression armée',
-//         noEvenement: '108-220208-0031',
-//     }];
-//     const ippe = await reqKnex.getIPPE(resultat[0].nomFamille, resultat[0].prenom1,
-// resultat[0].prenom2, resultat[0].masculin, resultat[0].dateNaissance);
+test('Réponse ***RECHERCHÉ***', async () => {
+    jest.setTimeout(10000);
+    const expected = [{
+        idIPPE: 8,
+        noEvenement: '108-220208-0031',
+        typeEvenement: 'Recherché',
+        mandat: 'Arrestation',
+        motif: null,
+        nature: 'Agression armée',
+        dossierEnquete: null,
+        cour: 'Municipale de Longueuil',
+        noMandat: 'CM-LGL-A-26840',
+        noCause: null,
+        idNatureCrime: null,
+        lieuDetention: null,
+        finSentence: null,
+        vuDerniereFois: null,
+        agentProbation: null,
+        agentLiberation: null,
+        telephone: null,
+        poste: null,
+        conditions: [],
 
-//     expect(ippe).toEqual(resultat);
-// });
-test('suppresionIBOBByNoSerie dans database', async () => {
-    await reqKnex.ajoutIBOB('Test', 'Test', 'Test', 'Test', '123456789123456');
-    await reqKnex.suppresionIBOByNoSerie('Test');
-    const expectedResult = [];
-    const result = await reqKnex.getIBOBbyNoSerie('Test');
-    expect(expectedResult).toEqual(result);
-});
-
-test('ajoutIBOB dans database', async () => {
-    await reqKnex.ajoutIBOB('Test', 'Test', 'Test', 'Test', '123456789123456');
-    const expectedResult = [{
-        NoSerie: 'Test',
-        Marque: 'Test',
-        Modele: 'Test',
-        TypeObjet: 'Test',
-        NoEvenement: '123456789123456',
+        idPersonne: 3,
+        nomFamille: 'Ducharme',
+        prenom1: 'Benoit',
+        prenom2: null,
+        masculin: true,
+        dateNaissance: new Date('1975-08-31'),
 
     }];
-    const result = await reqKnex.getIBOBbyNoSerie('Test');
-    await reqKnex.suppresionIBOByNoSerie('Test');
-    expect(expectedResult).toEqual(result);
-});
+    const result = await reqKnex.getIPPE(
+        expected[0].nomFamille,
+        expected[0].prenom1,
+        expected[0].prenom2,
+        expected[0].masculin,
+        expected[0].dateNaissance,
+    );
 
-test('modificationIBOB dans database', async () => {
-    await reqKnex.ajoutIBOB('Test', 'Tes', 'Tes', 'Tes', '99999999999999');
-    await reqKnex.modificationIBOB('Test', 'Test', 'Test', 'Test', '123456789123456');
-    const expectedResult = [{
-        NoSerie: 'Test',
-        Marque: 'Test',
-        Modele: 'Test',
-        TypeObjet: 'Test',
-        NoEvenement: '123456789123456',
-
-    }];
-    const result = await reqKnex.getIBOBbyNoSerie('Test');
-    await reqKnex.suppresionIBOByNoSerie('Test');
-    expect(expectedResult).toEqual(result);
+    expect(result[0].IPPE).toEqual(expected);
 });
 
 test('suppresionIBAFByNoSerie dans database', async () => {
