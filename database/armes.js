@@ -3,11 +3,126 @@ const chaineConnexion = require('../constantes');
 
 const knex = knexModule(chaineConnexion);
 
-// Requete de test
-function getArmesAll() {
-    return knex('IBAF');
+async function getIBAFById(id) {
+    return knex('IBAF')
+        .where('IdIBAF', id)
+        .select(
+            'NoSerie',
+            'Marque',
+            'Calibre',
+            'TypeArme',
+            'NoEvenement',
+        );
+}
+
+async function getIBAFByNoSerie(noSerie) {
+    return knex('IBAF')
+        .where('NoSerie', noSerie)
+        .select(
+            'NoSerie',
+            'Marque',
+            'Calibre',
+            'TypeArme',
+            'NoEvenement',
+        );
+}
+
+async function getCountIBAFById(id) {
+    return knex('IBAF')
+        .where('IdIBAF', id)
+        .count('* as nbrLigne');
+}
+async function getCountIBAF(noSerie) {
+    return knex('IBAF')
+        .where('NoSerie', noSerie)
+        .count('* as nbrLigne');
+}
+
+async function ajoutIBAF(noSerie, marque, calibre, typeArme, noEvenement) {
+    let success = false;
+    const count = await getCountIBAF(noSerie);
+    if (count[0].nbrLigne === 0) {
+        await knex('IBAF')
+            .insert(
+                {
+                    NoSerie: noSerie,
+                    Marque: marque,
+                    Calibre: calibre,
+                    TypeArme: typeArme,
+                    NoEvenement: noEvenement,
+                },
+            );
+        success = true;
+    }
+    return success;
+}
+
+async function modificationIBAF(id, noSerie, marque, calibre, typeArme, noEvenement) {
+    let success = false;
+    const count = await getCountIBAFById(id);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBAF')
+            .update(
+                {
+                    NoSerie: noSerie,
+                    Marque: marque,
+                    Calibre: calibre,
+                    TypeArme: typeArme,
+                    NoEvenement: noEvenement,
+                },
+            )
+            .where('IdIBAF', id);
+        success = true;
+    }
+    return success;
+}
+async function modificationIBAFByNoSerie(noSerie, marque, calibre, typeArme, noEvenement) {
+    let success = false;
+    const count = await getCountIBAF(noSerie);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBAF')
+            .update(
+                {
+                    Marque: marque,
+                    Calibre: calibre,
+                    TypeArme: typeArme,
+                    NoEvenement: noEvenement,
+                },
+            )
+            .where('NoSerie', noSerie);
+        success = true;
+    }
+    return success;
+}
+async function suppresionIBAFByNoSerie(noSerie) {
+    let success = false;
+    const count = await getCountIBAF(noSerie);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBAF')
+            .where('NoSerie', noSerie)
+            .del();
+        success = true;
+    }
+    return success;
+}
+async function suppresionIBAFById(idArme) {
+    let success = false;
+    const count = await getCountIBAFById(idArme);
+    if (count[0].nbrLigne !== 0) {
+        await knex('IBAF')
+            .where('IdIBAF', idArme)
+            .del();
+        success = true;
+    }
+    return success;
 }
 
 module.exports = {
-    getArmesAll,
+    getIBAFByNoSerie,
+    getIBAFById,
+    ajoutIBAF,
+    modificationIBAF,
+    modificationIBAFByNoSerie,
+    suppresionIBAFByNoSerie,
+    suppresionIBAFById,
 };
