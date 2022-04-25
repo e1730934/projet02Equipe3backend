@@ -134,7 +134,7 @@ test('get IBOB by id dans database', async () => {
 test('get IBVA by id dans database', async () => {
     const expectedResult = [{
         Identifiant: '628181-4249-96708',
-        Auteur: 'VISA',
+        Auteur: 'MASTERCARD',
         TypeValeur: 'Carte de crédit / débit',
         TypeEvenement: 'Perdu',
         NoEvenement: '123-220301-0007',
