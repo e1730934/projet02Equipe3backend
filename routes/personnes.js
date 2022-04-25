@@ -41,6 +41,7 @@ router.post('/', async (req, res) => {
     const { Prenom2 } = req.body;
     const { Masculin } = req.body;
     const { DateNaissance } = req.body;
+
     if (!TypePersonne || !NomFamille || !Prenom1 || Masculin === null || !DateNaissance) {
         return res.status(400).json('Le type de personne, prenom1, nom, sex et la DDN ne peuvent etre vide');
     }
@@ -85,6 +86,10 @@ router.put('/:idPersonne', async (req, res) => {
     const { Prenom2 } = req.body;
     const { Masculin } = req.body;
     const { DateNaissance } = req.body;
+
+    if (!TypePersonne || !NomFamille || !Prenom1 || Masculin === null || !DateNaissance) {
+        return res.status(400).json('Le type de personne, prenom1, nom, sex et la DDN ne peuvent etre vide');
+    }
 
     if (Number.isNaN(idPersonne)) {
         return res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
