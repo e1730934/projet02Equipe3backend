@@ -3,6 +3,8 @@ module.exports = {
     env: {
         node: true,
         jest: true,
+        browser: true,
+        es2020: true,
     },
     extends: [
         'airbnb-base',
@@ -11,6 +13,7 @@ module.exports = {
     ],
     parserOptions: {
         parser: '@babel/eslint-parser',
+        ecmaVersion: 12,
     },
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
