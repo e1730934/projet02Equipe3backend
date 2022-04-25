@@ -56,14 +56,15 @@ async function putPersonne(
 
 // Supprime une personne ainsi que son IPPE et ses Conditions
 async function deletePersonne(IdPersonne) {
-    const IPPE = [];
     const reponseIPPE = await knex('PersonnesIPPE')
         .where('IdPersonne', IdPersonne)
         .select('IdIPPE');
-    IPPE.push(reponseIPPE);
 
     if (reponseIPPE.length !== 0) {
         reponseIPPE.forEach(async (element) => {
+            await knex('FPS')
+                .where('IdPersonne', IdPersonne)
+                .del();
             await knex('Conditions')
                 .where('IdIPPE', element.IdIPPE)
                 .del();
@@ -73,11 +74,17 @@ async function deletePersonne(IdPersonne) {
             await knex('IPPE')
                 .where('IdIPPE', element.IdIPPE)
                 .del();
+            await knex('FPS')
+                .where('IdPersonne', IdPersonne)
+                .del();
             await knex('Personnes')
                 .where('IdPersonne', IdPersonne)
                 .del();
         });
     } else {
+        await knex('FPS')
+            .where('IdPersonne', IdPersonne)
+            .del();
         await knex('Personnes')
             .where('IdPersonne', IdPersonne)
             .del();

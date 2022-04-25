@@ -3,7 +3,7 @@ const express = require('express');
 const request = require('../database/personnes');
 
 const router = express.Router();
-
+// eslint-disable consistent-return
 router.get('/:idPersonne', async (req, res) => {
     // Pour quand on uilisera les tokens
     /* if(sessionStorage.getItem('Etudiant')){
@@ -15,18 +15,16 @@ router.get('/:idPersonne', async (req, res) => {
     let resultat;
 
     if (Number.isNaN(idPersonne)) {
-        res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
-    } else {
-        try {
-            resultat = await request.getPersonne(idPersonne);
-            if (resultat.length === 0 || resultat === undefined) {
-                res.status(404).send('La personne n\'existe pas!');
-            } else {
-                res.status(200).send(resultat);
-            }
-        } catch (error) {
-            res.status(500).json(error);
+        return res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
+    }
+    try {
+        resultat = await request.getPersonne(idPersonne);
+        if (resultat.length === 0 || resultat === undefined) {
+            return res.status(404).send('La personne n\'existe pas!');
         }
+        return res.status(200).send(resultat);
+    } catch (error) {
+        return res.status(500).json(error);
     }
 });
 
@@ -44,7 +42,7 @@ router.post('/', async (req, res) => {
     const { Masculin } = req.body;
     const { DateNaissance } = req.body;
     if (!TypePersonne || !NomFamille || !Prenom1 || Masculin === null || !DateNaissance) {
-        console.log({ message: 'ce champs ne peut etre vide' });
+        return res.status(400).json('Le type de personne, prenom1, nom, sex et la DDN ne peuvent etre vide');
     }
 
     try {
@@ -56,14 +54,13 @@ router.post('/', async (req, res) => {
             Masculin,
             DateNaissance,
         );
-        res.status(200).json({
+        return res.status(200).json({
             message: 'Personne ajoutée',
             IdPersonne: id,
         });
     } catch (error) {
-        res.status(500).json(error.message);
+        return res.status(500).json(error.message);
     }
-
     /* {
         "TypePersonne": "Test",
         "NomFamille":"Test",
@@ -90,7 +87,7 @@ router.put('/:idPersonne', async (req, res) => {
     const { DateNaissance } = req.body;
 
     if (Number.isNaN(idPersonne)) {
-        res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
+        return res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
     }
 
     try {
@@ -103,9 +100,9 @@ router.put('/:idPersonne', async (req, res) => {
             Masculin,
             DateNaissance,
         );
-        res.status(200).json('Personne modifiée');
+        return res.status(200).json('Personne modifiée');
     } catch (error) {
-        res.status(500).json('Valeurs transmises invalides (veuillez vérifier la date)');
+        return res.status(500).json('Valeurs transmises invalides (veuillez vérifier la date)');
     }
     /* {
         "TypePersonne": "Enseignant",
@@ -126,18 +123,9 @@ router.delete('/:idPersonne', async (req, res) => {
     } */
 
     const { idPersonne } = req.params;
-    let resultat;
 
     if (Number.isNaN(idPersonne)) {
         return res.status(400).send('la requête est mal formée ou les paramètres sont invalides.');
-    }
-    try {
-        resultat = await request.getPersonne(idPersonne);
-    } catch (error) {
-        return res.status(500).json(error.message);
-    }
-    if (resultat.length === 0) {
-        return res.status(404).send('La personne que vous voulez supprimer n\'existe pas!');
     }
     try {
         // Supprime les conditions, les IPPE et la personne de la BD
