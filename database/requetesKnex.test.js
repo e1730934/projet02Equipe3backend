@@ -1,4 +1,7 @@
 const reqKnex = require('./ippes');
+const reqKnexArme = require('./armes');
+const reqKnexObjet = require('./objets');
+const reqKnexValeur = require('./valeurs');
 
 test('Réponse ***RECHERCHÉ***', async () => {
     jest.setTimeout(10000);
@@ -8,12 +11,12 @@ test('Réponse ***RECHERCHÉ***', async () => {
         typeEvenement: 'Recherché',
         mandat: 'Arrestation',
         motif: null,
-        nature: 'Agression armée',
-        dossierEnquete: null,
+        nature: null,
+        dossierEnquete: undefined,
         cour: 'Municipale de Longueuil',
         noMandat: 'CM-LGL-A-26840',
         noCause: null,
-        idNatureCrime: null,
+        idNatureCrime: undefined,
         lieuDetention: null,
         finSentence: null,
         vuDerniereFois: null,
@@ -22,13 +25,12 @@ test('Réponse ***RECHERCHÉ***', async () => {
         telephone: null,
         poste: null,
         conditions: [],
-
         idPersonne: 3,
         nomFamille: 'Ducharme',
         prenom1: 'Benoit',
         prenom2: null,
         masculin: true,
-        dateNaissance: new Date('1975-08-31'),
+        dateNaissance: new Date('1975-08-31T00:00:00.000Z'),
 
     }];
     const result = await reqKnex.getIPPE(
@@ -43,15 +45,15 @@ test('Réponse ***RECHERCHÉ***', async () => {
 });
 
 test('suppresionIBAFByNoSerie dans database', async () => {
-    await reqKnex.ajoutIBAF('Test', 'Test', 'Test', 'Test', '123456789123456');
-    await reqKnex.suppresionIBAFByNoSerie('Test');
+    await reqKnexArme.ajoutIBAF('Test', 'Test', 'Test', 'Test', '123456789123456');
+    await reqKnexArme.suppresionIBAFByNoSerie('Test');
     const expectedResult = [];
-    const result = await reqKnex.getIBAFByNoSerie('Test');
+    const result = await reqKnexArme.getIBAFByNoSerie('Test');
     expect(expectedResult).toEqual(result);
 });
 
 test('ajoutIBAF dans database', async () => {
-    await reqKnex.ajoutIBAF('Test', 'Test', '9999999999', 'Test', '123456789123456');
+    await reqKnexArme.ajoutIBAF('Test', 'Test', '9999999999', 'Test', '123456789123456');
     const expectedResult = [{
         NoSerie: 'Test',
         Marque: 'Test',
@@ -59,14 +61,14 @@ test('ajoutIBAF dans database', async () => {
         TypeArme: 'Test',
         NoEvenement: '123456789123456',
     }];
-    const result = await reqKnex.getIBAFByNoSerie('Test');
-    await reqKnex.suppresionIBAFByNoSerie('Test');
+    const result = await reqKnexArme.getIBAFByNoSerie('Test');
+    await reqKnexArme.suppresionIBAFByNoSerie('Test');
     expect(expectedResult).toEqual(result);
 });
 
 test('modificationIBAF dans database', async () => {
-    await reqKnex.ajoutIBAF('Test', 'Tes', '9999999998', 'Tes', '99999999999999');
-    await reqKnex.modificationIBAFByNoSerie('Test', 'Test', '9999999999', 'Test', '123456789123456');
+    await reqKnexArme.ajoutIBAF('Test', 'Tes', '9999999998', 'Tes', '99999999999999');
+    await reqKnexArme.modificationIBAFByNoSerie('Test', 'Test', '9999999999', 'Test', '123456789123456');
     const expectedResult = [{
         NoSerie: 'Test',
         Marque: 'Test',
@@ -74,21 +76,21 @@ test('modificationIBAF dans database', async () => {
         TypeArme: 'Test',
         NoEvenement: '123456789123456',
     }];
-    const result = await reqKnex.getIBAFByNoSerie('Test');
-    await reqKnex.suppresionIBAFByNoSerie('Test');
+    const result = await reqKnexArme.getIBAFByNoSerie('Test');
+    await reqKnexArme.suppresionIBAFByNoSerie('Test');
     expect(expectedResult).toEqual(result);
 });
 
 test('suppresionIBVAByIdentifiant dans database', async () => {
-    await reqKnex.ajoutIBVA('Test', 'Test', 'Test', 'Test', '123456');
-    await reqKnex.suppresionIBVAByIdentifiant('Test');
+    await reqKnexValeur.ajoutIBVA('Test', 'Test', 'Test', 'Test', '123456');
+    await reqKnexValeur.suppresionIBVAByIdentifiant('Test');
     const expectedResult = [];
-    const result = await reqKnex.getIBVAbyIdentifiant('Test');
+    const result = await reqKnexValeur.getIBVAbyIdentifiant('Test');
     expect(expectedResult).toEqual(result);
 });
 
 test('ajoutIBVA dans database', async () => {
-    await reqKnex.ajoutIBVA('Testt', 'Testt', 'Testt', 'Testt', '123456789123456');
+    await reqKnexValeur.ajoutIBVA('Testt', 'Testt', 'Testt', 'Testt', '123456789123456');
     const expectedResult = [{
         Identifiant: 'Testt',
         Auteur: 'Testt',
@@ -96,14 +98,14 @@ test('ajoutIBVA dans database', async () => {
         TypeEvenement: 'Testt',
         NoEvenement: '123456789123456',
     }];
-    const result = await reqKnex.getIBVAbyIdentifiant('Testt');
-    await reqKnex.suppresionIBVAByIdentifiant('Testt');
+    const result = await reqKnexValeur.getIBVAbyIdentifiant('Testt');
+    await reqKnexValeur.suppresionIBVAByIdentifiant('Testt');
     expect(expectedResult).toEqual(result);
 });
 
 test('modificationIBVA dans database', async () => {
-    await reqKnex.ajoutIBVA('Test', 'Tes', 'Tes', 'Tes', '123456789123456');
-    await reqKnex.modificationIBVAByIdentifiant('Test', 'Test', 'Test', 'Test', '123456789123457');
+    await reqKnexValeur.ajoutIBVA('Test', 'Tes', 'Tes', 'Tes', '123456789123456');
+    await reqKnexValeur.modificationIBVAByIdentifiant('Test', 'Test', 'Test', 'Test', '123456789123457');
     const expectedResult = [{
         Identifiant: 'Test',
         Auteur: 'Test',
@@ -112,8 +114,8 @@ test('modificationIBVA dans database', async () => {
         NoEvenement: '123456789123457',
 
     }];
-    const result = await reqKnex.getIBVAbyIdentifiant('Test');
-    await reqKnex.suppresionIBVAByIdentifiant('Test');
+    const result = await reqKnexValeur.getIBVAbyIdentifiant('Test');
+    await reqKnexValeur.suppresionIBVAByIdentifiant('Test');
     expect(expectedResult).toEqual(result);
 });
 
@@ -125,19 +127,19 @@ test('get IBOB by id dans database', async () => {
         NoSerie: '410MXBPVF637',
         TypeObjet: 'RA',
     }];
-    const result = await reqKnex.getIBOBbyId(1);
+    const result = await reqKnexObjet.getIBOBbyId(1);
     expect(expectedResult).toEqual(result);
 });
 
 test('get IBVA by id dans database', async () => {
     const expectedResult = [{
         Identifiant: '628181-4249-96708',
-        Auteur: 'MASTERCARD',
+        Auteur: 'VISA',
         TypeValeur: 'Carte de crédit / débit',
         TypeEvenement: 'Perdu',
         NoEvenement: '123-220301-0007',
     }];
-    const result = await reqKnex.getIBVAbyId(5);
+    const result = await reqKnexValeur.getIBVAbyId(5);
     expect(expectedResult).toEqual(result);
 });
 
@@ -149,6 +151,6 @@ test('get IBAF by id dans database', async () => {
         TypeArme: 'Révolver',
         NoEvenement: '108-220304-0006',
     }];
-    const result = await reqKnex.getIBAFById(1);
+    const result = await reqKnexArme.getIBAFById(1);
     expect(expectedResult).toEqual(result);
 });
