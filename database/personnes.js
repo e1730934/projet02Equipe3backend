@@ -62,32 +62,31 @@ async function deletePersonne(IdPersonne) {
 
     if (reponseIPPE.length !== 0) {
         reponseIPPE.forEach(async (element) => {
-            await knex('FPS')
-                .where('IdPersonne', IdPersonne)
-                .del();
-            await knex('Conditions')
+            await knex('PersonnesIPPE')
                 .where('IdIPPE', element.IdIPPE)
                 .del();
-            await knex('PersonnesIPPE')
+            await knex('Conditions')
                 .where('IdIPPE', element.IdIPPE)
                 .del();
             await knex('IPPE')
                 .where('IdIPPE', element.IdIPPE)
                 .del();
-            await knex('FPS')
-                .where('IdPersonne', IdPersonne)
-                .del();
-            await knex('Personnes')
-                .where('IdPersonne', IdPersonne)
-                .del();
         });
+        await knex('FPS')
+            .where('IdPersonne', IdPersonne)
+            .del();
+        return await knex('Personnes')
+            .where('IdPersonne', IdPersonne)
+            .del()
+            .returning('*');
     } else {
         await knex('FPS')
             .where('IdPersonne', IdPersonne)
             .del();
-        await knex('Personnes')
+        return await knex('Personnes')
             .where('IdPersonne', IdPersonne)
-            .del();
+            .del()
+            .returning('*');
     }
 }
 

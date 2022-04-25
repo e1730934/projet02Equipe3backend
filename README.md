@@ -37,21 +37,41 @@ Afin d'utiliser l'API Veuillez installer toutes les dependances avec la commande
 ## Appel d'API
 
 Ajout/Modification/suppresion dune personne
+
+
     Appel API{
+        
+
         GET /personnes/{idPersonne}
+
         POST /personnes
+
         PUT /personnes/{idPersonne}
+
         DELETE /personnes/{idPersonne}
+
     }
 
+
 Ajout/Modification d’une adresse de personne
+
+
     Appel API{
+
+
         GET /personnes/{idPersonne}
+
         PUT /personnes/{idPersonne}
+
         }
 
 Ajout/Modification d’une description de personne
+
+
     Appel API{
+
+
         GET /personnes/{idPersonne}
+
         PUT /personnes/{idPersonne}
     }
