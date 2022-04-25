@@ -77,7 +77,13 @@ async function modificationIBVA(id, identifiant, auteur, typeValeur, typeEveneme
     return success;
 }
 
-async function modificationIBVAByIdentifiant(identifiant, auteur, typeValeur, typeEvenement, noEvenement) {
+async function modificationIBVAByIdentifiant(
+    identifiant,
+    auteur,
+    typeValeur,
+    typeEvenement,
+    noEvenement,
+) {
     let success = false;
     const count = await getCountIBVA(identifiant);
     if (count[0].nbrLigne !== 0) {
