@@ -1,36 +1,41 @@
-# Projet_CRPQ_Equipe4
-## Projet API
+# Projet CRPQ
+## API
 
 Projet de consultation de base de données pour les étudiants de Technique policière.
 
-Dans le cadre du cours de Projet 2 - 4D1, le premier projet à réaliser ,dans le cadre de ce cours, est de créer une application capable de répliquer l'outil de questionnement de base de données à la disposition d'un agent de l'ordre lors de ses interventions.
+Dans le cadre du cours de Projet 2 - 4D1, le projet consiste à réaliser à développer une application capable de simuler l'outil d'interrogation de base de données à la disposition d'un agent de l'ordre lors de ses interventions.
 
 ## Cadre d'utilisation
-Cette application servira comme outil de formation au étudiants en technique policière. Il habituera l'élève à:
--Manipuler une carte d'identité lors de mises en situations
--Se familiarisé avec les informations récoltés lors d'une altercation
--Utilisé un outil de recherche de base de données
+Cette application servira comme outil de formation auz étudiants en Technique policière. Il permettra à l'étudiant de:
+- Utiliser un outil de recherche de base de données
+- Se familiariser avec les informations récoltées lors d'une interpellation
 
-## Colaboration
-**Ce projet est réalisé par:** David Déchaine, Ryma Merrouchi, Charles-Étienne Doucet et Dan Bagalwa.
+## Collaborateurs
+**Ce projet est développé par:**
+* Dan Bagalwa
+* David Déchaine
+* Charles-Étienne Doucet
+* Ryma Merrouchi
 
-**Le PO :** Marc Levasseur.
+**PO :** Marc Levasseur.
 
-**Le Srum Master :** David Déchaine.
+## Utilisation
+Installation de toutes les dependances:
+    `npm i`
 
-## Tests
-Afin de completer les tests unitaires il faut lancer la commande : 
+Exécution des tests unitaires:
     `npm test`
-    
-Le port utiliser pour lancer le serveur est le 3000 et la commande script est : 
-    `npm run serve`
 
-Afin d'utiliser le linter sur tout les fichiers la commande a taper est : 
+Détection des erreurs de lint:
     `npm run lint`
 
-Afin d'utiliser le linter sur tout les fichiers et corriger les erreurs la commande a taper est : 
+Correction des erreurs de lint:
     `npm run fix`
-    
-Afin d'utiliser l'API Veuillez installer toutes les dependances avec la commande : 
-    `npm i`
+
+Lancement du serveur:
+    `npm run serve`
+
+Le serveur s'exécute sur le port 3000.
+
+
 
