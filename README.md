@@ -1,46 +1,84 @@
+# Projet CRPQ
+## API
 
 
-# <div style="text-align: center">Projet 2 - Sprint 01</div>
+Dans le cadre du cours de Projet 2 - 4D1, le projet consiste à réaliser à développer une application capable de simuler l'outil d'interrogation de base de données à la disposition d'un agent de l'ordre lors de ses interventions.
 
-<div style="text-align: center;list-style-position: inside;">
+
+
+
+## Cadre d'utilisation
+Cette application servira comme outil de formation auz étudiants en Technique policière. Il permettra à l'étudiant de:
+- Utiliser un outil de recherche de base de données
+- Se familiariser avec les informations récoltées lors d'une interpellation
+
+## Colaboration
 Réalisé par :<br/>
 Amzert, Karim - E2069838<br/>
 Cambray, Bastien - E1920614<br/>
 Khendaf, Bilal - E1730934<br/>
 Phung, Truong Sang Mario - E2066576
 
+**PO :** Marc Levasseur.
 
-## Cadre d'utilisation
-Cette application servira comme outil de formation au étudiants en technique policière. Il habituera l'élève à:
--Manipuler une carte d'identité lors de mises en situations
--Se familiarisé avec les informations récoltés lors d'une altercation
--Utilisé un outil de recherche de base de données
+## Utilisation
+Installation de toutes les dependances:
+    `npm i`
 
-<br/>
-<br/>
+Exécution des tests unitaires:
+    `npm test`
 
-## Instruction
-### Backend
+Détection des erreurs de lint:
+    `npm run lint`
 
-1. `npm install`
-2. `npm run start`
+Correction des erreurs de lint:
+    `npm run fix`
 
-### Accueil
-Notre backend roule sur *http://localhost:3000*
+Lancement du serveur:
+    `npm run serve`
 
-<br/>
-<hr/>
-Travail présenté à Levasseur, Marc <br/>
-Dans le cadre du cours 420-4D1, Groupe 03 <br/>
-Projet 2 - Développement d'applications
-<br/>
-<hr/>
+Le serveur s'exécute sur le port 3000.
 
-## Information complémentaire
-Afin de completer les tests unitaires il faut lancer la commande : `npm test`<br/>
-Le port utiliser pour lancer le serveur est le 3000 et la commande script est : `npm run serve` <br/>
-Afin d'utiliser le linter sur tout les fichiers la commande a taper est : `npm run lint` <br/>
-Afin d'utiliser le linter sur tout les fichiers et corriger les erreurs la commande a taper est : `npm run fix` <br/>
-Afin d'utiliser l'API Veuillez installer toutes les dependances avec la commande : `npm install` <br/>
 
-</div>
+
+## Appel d'API
+
+Ajout/Modification/suppresion dune personne
+
+
+    Appel API{
+        
+
+        GET /personnes/{idPersonne}
+
+        POST /personnes
+
+        PUT /personnes/{idPersonne}
+
+        DELETE /personnes/{idPersonne}
+
+    }
+
+
+Ajout/Modification d’une adresse de personne
+
+
+    Appel API{
+
+
+        GET /personnes/{idPersonne}
+
+        PUT /personnes/{idPersonne}
+
+        }
+
+Ajout/Modification d’une description de personne
+
+
+    Appel API{
+
+
+        GET /personnes/{idPersonne}
+
+        PUT /personnes/{idPersonne}
+    }

@@ -62,33 +62,31 @@ async function deletePersonne(IdPersonne) {
 
     if (reponseIPPE.length !== 0) {
         reponseIPPE.forEach(async (element) => {
-            await knex('FPS')
-                .where('IdPersonne', IdPersonne)
-                .del();
-            await knex('Conditions')
+            await knex('PersonnesIPPE')
                 .where('IdIPPE', element.IdIPPE)
                 .del();
-            await knex('PersonnesIPPE')
+            await knex('Conditions')
                 .where('IdIPPE', element.IdIPPE)
                 .del();
             await knex('IPPE')
                 .where('IdIPPE', element.IdIPPE)
                 .del();
-            await knex('FPS')
-                .where('IdPersonne', IdPersonne)
-                .del();
-            await knex('Personnes')
-                .where('IdPersonne', IdPersonne)
-                .del();
         });
-    } else {
         await knex('FPS')
             .where('IdPersonne', IdPersonne)
             .del();
-        await knex('Personnes')
+        return await knex('Personnes')
             .where('IdPersonne', IdPersonne)
-            .del();
+            .del()
+            .returning('*');
     }
+    await knex('FPS')
+        .where('IdPersonne', IdPersonne)
+        .del();
+    return await knex('Personnes')
+        .where('IdPersonne', IdPersonne)
+        .del()
+        .returning('*');
 }
 
 // Permet de modifer les description d'une personne
