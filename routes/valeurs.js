@@ -1,8 +1,16 @@
 const express = require('express');
 
 const request = require('../database/valeurs');
+const { testRegex } = require('../fonctionReutilisable');
 
 const router = express.Router();
+
+// eslint-disable-next-line consistent-return
+function errorNumEvent(validationEvent, res) {
+    if (validationEvent === false) {
+        return res.status(400).json({ message: 'Numéro d\'événement invalide' });
+    }
+}
 
 router.get('/:idValeur', async (req, res) => {
     let resultat;
@@ -27,19 +35,13 @@ router.post('/', async (req, res) => {
     } = req.body;
     const noEvenement = `${req.body.NoCours}-${req.body.AA}${req.body.MM
     }${req.body.JJ}-${req.body.sequenceChiffres}`;
-    const regexJJ = /^0[1-9]|[12]\d|3[01]$/;
-    const regexMM = /^0[1-9]|1[0-2]$/;
-    const regexAA = /^\d{2}$/;
-    const regexSChiffres = /^\d{4}$/;
-    const validationEvent = (
-        regexJJ.test(req.body.JJ)
-        && regexMM.test(req.body.MM)
-        && regexAA.test(req.body.AA)
-        && regexSChiffres.test(req.body.sequenceChiffres)
+    const validationEvent = testRegex(
+        req.body.JJ,
+        req.body.MM,
+        req.body.AA,
+        req.body.sequenceChiffres,
     );
-    if (validationEvent === false) {
-        return res.status(400).json({ message: 'Numéro d\'événement invalide' });
-    }
+    errorNumEvent(validationEvent, res);
     if (identifiant === undefined || auteur === undefined || typeValeur === undefined
         || typeEvenement === undefined || req.body.NoCours === undefined) {
         return res.status(400).json({
@@ -74,19 +76,13 @@ router.put('/', async (req, res) => {
     } = req.body;
     const noEvenement = `${req.body.NoCours}-${req.body.AA}${req.body.MM
     }${req.body.JJ}-${req.body.sequenceChiffres}`;
-    const regexJJ = /^0[1-9]|[12]\d|3[01]$/;
-    const regexMM = /^0[1-9]|1[0-2]$/;
-    const regexAA = /^\d{2}$/;
-    const regexSChiffres = /^\d{4}$/;
-    const validationEvent = (
-        regexJJ.test(req.body.JJ)
-        && regexMM.test(req.body.MM)
-        && regexAA.test(req.body.AA)
-        && regexSChiffres.test(req.body.sequenceChiffres)
+    const validationEvent = testRegex(
+        req.body.JJ,
+        req.body.MM,
+        req.body.AA,
+        req.body.sequenceChiffres,
     );
-    if (validationEvent === false) {
-        return res.status(400).json({ message: 'Numéro d\'événement invalide' });
-    }
+    errorNumEvent(validationEvent, res);
     if (identifiant === undefined || auteur === undefined || typeValeur === undefined
         || typeEvenement === undefined || req.body.NoCours === undefined) {
         return res.status(400).json({
