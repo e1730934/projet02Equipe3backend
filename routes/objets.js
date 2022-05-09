@@ -41,9 +41,7 @@ router.post('/', async (req, res) => {
         return res.status(400).json({ message: 'Numéro d\'événement invalide' });
     }
     if (noSerie === undefined || marque === undefined || typeObjet === undefined
-        || modele === undefined || req.body.NoCours === undefined
-        || req.body.AA === undefined || req.body.MM === undefined
-        || req.body.JJ === undefined || req.body.sequenceChiffres === undefined) {
+        || modele === undefined || req.body.NoCours === undefined) {
         return res.status(400).json({
             success: false,
             message: 'Valeur manquant(es)',
@@ -90,9 +88,7 @@ router.put('/', async (req, res) => {
         return res.status(400).json({ message: 'Numéro d\'événement invalide' });
     }
     if (noSerie === undefined || marque === undefined || typeObjet === undefined
-        || modele === undefined || req.body.NoCours === undefined
-        || req.body.AA === undefined || req.body.MM === undefined
-        || req.body.JJ === undefined || req.body.sequenceChiffres === undefined) {
+        || modele === undefined || req.body.NoCours === undefined) {
         return res.status(400).json({
             success: false,
             message: 'Valeur manquant(es)',
