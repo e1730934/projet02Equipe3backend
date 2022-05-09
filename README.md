@@ -26,7 +26,7 @@ Cette application servira comme outil de formation au étudiants en technique po
 2. `npm run start`
 
 ### Accueil
-Notre backend roule sur *http://localhost:5000*
+Notre backend roule sur *http://localhost:3000*
 
 <br/>
 <hr/>
