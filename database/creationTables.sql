@@ -321,35 +321,31 @@ GO
 INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (2, 12, 5, N'Avoir comme adresse le
  ', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (3, 12, NULL, N'Ne pas entrer en contact avec ', NULL, NULL, N'Julie Lapierre', NULL)
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (3, 12, 5, N'Ne pas entrer en contact avec ', NULL, NULL, N'Julie Lapierre', NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (4, 12, NULL, N'Doit garder la paix et avoir bonne conduite', NULL, NULL, NULL, NULL)
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (4, 12, 5, N'Doit garder la paix et avoir bonne conduite', NULL, NULL, NULL, NULL)
 GO
 INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (6, 19, 7, N'Avoir comme adresse le ', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (7, 19, NULL, N'Ne pas fréquenter ', NULL, NULL, NULL, N'des gens ayant des dossiers criminels
-')
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (7, 19, 7, N'Ne pas fréquenter ', NULL, NULL, NULL, N'des gens ayant des dossiers criminels')
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (8, 19, NULL, N'Aucune consommation d''alcool ou de drogue non prescrite
-', NULL, NULL, NULL, NULL)
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (8, 19, 7, N'Aucune consommation d''alcool ou de drogue non prescrite', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (10, 19, NULL, N'Doit garder la paix et avoir bonne conduite', NULL, NULL, NULL, NULL)
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (10, 19, 7, N'Doit garder la paix et avoir bonne conduite', NULL, NULL, NULL, NULL)
 GO
 INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (12, 18, 6, N'Avoir comme adresse le', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (13, 18, NULL, N'Ne pas entrer en contact avec ', NULL, NULL, N'Alain Coutu', NULL)
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (13, 18, 6, N'Ne pas entrer en contact avec ', NULL, NULL, N'Alain Coutu', NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (14, 18, NULL, N'Aucune consommation d''alcool ou de drogue non prescrite
-', NULL, NULL, NULL, NULL)
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (14, 18, 6, N'Aucune consommation d''alcool ou de drogue non prescrite', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (15, 18, NULL, N'Doit garder la paix et avoir bonne conduite', NULL, NULL, NULL, NULL)
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (15, 18, 6, N'Doit garder la paix et avoir bonne conduite', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (16, 26, 10, N'Avoir comme adresse le
-', NULL, NULL, NULL, NULL)
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (16, 26, 10, N'Avoir comme adresse le', NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (17, 26, NULL, N'Ne pas entrer en contact avec ', NULL, NULL, N'Julie Lapierre', NULL)
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (17, 26, 10, N'Ne pas entrer en contact avec ', NULL, NULL, N'Julie Lapierre', NULL)
 GO
-INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (18, 26, NULL, N'Doit garder la paix et avoir bonne conduite', NULL, NULL, NULL, NULL)
+INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (18, 26, 10, N'Doit garder la paix et avoir bonne conduite', NULL, NULL, NULL, NULL)
 GO
 SET IDENTITY_INSERT [dbo].[Conditions] OFF
 GO
