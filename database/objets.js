@@ -65,7 +65,7 @@ async function modificationIBOB(id, noSerie, marque, modele, typeObjet, noEvenem
         await knex('IBOB')
             .update(
                 {
-                    noSerie,
+                    NoSerie: noSerie,
                     Marque: marque,
                     Modele: modele,
                     TypeObjet: typeObjet,
@@ -73,18 +73,6 @@ async function modificationIBOB(id, noSerie, marque, modele, typeObjet, noEvenem
                 },
             )
             .where('IdBOB', id);
-        success = true;
-    }
-    return success;
-}
-
-async function suppresionIBOByNoSerie(noSerie) {
-    let success = false;
-    const count = await getCountIBOB(noSerie);
-    if (count[0].nbrLigne !== 0) {
-        await knex('IBOB')
-            .where('NoSerie', noSerie)
-            .del();
         success = true;
     }
     return success;
@@ -101,13 +89,13 @@ async function suppresionIBOById(idObjet) {
     }
     return success;
 }
+
 module.exports = {
     getIBOBbyId,
     getCountIBOB,
     getCountIBOBById,
     ajoutIBOB,
     modificationIBOB,
-    suppresionIBOByNoSerie,
     suppresionIBOById,
     getIBOBbyNoSerie,
 };

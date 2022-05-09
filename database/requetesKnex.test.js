@@ -44,14 +44,6 @@ test('Réponse ***RECHERCHÉ***', async () => {
     expect(result[0].IPPE).toEqual(expected);
 });
 
-test('suppresionIBAFByNoSerie dans database', async () => {
-    await reqKnexArme.ajoutIBAF('Test', 'Test', 'Test', 'Test', '123456789123456');
-    await reqKnexArme.suppresionIBAFByNoSerie('Test');
-    const expectedResult = [];
-    const result = await reqKnexArme.getIBAFByNoSerie('Test');
-    expect(expectedResult).toEqual(result);
-});
-
 test('ajoutIBAF dans database', async () => {
     await reqKnexArme.ajoutIBAF('Test', 'Test', '9999999999', 'Test', '123456789123456');
     const expectedResult = [{
@@ -78,14 +70,6 @@ test('modificationIBAF dans database', async () => {
     }];
     const result = await reqKnexArme.getIBAFByNoSerie('Test');
     await reqKnexArme.suppresionIBAFByNoSerie('Test');
-    expect(expectedResult).toEqual(result);
-});
-
-test('suppresionIBVAByIdentifiant dans database', async () => {
-    await reqKnexValeur.ajoutIBVA('Test', 'Test', 'Test', 'Test', '123456');
-    await reqKnexValeur.suppresionIBVAByIdentifiant('Test');
-    const expectedResult = [];
-    const result = await reqKnexValeur.getIBVAbyIdentifiant('Test');
     expect(expectedResult).toEqual(result);
 });
 

@@ -76,35 +76,7 @@ async function modificationIBAF(id, noSerie, marque, calibre, typeArme, noEvenem
     }
     return success;
 }
-async function modificationIBAFByNoSerie(noSerie, marque, calibre, typeArme, noEvenement) {
-    let success = false;
-    const count = await getCountIBAF(noSerie);
-    if (count[0].nbrLigne !== 0) {
-        await knex('IBAF')
-            .update(
-                {
-                    Marque: marque,
-                    Calibre: calibre,
-                    TypeArme: typeArme,
-                    NoEvenement: noEvenement,
-                },
-            )
-            .where('NoSerie', noSerie);
-        success = true;
-    }
-    return success;
-}
-async function suppresionIBAFByNoSerie(noSerie) {
-    let success = false;
-    const count = await getCountIBAF(noSerie);
-    if (count[0].nbrLigne !== 0) {
-        await knex('IBAF')
-            .where('NoSerie', noSerie)
-            .del();
-        success = true;
-    }
-    return success;
-}
+
 async function suppresionIBAFById(idArme) {
     let success = false;
     const count = await getCountIBAFById(idArme);
@@ -122,7 +94,5 @@ module.exports = {
     getIBAFById,
     ajoutIBAF,
     modificationIBAF,
-    modificationIBAFByNoSerie,
-    suppresionIBAFByNoSerie,
     suppresionIBAFById,
 };
