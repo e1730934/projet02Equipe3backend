@@ -79,15 +79,14 @@ async function deletePersonne(IdPersonne) {
             .where('IdPersonne', IdPersonne)
             .del()
             .returning('*');
-    } else {
-        await knex('FPS')
-            .where('IdPersonne', IdPersonne)
-            .del();
-        return await knex('Personnes')
-            .where('IdPersonne', IdPersonne)
-            .del()
-            .returning('*');
     }
+    await knex('FPS')
+        .where('IdPersonne', IdPersonne)
+        .del();
+    return await knex('Personnes')
+        .where('IdPersonne', IdPersonne)
+        .del()
+        .returning('*');
 }
 
 // Permet de modifer les description d'une personne
