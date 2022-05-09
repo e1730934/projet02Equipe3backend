@@ -339,7 +339,7 @@ INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [He
 GO
 SET IDENTITY_INSERT [dbo].[Conditions] ON
 INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation])VALUES (12, 18, 6, N'Avoir comme adresse le', NULL, NULL, NULL, NULL)
-SET IDENTITY_INSERT [dbo].[Conditions] OFF
+
 GO
 INSERT [dbo].[Conditions] ([IdCondition], [IdIPPE], [IdPersonne], [Libelle], [HeureDebut], [HeureFin], [Victime], [Frequentation]) VALUES (13, 18, 6, N'Ne pas entrer en contact avec ', NULL, NULL, N'Alain Coutu', NULL)
 GO
