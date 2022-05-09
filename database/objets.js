@@ -19,6 +19,7 @@ async function getIBOBbyNoSerie(noSerie) {
     return knex('IBOB')
         .where('NoSerie', noSerie)
         .select(
+            'IdBOB',
             'NoSerie',
             'Marque',
             'Modele',

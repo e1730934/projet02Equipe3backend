@@ -19,6 +19,7 @@ async function getIBVAbyIdentifiant(identifiant) {
     return knex('IBVA')
         .where('Identifiant', identifiant)
         .select(
+            'IdIBVA',
             'Identifiant',
             'Auteur',
             'TypeValeur',

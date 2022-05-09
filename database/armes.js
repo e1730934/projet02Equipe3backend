@@ -19,6 +19,7 @@ async function getIBAFByNoSerie(noSerie) {
     return knex('IBAF')
         .where('NoSerie', noSerie)
         .select(
+            'IdIBAF',
             'NoSerie',
             'Marque',
             'Calibre',
